@@ -1,3 +1,8 @@
 .env
 __pycache__
 pelican-elegant/
+pelican-plugins/
+pelican-themes/
+pelican.pid
+srv.pid
+
