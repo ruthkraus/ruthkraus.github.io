@@ -28,6 +28,7 @@ PLUGINS = ['i18n_subsites']
 BOOTSTRAP_THEME="flatly"
 SHOW_ARTICLE_AUTHOR=True
 SHOW_DATE_MODIFIED=True
+DISQUS_SITENAME = "kamyanskiy"
 
 
 # Blogroll
@@ -39,9 +40,10 @@ LINKS = (('Pelican', 'http://getpelican.com/'),
 # Social widget
 SOCIAL = (('vk', 'https://vk.com'),
           ('Instagram', "https://instagram.com"),
-          ('Facebook', 'https://facebook.com'),)
+          ('Facebook', 'https://facebook.com'),
+          ('GitHub', 'https://github.com/kamyanskiy'),)
 
 DEFAULT_PAGINATION = 5
 
 # Uncomment following line if you want document-relative URLs when developing
-RELATIVE_URLS = True
+RELATIVE_URLS = False
