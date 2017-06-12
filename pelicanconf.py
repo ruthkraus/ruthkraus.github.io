@@ -19,7 +19,15 @@ TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
-GITHUB_USER = True
+GITHUB_USER = 'kamyanskiy'
+
+THEME="pelican-themes/pelican-bootstrap3/"
+JINJA_ENVIRONMENT = {'extensions': ['jinja2.ext.i18n']}
+PLUGIN_PATHS = ['pelican-plugins/'] 
+PLUGINS = ['i18n_subsites']
+BOOTSTRAP_THEME="flatly"
+SHOW_ARTICLE_AUTHOR=True
+SHOW_DATE_MODIFIED=True
 
 
 # Blogroll
@@ -29,7 +37,8 @@ LINKS = (('Pelican', 'http://getpelican.com/'),
          ('You can modify those links in your config file', '#'),)
 
 # Social widget
-SOCIAL = (('VK', 'https://vk.com'),
+SOCIAL = (('vk', 'https://vk.com'),
+          ('Instagram', "https://instagram.com"),
           ('Facebook', 'https://facebook.com'),)
 
 DEFAULT_PAGINATION = 5

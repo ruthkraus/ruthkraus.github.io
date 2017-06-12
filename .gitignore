@@ -1,2 +1,8 @@
 .env
 __pycache__/
+output/
+pelican-plugins/
+pelican-elegant/
+pelican-themes/
+pelican.pid
+srv.pid
