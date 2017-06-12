@@ -64,3 +64,5 @@ DEFAULT_PAGINATION = 5
 
 # Uncomment following line if you want document-relative URLs when developing
 RELATIVE_URLS = False
+DELETE_OUTPUT_DIRECTORY = True
+TYPOGRIFY = True

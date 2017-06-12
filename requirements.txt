@@ -1,4 +1,9 @@
 pelican
 markdown
+
+fabric3
+typogrify
+ghp-import
+
 ipython
 ipdb
