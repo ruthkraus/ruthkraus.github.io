@@ -18,29 +18,46 @@ CATEGORY_FEED_ATOM = None
 TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
+SHOW_ARTICLE_AUTHOR = True
+SHOW_DATE_MODIFIED = True
 
+# Show my last activity on GitHub
 GITHUB_USER = 'kamyanskiy'
 
-THEME="pelican-themes/pelican-bootstrap3/"
+# Enable custom theme
+THEME = "pelican-themes/pelican-bootstrap3/"
+BOOTSTRAP_THEME = "flatly"
 JINJA_ENVIRONMENT = {'extensions': ['jinja2.ext.i18n']}
-PLUGIN_PATHS = ['pelican-plugins/'] 
+PYGMENTS_STYLE = 'emacs'
+DEFAULT_DATE = 'fs'
+
+# Enable plugins
+PLUGIN_PATHS = ['pelican-plugins/']
 PLUGINS = ['i18n_subsites']
-BOOTSTRAP_THEME="flatly"
-SHOW_ARTICLE_AUTHOR=True
-SHOW_DATE_MODIFIED=True
+
+# Enable disqus comments
 DISQUS_SITENAME = "kamyanskiy"
 
+SITELOGO = 'images/logo.png'
+
+STATIC_PATHS = ['images', 'extra/custom.css']
+CUSTOM_CSS = 'theme/css/custom.css'
+
+EXTRA_PATH_METADATA = {
+    'extra/custom.css': {'path': 'theme/css/custom.css'}
+}
 
 # Blogroll
 LINKS = (('Pelican', 'http://getpelican.com/'),
          ('Python.org', 'http://python.org/'),
          ('Jinja2', 'http://jinja.pocoo.org/'),
-         ('You can modify those links in your config file', '#'),)
+         ('Django', 'https://https://docs.djangoproject.com/'),
+         ('Flask', 'http://flask.pocoo.org/'),
+         )
 
 # Social widget
-SOCIAL = (('vk', 'https://vk.com'),
-          ('Instagram', "https://instagram.com"),
-          ('Facebook', 'https://facebook.com'),
+SOCIAL = (('vk', 'https://vk.com/id216671695'),
+          ('Facebook', 'https://www.facebook.com/alexander.kamyanskiy'),
           ('GitHub', 'https://github.com/kamyanskiy'),)
 
 DEFAULT_PAGINATION = 5
