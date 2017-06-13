@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
+    <link href="https://kamyanskiy.github.io/images/logo.png" rel="icon">
 
 
         <meta name="author" content="Alexander Kamyanskiy" />
@@ -25,6 +26,7 @@
     <link href="https://kamyanskiy.github.io/theme/css/font-awesome.min.css" rel="stylesheet">
 
     <link href="https://kamyanskiy.github.io/theme/css/pygments/emacs.css" rel="stylesheet">
+    <link href="https://kamyanskiy.github.io/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
         <link href="https://kamyanskiy.github.io/theme/css/typogrify.css" rel="stylesheet">
     <link rel="stylesheet" href="https://kamyanskiy.github.io/theme/css/style.css" type="text/css"/>
         <link href="https://kamyanskiy.github.io/theme/css/custom.css" rel="stylesheet">
@@ -35,7 +37,7 @@
 
 </head>
 <body>
-
+<a href="https://github.com/kamyanskiy"><img class="fork-me-on-github" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
 	<div class="container">
         <div class="navbar-header">
@@ -50,14 +52,20 @@
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
-                         <li><a href="https://kamyanskiy.github.io/pages/about.html">
-                             About
+                         <li><a href="https://kamyanskiy.github.io/about-me.html">
+                             About&nbsp;me
                           </a></li>
                         <li >
-                            <a href="https://kamyanskiy.github.io/category/blog.html">Blog</a>
+                            <a href="https://kamyanskiy.github.io/category/blog/">Blog</a>
                         </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+              <li><span>
+                <form class="navbar-search" action="/search.html">
+                  <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input" required>
+                </form></span>
+              </li>
+              <li><a href="https://kamyanskiy.github.io/archives/"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -68,14 +76,41 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-9">
+        <ol class="breadcrumb">
+            <li><a href="https://kamyanskiy.github.io" title="kamyanskiy.github.io"><i class="fa fa-home fa-lg"></i></a></li>
+            <li><a href="https://kamyanskiy.github.io/" title="Authors">Authors</a></li>
+            <li class="active">Alexander Kamyanskiy</li>
+        </ol>
             <article>
-                <h2><a href="https://kamyanskiy.github.io/start-blog-site-on-github-pages-with-pelican.html">Start blog site on GitHub pages with&nbsp;Pelican</a></h2>
+                <h2><a href="https://kamyanskiy.github.io/2017/06/about-sql.html">Learning <span class="caps">SQL</span></a></h2>
+                <div class="summary"><h4>Learning <span class="caps">SQL</span></h4>
+<p><span class="caps">TODO</span>: Add&nbsp;content</p>
+                    <a class="btn btn-default btn-xs" href="https://kamyanskiy.github.io/2017/06/about-sql.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="https://kamyanskiy.github.io/2017/06/how-to-add-disqus-comments.html">How to add <span class="caps">DISQUS</span> comments to Pelican&nbsp;site</a></h2>
+                <div class="summary"><p>It is possible to attach <a href="https://disqus.com"><span class="caps">DISQUS</span></a> comments to blog&nbsp;site.</p>
+<h4>Setup your <span class="caps">DISQUS</span>&nbsp;Account</h4>
+<p>Before you can use the commenting stuff, you need to register into Disqus. 
+There you find a lot of disqus documentation that you simply not need :-) . 
+Pelican already has done that for&nbsp;you.</p>
+<ol>
+<li>
+<p>Register on <a href="https://disqus.com"><span class="caps">DISQUS …</span></a></p></li></ol>
+                    <a class="btn btn-default btn-xs" href="https://kamyanskiy.github.io/2017/06/how-to-add-disqus-comments.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="https://kamyanskiy.github.io/2017/06/start-site-with-pelican.html">Start blog site on GitHub pages with&nbsp;Pelican</a></h2>
                 <div class="summary"><p>One day I found that I forgot many things I learned and used before, so I 
 decided to make short memos about different
 programming aspects, issues and new tools I&#8217;ll learn and touch in the&nbsp;future.    </p>
 <h4>Create GitHub user&nbsp;page</h4>
 <p>GitHub provides easy and nice possibility to create your …</p>
-                    <a class="btn btn-default btn-xs" href="https://kamyanskiy.github.io/start-blog-site-on-github-pages-with-pelican.html">more ...</a>
+                    <a class="btn btn-default btn-xs" href="https://kamyanskiy.github.io/2017/06/start-site-with-pelican.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -83,7 +118,15 @@ programming aspects, issues and new tools I&#8217;ll learn and touch in the&nbsp
         </div>
         <div class="col-sm-3" id="sidebar">
             <aside>
-<!-- Sidebar -->
+<div id="aboutme">
+        <p>
+            <img width="100%" class="img-thumbnail" src="https://kamyanskiy.github.io/images/profile.jpg"/>
+        </p>
+    <p>
+      <strong>About Alexander Kamyanskiy</strong><br/>
+        <span>I love Python and happy to use it everyday for develop Web applications, writing tests and others cool things.</span>
+    </p>
+</div><!-- Sidebar -->
 <section class="well well-sm">
   <ul class="list-group list-group-flush">
 
@@ -97,6 +140,43 @@ programming aspects, issues and new tools I&#8217;ll learn and touch in the&nbsp
   </ul>
 </li>
 <!-- End Sidebar/Social -->
+
+<!-- Sidebar/Recent Posts -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
+  <ul class="list-group" id="recentposts">
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/06/about-sql.html">Learning <span class="caps">SQL</span></a></li>
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/06/how-to-add-disqus-comments.html">How to add <span class="caps">DISQUS</span> comments to Pelican&nbsp;site</a></li>
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/06/start-site-with-pelican.html">Start blog site on GitHub pages with&nbsp;Pelican</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Recent Posts -->
+
+<!-- Sidebar/Tag Cloud -->
+<li class="list-group-item">
+  <a href="https://kamyanskiy.github.io/label/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+  <ul class="list-group list-inline tagcloud" id="tags">
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/database/">database</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/disqus/">Disqus</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/pelican/">Pelican</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/postgresql/">PostgreSQL</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/python/">Python</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/sql/">SQL</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Tag Cloud -->
 
 <!-- Sidebar/Github -->
 <li class="list-group-item">

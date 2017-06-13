@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>About - kamyanskiy.github.io</title>
+    <title>Categories - kamyanskiy.github.io</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
+    <link href="https://kamyanskiy.github.io/images/logo.png" rel="icon">
 
-<link rel="canonical" href="https://kamyanskiy.github.io/pages/about.html">
 
         <meta name="author" content="Alexander Kamyanskiy" />
-        <meta name="description" content="Hello, my name is Alexander Kamyanskiy I like Python programming language and I use it for more than 5 years every day and like to use it for web development, for deployment technologies, for writing tests and many other cool things. This blog I’ve created to remember things which …" />
 
-    <meta property="og:site_name" content="kamyanskiy.github.io" />
-    <meta property="og:type" content="article"/>
-    <meta property="og:title" content="About"/>
-    <meta property="og:url" content="https://kamyanskiy.github.io/pages/about.html"/>
-    <meta property="og:description" content="Hello, my name is Alexander Kamyanskiy I like Python programming language and I use it for more than 5 years every day and like to use it for web development, for deployment technologies, for writing tests and many other cool things. This blog I’ve created to remember things which …" />
+    <!-- Open Graph tags -->
+        <meta property="og:site_name" content="kamyanskiy.github.io" />
+        <meta property="og:type" content="website"/>
+        <meta property="og:title" content="kamyanskiy.github.io"/>
+        <meta property="og:url" content="https://kamyanskiy.github.io"/>
+        <meta property="og:description" content="kamyanskiy.github.io"/>
 
 
     <!-- Bootstrap -->
@@ -26,6 +26,7 @@
     <link href="https://kamyanskiy.github.io/theme/css/font-awesome.min.css" rel="stylesheet">
 
     <link href="https://kamyanskiy.github.io/theme/css/pygments/emacs.css" rel="stylesheet">
+    <link href="https://kamyanskiy.github.io/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
         <link href="https://kamyanskiy.github.io/theme/css/typogrify.css" rel="stylesheet">
     <link rel="stylesheet" href="https://kamyanskiy.github.io/theme/css/style.css" type="text/css"/>
         <link href="https://kamyanskiy.github.io/theme/css/custom.css" rel="stylesheet">
@@ -36,7 +37,7 @@
 
 </head>
 <body>
-
+<a href="https://github.com/kamyanskiy"><img class="fork-me-on-github" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
 	<div class="container">
         <div class="navbar-header">
@@ -51,14 +52,20 @@
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
-                         <li class="active"><a href="https://kamyanskiy.github.io/pages/about.html">
-                             About
+                         <li><a href="https://kamyanskiy.github.io/about-me.html">
+                             About&nbsp;me
                           </a></li>
                         <li >
-                            <a href="https://kamyanskiy.github.io/category/blog.html">Blog</a>
+                            <a href="https://kamyanskiy.github.io/category/blog/">Blog</a>
                         </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+              <li><span>
+                <form class="navbar-search" action="/search.html">
+                  <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input" required>
+                </form></span>
+              </li>
+              <li><a href="https://kamyanskiy.github.io/archives/"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -69,25 +76,42 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-9">
-    <section id="content" class="body">
-        <h1 class="entry-title">About</h1>
-        
-        <div class="entry-content">
-            <h4>Hello, my name is Alexander&nbsp;Kamyanskiy</h4>
-<p>I like Python programming language and I use it for more than 5 years every day
-and like to use it for web development, 
-for deployment technologies, for writing tests and many other cool&nbsp;things.</p>
-<p>This blog I&#8217;ve created to remember things which I already did or learning now or will learn, 
-I think it will be mostly articles about usage python for web&nbsp;development.</p>
-<p>English is not my native language and feel free to correct me. Also my sorry if 
-I write something&nbsp;wrong. </p>
-<p><a href="mailto:kamyanskiy@gmail.com">kamyanskiy@gmail.com</a></p>
+    <ol class="breadcrumb">
+        <li><a href="https://kamyanskiy.github.io" title="kamyanskiy.github.io"><i class="fa fa-home fa-lg"></i></a></li>
+        <li class="active">Categories</li>
+    </ol>
+    <section id="categories">
+      <h1>All Categories for kamyanskiy.github.io</h1>
+        <div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse-blog">Blog <span class="badge pull-right">3</span></a>
+                    </h4>
+                </div>
+                <div id="collapse-blog" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p><span class="categories-timestamp"><time datetime="2017-06-14T00:00:00+03:00">Wed 14 June 2017</time></span> <a href="https://kamyanskiy.github.io/2017/06/about-sql.html">Learning <span class="caps">SQL</span></a></p>
+                        <p><span class="categories-timestamp"><time datetime="2017-06-14T00:00:00+03:00">Wed 14 June 2017</time></span> <a href="https://kamyanskiy.github.io/2017/06/how-to-add-disqus-comments.html">How to add <span class="caps">DISQUS</span> comments to Pelican&nbsp;site</a></p>
+                        <p><span class="categories-timestamp"><time datetime="2017-06-13T00:00:00+03:00">Tue 13 June 2017</time></span> <a href="https://kamyanskiy.github.io/2017/06/start-site-with-pelican.html">Start blog site on GitHub pages with&nbsp;Pelican</a></p>
+                    </div>
+                </div>
+            </div>
         </div>
+
     </section>
         </div>
         <div class="col-sm-3" id="sidebar">
             <aside>
-<!-- Sidebar -->
+<div id="aboutme">
+        <p>
+            <img width="100%" class="img-thumbnail" src="https://kamyanskiy.github.io/images/profile.jpg"/>
+        </p>
+    <p>
+      <strong>About Alexander Kamyanskiy</strong><br/>
+        <span>I love Python and happy to use it everyday for develop Web applications, writing tests and others cool things.</span>
+    </p>
+</div><!-- Sidebar -->
 <section class="well well-sm">
   <ul class="list-group list-group-flush">
 
@@ -101,6 +125,43 @@ I write something&nbsp;wrong. </p>
   </ul>
 </li>
 <!-- End Sidebar/Social -->
+
+<!-- Sidebar/Recent Posts -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
+  <ul class="list-group" id="recentposts">
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/06/about-sql.html">Learning <span class="caps">SQL</span></a></li>
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/06/how-to-add-disqus-comments.html">How to add <span class="caps">DISQUS</span> comments to Pelican&nbsp;site</a></li>
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/06/start-site-with-pelican.html">Start blog site on GitHub pages with&nbsp;Pelican</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Recent Posts -->
+
+<!-- Sidebar/Tag Cloud -->
+<li class="list-group-item">
+  <a href="https://kamyanskiy.github.io/label/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+  <ul class="list-group list-inline tagcloud" id="tags">
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/database/">database</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/disqus/">Disqus</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/pelican/">Pelican</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/postgresql/">PostgreSQL</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/python/">Python</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/sql/">SQL</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Tag Cloud -->
 
 <!-- Sidebar/Github -->
 <li class="list-group-item">
