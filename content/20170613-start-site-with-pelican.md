@@ -1,5 +1,8 @@
 Title: Start blog site on GitHub pages with Pelican
+Menulabel: Home
 Category: Blog
+Tags: Pelican, Python
+
 
 One day I found that I forgot many things I learned and used before, so I 
 decided to make short memos about different
@@ -172,4 +175,6 @@ To publish content to master branch on github repo, run
 $ fab gh_pages
 ```
 
-**Step7 . TODO: Add info how to enable DISQUS comments**
+P.S. After couple days I've changed this command to *fab push*
+
+[**Part 2 - How to enable DISQUS comments**]({filename}/20170614-how-to-add-disqus-comments.md)

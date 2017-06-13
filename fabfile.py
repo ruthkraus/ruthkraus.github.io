@@ -86,7 +86,7 @@ def publish():
         extra_opts='-c',
     )
 
-def gh_pages():
+def push():
     """Publish to GitHub Pages"""
     rebuild()
     local("ghp-import -b {github_pages_branch} {deploy_path} -p".format(**env))

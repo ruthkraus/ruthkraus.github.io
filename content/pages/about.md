@@ -1,4 +1,4 @@
-Title: About
+Title: About me
 
 #### Hello, my name is Alexander Kamyanskiy
 

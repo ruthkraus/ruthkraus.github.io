@@ -27,13 +27,33 @@ GITHUB_USER = 'kamyanskiy'
 # Enable custom theme
 THEME = "pelican-themes/pelican-bootstrap3/"
 BOOTSTRAP_THEME = "flatly"
+#BOOTSTRAP_FLUID = True
 JINJA_ENVIRONMENT = {'extensions': ['jinja2.ext.i18n']}
 PYGMENTS_STYLE = 'emacs'
 DEFAULT_DATE = 'fs'
 
 # Enable plugins
 PLUGIN_PATHS = ['pelican-plugins/']
-PLUGINS = ['i18n_subsites']
+PLUGINS = ['i18n_subsites',
+           'related_posts',
+           "tag_cloud",
+           "tipue_search",
+           ]
+# Tipue search
+DIRECT_TEMPLATES = ('index', 'categories', 'authors', 'archives', 'search')
+
+#https://github.com/getpelican/pelican-plugins/tree/master/related_posts
+RELATED_POSTS_MAX = 5
+#RELATED_POSTS_SKIP_SAME_CATEGORY = True
+
+#https://github.com/getpelican/pelican-plugins/tree/master/tag_cloud
+TAG_CLOUD_STEPS = 2
+TAG_CLOUD_MAX_ITEMS = 20
+TAG_CLOUD_SORTING = 'random'
+TAG_CLOUD_BADGE = False
+DISPLAY_TAGS_INLINE = True
+DISPLAY_TAGS_ON_SIDEBAR = True
+
 
 # Enable disqus comments
 DISQUS_SITENAME = "kamyanskiy"
@@ -62,7 +82,52 @@ SOCIAL = (('vk', 'https://vk.com/id216671695'),
 
 DEFAULT_PAGINATION = 5
 
-# Uncomment following line if you want document-relative URLs when developing
-RELATIVE_URLS = False
-DELETE_OUTPUT_DIRECTORY = True
 TYPOGRIFY = True
+
+FILENAME_METADATA = '(?P<date>\d{4}\d{2}\d{2})-(?P<slug>.*)'
+# Set URL's
+TAG_URL = 'label/{slug}/'
+TAG_SAVE_AS = 'label/{slug}/index.html'
+TAGS_URL = 'label/'
+TAGS_SAVE_AS = 'label/index.html'
+CATEGORY_URL = 'category/{slug}/'
+CATEGORY_SAVE_AS = 'category/{slug}/index.html'
+CATEGORIES_URL = 'category/'
+CATEGORIES_SAVE_AS = 'category/index.html'
+ARTICLE_URL = '{date:%Y}/{date:%m}/{slug}.html'
+ARTICLE_SAVE_AS = ARTICLE_URL
+AUTHORS_URL = ''
+AUTHORS_SAVE_AS = ''
+ARCHIVES_URL = 'archives/'
+ARCHIVES_SAVE_AS = 'archives/index.html'
+YEAR_ARCHIVE_URL = '{date:%Y}/'
+YEAR_ARCHIVE_SAVE_AS = '{date:%Y}/index.html'
+MONTH_ARCHIVE_URL = '{date:%Y}/{date:%m}/'
+MONTH_ARCHIVE_SAVE_AS = '{date:%Y}/{date:%m}/index.html'
+PAGE_URL = '{slug}.html'
+PAGE_SAVE_AS = PAGE_URL
+
+ABOUT_ME = "<span>I love Python and happy to use it everyday for develop Web applications, writing tests and others cool things.</span>"
+AVATAR = "images/profile.jpg"
+
+FAVICON = SITELOGO
+
+DISPLAY_BREADCRUMBS = True
+DISPLAY_CATEGORY_IN_BREADCRUMBS = False
+
+DISPLAY_RECENT_POSTS_ON_SIDEBAR = True
+RECENT_POST_COUNT = 5
+#HIDE_SIDEBAR = True
+#SIDEBAR_ON_LEFT = True
+#DISABLE_SIDEBAR_TITLE_ICONS = False
+
+# Add social share buttons https://www.addthis.com/dashboard#dashboard-analytics
+ADDTHIS_PROFILE = 'ra-59403121442ae6be'
+#DDTHIS_DATA_TRACK_ADDRESSBAR = True
+#ADDTHIS_FACEBOOK_LIKE = True
+#ADDTHIS_TWEET = True
+#ADDTHIS_GOOGLE_PLUSONE = True
+
+# Uncomment following line if you want document-relative URLs when developing
+DELETE_OUTPUT_DIRECTORY = True
+RELATIVE_URLS = False
