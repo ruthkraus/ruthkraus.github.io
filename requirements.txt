@@ -6,5 +6,5 @@ typogrify
 ghp-import
 beautifulsoup4
 
-ipython
-ipdb
+#ipython
+#ipdb
