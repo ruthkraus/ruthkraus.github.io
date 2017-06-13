@@ -63,6 +63,6 @@ SOCIAL = (('vk', 'https://vk.com/id216671695'),
 DEFAULT_PAGINATION = 5
 
 # Uncomment following line if you want document-relative URLs when developing
-RELATIVE_URLS = False
+RELATIVE_URLS = True
 DELETE_OUTPUT_DIRECTORY = True
 TYPOGRIFY = True

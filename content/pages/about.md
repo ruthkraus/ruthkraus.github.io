@@ -1,4 +1,6 @@
-Title: Hello, my name is Alexander Kamyanskiy
+Title: About
+
+#### Hello, my name is Alexander Kamyanskiy
 
 I like Python programming language and I use it for more than 5 years every day
 and like to use it for web development, 

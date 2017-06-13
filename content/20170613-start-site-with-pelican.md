@@ -22,16 +22,16 @@ I found that possibility that provided from GitHub to have static pages with
 So I checkout my [kamyanskiy.github.io](https://github.com/kamyanskiy/kamyanskiy.github.io) 
 repository from branch **master** to **pelican** branch and start to install Pelican.
  
- 1. Install Pelican.
-
+##### Step 1. Install Pelican.
+    
 ```
 $ virtualenv -p python3.6 .env
 $ source .env/bin/activate
 (.env) $ pip install pelican markdown 
 ```
 
-2. Get [pelican-plugins](https://github.com/getpelican/pelican-plugins/tree/f3b5cef79d97556cb1c10e66e9130a223f45c943) 
-and [pelican-themes](https://github.com/kamyanskiy/pelican-themes/tree/012591f2e625674bd02961f1f29dbe9fc40940f4) submodules
+##### Step 2. Get [pelican-plugins](https://github.com/getpelican/pelican-plugins/tree/f3b5cef79d97556cb1c10e66e9130a223f45c943)and [pelican-themes](https://github.com/kamyanskiy/pelican-themes/tree/012591f2e625674bd02961f1f29dbe9fc40940f4) submodules
+
 After review many nice themes on site [http://www.pelicanthemes.com/](http://www.pelicanthemes.com/) 
 I've decided to use [pelican-bootstrap3](https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3) theme,
 with little changes, so I've forked [pelican-themes](https://github.com/getpelican/pelican-themes) 
@@ -40,26 +40,29 @@ repo to make custom changes.
 ```
 $ git submodule add git@github.com:getpelican/pelican-plugins.git pelican-plugins
 $ git submodule add https://github.com/kamyanskiy/pelican-themes pelican-themes
-
+    
 ```
 
-3. Create simple site template 
+##### Step 3. Create simple site template 
+
 Once Pelican has been installed, you can create a skeleton project via the
- **pelican-quickstart** command,
+**pelican-quickstart** command,
 which begins by asking some questions about your site.
- 
+
 ```
- pelican-quickstart
+pelican-quickstart
 ```
+
 Then answer to questions or keep just all defaults, it's possible to change
- all later, manually in file **pelicanconf.py**
+all later, manually in file **pelicanconf.py**
  
-4. Configure **pelicanconf.py**
+##### Step 4. Configure **pelicanconf.py**
+
 The all possible settings are described in 
 [documentation](http://docs.getpelican.com/en/3.6.3/settings.html)
 My settings file looks like:
- 
-```python
+
+```pythonstub
  #!/usr/bin/env python
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
@@ -130,27 +133,35 @@ DELETE_OUTPUT_DIRECTORY = True
 TYPOGRIFY = True
 ```
 
-5. Add some content 
+##### Step 5. Add some content 
+
 I've added this page in .md format into content/20170613-start-site-with-pelican.md file
 
-6. Use Fabric to manage site
+##### Step 6. Use Fabric to manage site
+
 It's possible to use fabric utility to make some useful things with site content,
- like run dev server and push changes to GitHub pages
+like run dev server and push changes to GitHub pages
 I've used Fabric3 to use with python3.6 on my machine
 
 **Install Fabric3**
+
 ```
-$ pip install fabric3 ghp-import 
+pip install fabric3 ghp-import 
 ```
-**Fix **fabfile.py** (for usage with python3)**
- Change 
- ```
- import SocketServer 
- ```
+
+**Fix fabfile.py (for usage with python3)**
+
+Change 
+
+```pythonstub
+import SocketServer
+```
+
  to 
- ```
- import socketserver
- ```
+
+```pythonstub
+import socketserver
+```
  
 To use fab command to start dev server , run
 ```
@@ -161,4 +172,4 @@ To publish content to master branch on github repo, run
 $ fab gh_pages
 ```
 
-7. TODO: Add info how to enable DISQUS comments
+##### Step7 . TODO: Add info how to enable DISQUS comments
