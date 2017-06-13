@@ -22,7 +22,7 @@ I found that possibility that provided from GitHub to have static pages with
 So I checkout my [kamyanskiy.github.io](https://github.com/kamyanskiy/kamyanskiy.github.io) 
 repository from branch **master** to **pelican** branch and start to install Pelican.
  
-##### Step 1. Install Pelican.
+**Step 1. Install Pelican.**
     
 ```
 $ virtualenv -p python3.6 .env
@@ -30,7 +30,7 @@ $ source .env/bin/activate
 (.env) $ pip install pelican markdown 
 ```
 
-##### Step 2. Get [pelican-plugins](https://github.com/getpelican/pelican-plugins/tree/f3b5cef79d97556cb1c10e66e9130a223f45c943)and [pelican-themes](https://github.com/kamyanskiy/pelican-themes/tree/012591f2e625674bd02961f1f29dbe9fc40940f4) submodules
+**Step 2. Get [pelican-plugins](https://github.com/getpelican/pelican-plugins/tree/f3b5cef79d97556cb1c10e66e9130a223f45c943)and [pelican-themes](https://github.com/kamyanskiy/pelican-themes/tree/012591f2e625674bd02961f1f29dbe9fc40940f4) submodules**
 
 After review many nice themes on site [http://www.pelicanthemes.com/](http://www.pelicanthemes.com/) 
 I've decided to use [pelican-bootstrap3](https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3) theme,
@@ -43,7 +43,7 @@ $ git submodule add https://github.com/kamyanskiy/pelican-themes pelican-themes
     
 ```
 
-##### Step 3. Create simple site template 
+**Step 3. Create simple site template** 
 
 Once Pelican has been installed, you can create a skeleton project via the
 **pelican-quickstart** command,
@@ -56,7 +56,7 @@ pelican-quickstart
 Then answer to questions or keep just all defaults, it's possible to change
 all later, manually in file **pelicanconf.py**
  
-##### Step 4. Configure **pelicanconf.py**
+**Step 4. Configure pelicanconf.py**
 
 The all possible settings are described in 
 [documentation](http://docs.getpelican.com/en/3.6.3/settings.html)
@@ -133,11 +133,11 @@ DELETE_OUTPUT_DIRECTORY = True
 TYPOGRIFY = True
 ```
 
-##### Step 5. Add some content 
+**Step 5. Add some content** 
 
 I've added this page in .md format into content/20170613-start-site-with-pelican.md file
 
-##### Step 6. Use Fabric to manage site
+**Step 6. Use Fabric to manage site**
 
 It's possible to use fabric utility to make some useful things with site content,
 like run dev server and push changes to GitHub pages
@@ -172,4 +172,4 @@ To publish content to master branch on github repo, run
 $ fab gh_pages
 ```
 
-##### Step7 . TODO: Add info how to enable DISQUS comments
+**Step7 . TODO: Add info how to enable DISQUS comments**
