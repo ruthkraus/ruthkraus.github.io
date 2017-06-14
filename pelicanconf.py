@@ -33,12 +33,16 @@ PYGMENTS_STYLE = 'emacs'
 DEFAULT_DATE = 'fs'
 
 # Enable plugins
-PLUGIN_PATHS = ['pelican-plugins/']
+PLUGIN_PATHS = ['pelican-plugins/', 'plugins/']
 PLUGINS = ['i18n_subsites',
            'related_posts',
            "tag_cloud",
            "tipue_search",
+           "ipynb.markup"
            ]
+
+#IPYNB_IGNORE_CSS=True
+
 # Tipue search
 DIRECT_TEMPLATES = ('index', 'categories', 'authors', 'archives', 'search')
 
@@ -128,6 +132,10 @@ ADDTHIS_PROFILE = 'ra-59403121442ae6be'
 #ADDTHIS_TWEET = True
 #ADDTHIS_GOOGLE_PLUSONE = True
 
+MARKUP = ('md', 'ipynb')
 # Uncomment following line if you want document-relative URLs when developing
 DELETE_OUTPUT_DIRECTORY = True
-RELATIVE_URLS = False
+RELATIVE_URLS = True
+
+
+
