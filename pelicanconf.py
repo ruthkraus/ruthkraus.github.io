@@ -135,7 +135,7 @@ ADDTHIS_PROFILE = 'ra-59403121442ae6be'
 MARKUP = ('md', 'ipynb')
 # Uncomment following line if you want document-relative URLs when developing
 DELETE_OUTPUT_DIRECTORY = True
-RELATIVE_URLS = True
+RELATIVE_URLS = False
 
 
 
