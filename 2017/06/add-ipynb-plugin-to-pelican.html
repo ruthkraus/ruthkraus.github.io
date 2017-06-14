@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>Learning SQL - kamyanskiy.github.io</title>
+    <title>Pelican plugin for Jupyter/IPython Notebooks - kamyanskiy.github.io</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -10,22 +10,21 @@
 
     <link href="https://kamyanskiy.github.io/images/logo.png" rel="icon">
 
-<link rel="canonical" href="https://kamyanskiy.github.io/2017/06/about-sql.html">
+<link rel="canonical" href="https://kamyanskiy.github.io/2017/06/add-ipynb-plugin-to-pelican.html">
 
         <meta name="author" content="Alexander Kamyanskiy" />
-        <meta name="keywords" content="SQL,database,PostgreSQL" />
-        <meta name="description" content="Learning SQL TODO: Add content" />
+        <meta name="keywords" content="notebook,jupyter" />
+        <meta name="description" content="Today I read about nice thing that called as Jupyter I installed its locally, it’s cool to play with python there and store results in files with .ipynb extension locally. Then I found that it is plugin pelican-ipynb for Pelican. With that plugin enabled, Pelican easy creates html pages …" />
 
         <meta property="og:site_name" content="kamyanskiy.github.io" />
         <meta property="og:type" content="article"/>
-        <meta property="og:title" content="Learning SQL"/>
-        <meta property="og:url" content="https://kamyanskiy.github.io/2017/06/about-sql.html"/>
-        <meta property="og:description" content="Learning SQL TODO: Add content"/>
+        <meta property="og:title" content="Pelican plugin for Jupyter/IPython Notebooks"/>
+        <meta property="og:url" content="https://kamyanskiy.github.io/2017/06/add-ipynb-plugin-to-pelican.html"/>
+        <meta property="og:description" content="Today I read about nice thing that called as Jupyter I installed its locally, it’s cool to play with python there and store results in files with .ipynb extension locally. Then I found that it is plugin pelican-ipynb for Pelican. With that plugin enabled, Pelican easy creates html pages …"/>
         <meta property="article:published_time" content="2017-06-14" />
             <meta property="article:section" content="Blog" />
-            <meta property="article:tag" content="SQL" />
-            <meta property="article:tag" content="database" />
-            <meta property="article:tag" content="PostgreSQL" />
+            <meta property="article:tag" content="notebook" />
+            <meta property="article:tag" content="jupyter" />
             <meta property="article:author" content="Alexander Kamyanskiy" />
 
 
@@ -86,16 +85,16 @@
         <div class="col-sm-9">
             <ol class="breadcrumb">
                 <li><a href="https://kamyanskiy.github.io" title="kamyanskiy.github.io"><i class="fa fa-home fa-lg"></i></a></li>
-                <li class="active">Learning <span class="caps">SQL</span></li>
+                <li class="active">Pelican plugin for Jupyter/IPython&nbsp;Notebooks</li>
             </ol>
     <section id="content">
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="https://kamyanskiy.github.io/2017/06/about-sql.html"
+                    <a href="https://kamyanskiy.github.io/2017/06/add-ipynb-plugin-to-pelican.html"
                        rel="bookmark"
-                       title="Permalink to Learning SQL">
-                        Learning <span class="caps">SQL</span>
+                       title="Permalink to Pelican plugin for Jupyter/IPython Notebooks">
+                        Pelican plugin for Jupyter/IPython&nbsp;Notebooks
                     </a>
                 </h1>
             </header>
@@ -115,18 +114,70 @@
 
 
 <span class="label label-default">Tags</span>
-	<a href="https://kamyanskiy.github.io/label/sql/">SQL</a>
+	<a href="https://kamyanskiy.github.io/label/notebook/">notebook</a>
         /
-	<a href="https://kamyanskiy.github.io/label/database/">database</a>
-        /
-	<a href="https://kamyanskiy.github.io/label/postgresql/">PostgreSQL</a>
+	<a href="https://kamyanskiy.github.io/label/jupyter/">jupyter</a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <h4>Learning <span class="caps">SQL</span></h4>
-<p><span class="caps">TODO</span>: Add&nbsp;content</p>
+                <p>Today I read about nice thing that called as <a href="http://jupyter.readthedocs.io">Jupyter</a>
+I installed its locally, it&#8217;s cool to play with python there and store results in 
+files with .ipynb extension locally. 
+Then I found that it is plugin <a href="https://github.com/danielfrg/pelican-ipynb">pelican-ipynb</a>
+for Pelican. With that plugin enabled, Pelican easy creates html pages with proper 
+markup like into Jupyter. I&#8217;ll try to use it sometimes, to avoid copying code samples
+from <strong>ipython</strong> console to markdown files. Its possible to convert .ipynb content 
+to nice formatted article&nbsp;!</p>
+<p>So I created separate <strong>plugins</strong> folder in my site hierarchy and 
+cloned repo <a href="https://github.com/danielfrg/pelican-ipynb">pelican-ipynb</a> into
+my <strong>plugins</strong> folder to ipynb&nbsp;directory.</p>
+<div class="highlight"><pre><span></span> $ git clone https://github.com/danielfrg/pelican-ipynb ipynb
+</pre></div>
+
+
+<p>So my tree looks&nbsp;like </p>
+<div class="highlight"><pre><span></span>plugins/
+└── ipynb
+    ├── core.py
+    ├── __init__.py
+    ├── ipynb.py
+    ├── liquid.py
+    ├── markup.py
+...
+</pre></div>
+
+
+<p>In <strong>pelicanconf.py</strong> file I added &#8220;ipynb.markup&#8221; to <span class="caps">PLUGINS</span>&nbsp;list.  </p>
+<div class="highlight"><pre><span></span><span class="n">PLUGINS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;i18n_subsites&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;related_posts&#39;</span><span class="p">,</span>
+           <span class="s2">&quot;tag_cloud&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;tipue_search&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;ipynb.markup&quot;</span>
+           <span class="p">]</span>
+</pre></div>
+
+
+<p>Then&nbsp;add </p>
+<div class="highlight"><pre><span></span><span class="n">MARKUP</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;md&#39;</span><span class="p">,</span> <span class="s1">&#39;ipynb&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>And added new plugins&nbsp;path</p>
+<div class="highlight"><pre><span></span>PLUGIN_PATHS = [&#39;pelican-plugins/&#39;, &#39;plugins/&#39;]
+</pre></div>
+
+
+<p>That&#8217;s all settings. In next article I&#8217;ll try to use this&nbsp;plugin.</p>
+<p><span class="caps">P.S.</span> I had to fork ipynb repo and did little fix, to make date in metadata file
+.ipynb-meta not mandatory. So now I use fork <a href="https://github.com/kamyanskiy/pelican-ipynb">pelican-ipynb</a> </p>
             </div>
             <!-- /.entry-content -->
+<section class="well" id="related-posts">
+    <h4>Related Posts:</h4>
+    <ul>
+        <li><a href="https://kamyanskiy.github.io/2017/06/Functions-annotations.html">Create article from Jupyter .ipynb file with&nbsp;Pelican</a></li>
+    </ul>
+</section>
     <hr />
     <!-- AddThis Button BEGIN -->
     <div class="addthis_toolbox addthis_default_style">
@@ -144,8 +195,8 @@
             /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
             var disqus_shortname = 'kamyanskiy'; // required: replace example with your forum shortname
 
-                    var disqus_identifier = 'about-sql';
-                var disqus_url = 'https://kamyanskiy.github.io/2017/06/about-sql.html';
+                    var disqus_identifier = 'add-ipynb-plugin-to-pelican';
+                var disqus_url = 'https://kamyanskiy.github.io/2017/06/add-ipynb-plugin-to-pelican.html';
 
             var disqus_config = function () {
                 this.language = "en";
@@ -198,7 +249,8 @@
 <li class="list-group-item">
   <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
   <ul class="list-group" id="recentposts">
-    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/06/about-sql.html">Learning <span class="caps">SQL</span></a></li>
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/06/Functions-annotations.html">Create article from Jupyter .ipynb file with&nbsp;Pelican</a></li>
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/06/add-ipynb-plugin-to-pelican.html">Pelican plugin for Jupyter/IPython&nbsp;Notebooks</a></li>
     <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/06/how-to-add-disqus-comments.html">How to add <span class="caps">DISQUS</span> comments to Pelican&nbsp;site</a></li>
     <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/06/start-site-with-pelican.html">Start blog site on GitHub pages with&nbsp;Pelican</a></li>
   </ul>
@@ -210,22 +262,19 @@
   <a href="https://kamyanskiy.github.io/label/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group list-inline tagcloud" id="tags">
     <li class="list-group-item tag-2">
-      <a href="https://kamyanskiy.github.io/label/database/">database</a>
-    </li>
-    <li class="list-group-item tag-2">
       <a href="https://kamyanskiy.github.io/label/disqus/">Disqus</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/jupyter/">jupyter</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/notebook/">notebook</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="https://kamyanskiy.github.io/label/pelican/">Pelican</a>
     </li>
-    <li class="list-group-item tag-2">
-      <a href="https://kamyanskiy.github.io/label/postgresql/">PostgreSQL</a>
-    </li>
     <li class="list-group-item tag-1">
       <a href="https://kamyanskiy.github.io/label/python/">Python</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="https://kamyanskiy.github.io/label/sql/">SQL</a>
     </li>
   </ul>
 </li>
