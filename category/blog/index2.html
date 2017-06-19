@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>Search - kamyanskiy.github.io
-</title>
+    <title>Blog - kamyanskiy.github.io</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -12,7 +11,8 @@
     <link href="https://kamyanskiy.github.io/images/logo.png" rel="icon">
 
 
-        <meta name="author" content="Alexander Kamyanskiy" />
+    <meta name="author" content="Alexander Kamyanskiy" />
+    <meta name="keywords" content="Blog" />
 
     <!-- Open Graph tags -->
         <meta property="og:site_name" content="kamyanskiy.github.io" />
@@ -56,7 +56,7 @@
                          <li><a href="https://kamyanskiy.github.io/about-me.html">
                              About&nbsp;me
                           </a></li>
-                        <li >
+                        <li class="active">
                             <a href="https://kamyanskiy.github.io/category/blog/">Blog</a>
                         </li>
             </ul>
@@ -77,7 +77,32 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-9">
-<div id="tipue_search_content"></div>
+    <ol class="breadcrumb">
+        <li><a href="https://kamyanskiy.github.io" title="kamyanskiy.github.io"><i class="fa fa-home fa-lg"></i></a></li>
+        <li><a href="https://kamyanskiy.github.io/category/" title="kamyanskiy.github.io Categories">Categories</a></li>
+        <li class="active">Blog</li>
+    </ol>
+            <article>
+                <h2><a href="https://kamyanskiy.github.io/2017/06/start-site-with-pelican.html">Start blog site on GitHub pages with&nbsp;Pelican</a></h2>
+                <div class="summary"><p>One day I found that I forgot many things I learned and used before, so I 
+decided to make short memos about different
+programming aspects, issues and new tools I&#8217;ll learn and touch in the&nbsp;future.    </p>
+<h4>Create GitHub user&nbsp;page</h4>
+<p>GitHub provides easy and nice possibility to create your …</p>
+                    <a class="btn btn-default btn-xs" href="https://kamyanskiy.github.io/2017/06/start-site-with-pelican.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+
+        <ul class="pagination">
+                <li class="prev"><a href="https://kamyanskiy.github.io/category/blog/index.html">&laquo;</a>
+                </li>
+                    <li class=""><a
+                            href="https://kamyanskiy.github.io/category/blog/index.html">1</a></li>
+                    <li class="active"><a
+                            href="https://kamyanskiy.github.io/category/blog/index2.html">2</a></li>
+                <li class="next disabled"><a href="#">&raquo;</a></li>
+        </ul>
         </div>
         <div class="col-sm-3" id="sidebar">
             <aside>
@@ -245,17 +270,5 @@ $(document).ready(function () {
     <!-- End Disqus Code -->
 
 
-    <script type="text/javascript" src="https://kamyanskiy.github.io/theme/tipuesearch/tipuesearch_set.js"></script>
-    <script type="text/javascript" src="https://kamyanskiy.github.io/theme/tipuesearch/tipuesearch.min.js"></script>
-    <script>
-    $(document).ready(function() {
-      $('#tipue_search_input').tipuesearch({
-        'mode' : 'json',
-        'show': 10,
-        'newWindow': false,
-        'contentLocation': 'tipuesearch_content.json'
-      });
-    });
-    </script>
 </body>
 </html>

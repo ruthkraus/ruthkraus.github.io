@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>Start blog site on GitHub pages with Pelican - kamyanskiy.github.io</title>
+    <title>Create Vagrant base box manually from existing one - kamyanskiy.github.io</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -10,21 +10,21 @@
 
     <link href="https://kamyanskiy.github.io/images/logo.png" rel="icon">
 
-<link rel="canonical" href="https://kamyanskiy.github.io/2017/06/start-site-with-pelican.html">
+<link rel="canonical" href="https://kamyanskiy.github.io/2017/06/prepare-own-vagrant-box-from-existing.html">
 
         <meta name="author" content="Alexander Kamyanskiy" />
-        <meta name="keywords" content="Pelican,Python" />
-        <meta name="description" content="One day I found that I forgot many things I learned and used before, so I decided to make short memos about different programming aspects, issues and new tools I’ll learn and touch in the future. Create GitHub user page GitHub provides easy and nice possibility to create your …" />
+        <meta name="keywords" content="vagrant,packer" />
+        <meta name="description" content="Vagrant Boxes are prepackaged development environments that are provided by Vagrant. In most cases, this is usually just a stripped and naked operating system such as Ubuntu, Debian, or CentOS. Boxes exist with the intention to be provisioned with additional features like Apache server or PostgreSQL database with Puppet, shell …" />
 
         <meta property="og:site_name" content="kamyanskiy.github.io" />
         <meta property="og:type" content="article"/>
-        <meta property="og:title" content="Start blog site on GitHub pages with Pelican"/>
-        <meta property="og:url" content="https://kamyanskiy.github.io/2017/06/start-site-with-pelican.html"/>
-        <meta property="og:description" content="One day I found that I forgot many things I learned and used before, so I decided to make short memos about different programming aspects, issues and new tools I’ll learn and touch in the future. Create GitHub user page GitHub provides easy and nice possibility to create your …"/>
-        <meta property="article:published_time" content="2017-06-13" />
+        <meta property="og:title" content="Create Vagrant base box manually from existing one"/>
+        <meta property="og:url" content="https://kamyanskiy.github.io/2017/06/prepare-own-vagrant-box-from-existing.html"/>
+        <meta property="og:description" content="Vagrant Boxes are prepackaged development environments that are provided by Vagrant. In most cases, this is usually just a stripped and naked operating system such as Ubuntu, Debian, or CentOS. Boxes exist with the intention to be provisioned with additional features like Apache server or PostgreSQL database with Puppet, shell …"/>
+        <meta property="article:published_time" content="2017-06-19" />
             <meta property="article:section" content="Blog" />
-            <meta property="article:tag" content="Pelican" />
-            <meta property="article:tag" content="Python" />
+            <meta property="article:tag" content="vagrant" />
+            <meta property="article:tag" content="packer" />
             <meta property="article:author" content="Alexander Kamyanskiy" />
 
 
@@ -85,16 +85,16 @@
         <div class="col-sm-9">
             <ol class="breadcrumb">
                 <li><a href="https://kamyanskiy.github.io" title="kamyanskiy.github.io"><i class="fa fa-home fa-lg"></i></a></li>
-                <li class="active">Start blog site on GitHub pages with&nbsp;Pelican</li>
+                <li class="active">Create Vagrant base box manually from existing&nbsp;one</li>
             </ol>
     <section id="content">
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="https://kamyanskiy.github.io/2017/06/start-site-with-pelican.html"
+                    <a href="https://kamyanskiy.github.io/2017/06/prepare-own-vagrant-box-from-existing.html"
                        rel="bookmark"
-                       title="Permalink to Start blog site on GitHub pages with Pelican">
-                        Start blog site on GitHub pages with&nbsp;Pelican
+                       title="Permalink to Create Vagrant base box manually from existing one">
+                        Create Vagrant base box manually from existing&nbsp;one
                     </a>
                 </h1>
             </header>
@@ -104,7 +104,7 @@
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2017-06-13T00:00:00+03:00"> Tue 13 June 2017</time>
+        <i class="fa fa-calendar"></i><time datetime="2017-06-19T00:00:00+03:00"> Mon 19 June 2017</time>
     </span>
 
 
@@ -114,172 +114,76 @@
 
 
 <span class="label label-default">Tags</span>
-	<a href="https://kamyanskiy.github.io/label/pelican/">Pelican</a>
+	<a href="https://kamyanskiy.github.io/label/vagrant/">vagrant</a>
         /
-	<a href="https://kamyanskiy.github.io/label/python/">Python</a>
+	<a href="https://kamyanskiy.github.io/label/packer/">packer</a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <p>One day I found that I forgot many things I learned and used before, so I 
-decided to make short memos about different
-programming aspects, issues and new tools I&#8217;ll learn and touch in the&nbsp;future.    </p>
-<h4>Create GitHub user&nbsp;page</h4>
-<p>GitHub provides easy and nice possibility to create your own site with
- <a href="https://pages.github.com/">User Pages</a> 
-So as described in this <a href="https://pages.github.com/">tutoral</a> I&#8217;ve created repo 
-with special name 
-<a href="https://github.com/kamyanskiy/kamyanskiy.github.io">kamyanskiy.github.io</a>
-The content from <strong>master</strong> branch from this repo should be used to display on 
-access <a href="https://kamyanskiy.github.io">https://kamyanskiy.github.io</a>&nbsp;url.</p>
-<h4>Create site with&nbsp;Pelican</h4>
-<p>I found that possibility that provided from GitHub to have static pages with
- <a href="https://help.github.com/articles/using-jekyll-as-a-static-site-generator-with-github-pages/">jekyll</a> is nice, but 
-<a href="http://docs.getpelican.com">Pelican</a> is more powerful tool, with rich number
- of plugins and nice themes.
-So I checkout my <a href="https://github.com/kamyanskiy/kamyanskiy.github.io">kamyanskiy.github.io</a> 
-repository from branch <strong>master</strong> to <strong>pelican</strong> branch and start to install&nbsp;Pelican.</p>
-<p><strong>Step 1. Install&nbsp;Pelican.</strong></p>
-<div class="highlight"><pre><span></span>$ virtualenv -p python3.6 .env
-$ <span class="nb">source</span> .env/bin/activate
-<span class="o">(</span>.env<span class="o">)</span> $ pip install pelican markdown 
+                <p>Vagrant Boxes are prepackaged development environments that are provided by 
+Vagrant. In most cases, this is usually just a stripped and naked operating 
+system such as Ubuntu, Debian, or CentOS. Boxes exist with the intention to be 
+provisioned with additional features like Apache server or PostgreSQL database<br>
+with Puppet, shell script or anyone of provision&nbsp;tools. </p>
+<p>The main documentation about Vagrant configuration can be found <a href="https://www.vagrantup.com/docs/index.html">here</a></p>
+<p>This post will describe how to create your own prepackaged Vagrant Box manually
+from an existing box from https://atlas.hashicorp.com. In my opinion, it&#8217;s the 
+quickest and easiest way to save time for provisioning default box with Vagrant.
+We need to provision machine manually once and then use it in the future, of course 
+we can lost flexibility of usual Vagrant approach when I need always run provision
+process for clean box. This way you&#8217;ll be able to reuse prepared box over and 
+over and even share&nbsp;it. </p>
+<p>For example I want to prepare my own box from existing Ubuntu box, many of
+boxes could be found on <a href="https://atlas.hashicorp.com/boxes/search">https://atlas.hashicorp.com</a> site.
+I think for my purposes I get <strong>hashicorp/precise64</strong> , so I init&nbsp;it:</p>
+<div class="highlight"><pre><span></span>vagrant init hashicorp/precise64
 </pre></div>
 
 
-<p><strong>Step 2. Get <a href="https://github.com/getpelican/pelican-plugins/tree/f3b5cef79d97556cb1c10e66e9130a223f45c943">pelican-plugins</a>and <a href="https://github.com/kamyanskiy/pelican-themes/tree/012591f2e625674bd02961f1f29dbe9fc40940f4">pelican-themes</a>&nbsp;submodules</strong></p>
-<p>After review many nice themes on site <a href="http://www.pelicanthemes.com/">http://www.pelicanthemes.com/</a> 
-I&#8217;ve decided to use <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3">pelican-bootstrap3</a> theme,
-with little changes, so I&#8217;ve forked <a href="https://github.com/getpelican/pelican-themes">pelican-themes</a> 
-repo to make custom&nbsp;changes. </p>
-<div class="highlight"><pre><span></span>$ git submodule add git@github.com:getpelican/pelican-plugins.git pelican-plugins
-$ git submodule add https://github.com/kamyanskiy/pelican-themes pelican-themes
+<p>then I need to run&nbsp;it:</p>
+<div class="highlight"><pre><span></span>vagrant up
 </pre></div>
 
 
-<p><strong>Step 3. Create simple site&nbsp;template</strong> </p>
-<p>Once Pelican has been installed, you can create a skeleton project via the
-<strong>pelican-quickstart</strong> command,
-which begins by asking some questions about your&nbsp;site.</p>
-<div class="highlight"><pre><span></span>pelican-quickstart
+<p>after couple minutes I can enter machine via ssh and start to install things 
+that I think I want to have in my own&nbsp;box:</p>
+<div class="highlight"><pre><span></span>vagrant ssh
 </pre></div>
 
 
-<p>Then answer to questions or keep just all defaults, it&#8217;s possible to change
-all later, manually in file <strong>pelicanconf.py</strong></p>
-<p><strong>Step 4. Configure&nbsp;pelicanconf.py</strong></p>
-<p>The all possible settings are described in 
-<a href="http://docs.getpelican.com/en/3.6.3/settings.html">documentation</a>
-My settings file looks&nbsp;like:</p>
-<div class="highlight"><pre><span></span> <span class="c1">#!/usr/bin/env python</span>
-<span class="c1"># -*- coding: utf-8 -*- #</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">unicode_literals</span>
+<p>then do some commands to install mc, postgresql, etc&nbsp;:</p>
+<div class="highlight"><pre><span></span>sudo apt-get update
+sudo apt-get install -y apache2
 
-<span class="n">AUTHOR</span> <span class="o">=</span> <span class="s1">&#39;Alexander Kamyanskiy&#39;</span>
-<span class="n">SITENAME</span> <span class="o">=</span> <span class="s1">&#39;kamyanskiy.github.io&#39;</span>
-<span class="n">SITEURL</span> <span class="o">=</span> <span class="s1">&#39;https://kamyanskiy.github.io&#39;</span>
-
-<span class="n">PATH</span> <span class="o">=</span> <span class="s1">&#39;content&#39;</span>
-
-<span class="n">TIMEZONE</span> <span class="o">=</span> <span class="s1">&#39;Europe/Moscow&#39;</span>
-
-<span class="n">DEFAULT_LANG</span> <span class="o">=</span> <span class="s1">&#39;en&#39;</span>
-
-<span class="c1"># Feed generation is usually not desired when developing</span>
-<span class="n">FEED_ALL_ATOM</span> <span class="o">=</span> <span class="bp">None</span>
-<span class="n">CATEGORY_FEED_ATOM</span> <span class="o">=</span> <span class="bp">None</span>
-<span class="n">TRANSLATION_FEED_ATOM</span> <span class="o">=</span> <span class="bp">None</span>
-<span class="n">AUTHOR_FEED_ATOM</span> <span class="o">=</span> <span class="bp">None</span>
-<span class="n">AUTHOR_FEED_RSS</span> <span class="o">=</span> <span class="bp">None</span>
-<span class="n">SHOW_ARTICLE_AUTHOR</span> <span class="o">=</span> <span class="bp">True</span>
-<span class="n">SHOW_DATE_MODIFIED</span> <span class="o">=</span> <span class="bp">True</span>
-
-<span class="c1"># Show my last activity on GitHub</span>
-<span class="n">GITHUB_USER</span> <span class="o">=</span> <span class="s1">&#39;kamyanskiy&#39;</span>
-
-<span class="c1"># Enable custom theme</span>
-<span class="n">THEME</span> <span class="o">=</span> <span class="s2">&quot;pelican-themes/pelican-bootstrap3/&quot;</span>
-<span class="n">BOOTSTRAP_THEME</span> <span class="o">=</span> <span class="s2">&quot;flatly&quot;</span>
-<span class="n">JINJA_ENVIRONMENT</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;extensions&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;jinja2.ext.i18n&#39;</span><span class="p">]}</span>
-<span class="n">PYGMENTS_STYLE</span> <span class="o">=</span> <span class="s1">&#39;emacs&#39;</span>
-<span class="n">DEFAULT_DATE</span> <span class="o">=</span> <span class="s1">&#39;fs&#39;</span>
-
-<span class="c1"># Enable plugins</span>
-<span class="n">PLUGIN_PATHS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;pelican-plugins/&#39;</span><span class="p">]</span>
-<span class="n">PLUGINS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;i18n_subsites&#39;</span><span class="p">]</span>
-
-<span class="c1"># Enable disqus comments</span>
-<span class="n">DISQUS_SITENAME</span> <span class="o">=</span> <span class="s2">&quot;kamyanskiy&quot;</span>
-
-<span class="n">SITELOGO</span> <span class="o">=</span> <span class="s1">&#39;images/logo.png&#39;</span>
-
-<span class="n">STATIC_PATHS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;images&#39;</span><span class="p">,</span> <span class="s1">&#39;extra/custom.css&#39;</span><span class="p">]</span>
-<span class="n">CUSTOM_CSS</span> <span class="o">=</span> <span class="s1">&#39;theme/css/custom.css&#39;</span>
-
-<span class="n">EXTRA_PATH_METADATA</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;extra/custom.css&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="s1">&#39;theme/css/custom.css&#39;</span><span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c1"># Blogroll</span>
-<span class="n">LINKS</span> <span class="o">=</span> <span class="p">((</span><span class="s1">&#39;Pelican&#39;</span><span class="p">,</span> <span class="s1">&#39;http://getpelican.com/&#39;</span><span class="p">),</span>
-         <span class="p">(</span><span class="s1">&#39;Python.org&#39;</span><span class="p">,</span> <span class="s1">&#39;http://python.org/&#39;</span><span class="p">),</span>
-         <span class="p">(</span><span class="s1">&#39;Jinja2&#39;</span><span class="p">,</span> <span class="s1">&#39;http://jinja.pocoo.org/&#39;</span><span class="p">),</span>
-         <span class="p">(</span><span class="s1">&#39;Django&#39;</span><span class="p">,</span> <span class="s1">&#39;https://https://docs.djangoproject.com/&#39;</span><span class="p">),</span>
-         <span class="p">(</span><span class="s1">&#39;Flask&#39;</span><span class="p">,</span> <span class="s1">&#39;http://flask.pocoo.org/&#39;</span><span class="p">),</span>
-         <span class="p">)</span>
-
-<span class="c1"># Social widget</span>
-<span class="n">SOCIAL</span> <span class="o">=</span> <span class="p">((</span><span class="s1">&#39;vk&#39;</span><span class="p">,</span> <span class="s1">&#39;https://vk.com/id216671695&#39;</span><span class="p">),</span>
-          <span class="p">(</span><span class="s1">&#39;Facebook&#39;</span><span class="p">,</span> <span class="s1">&#39;https://www.facebook.com/alexander.kamyanskiy&#39;</span><span class="p">),</span>
-          <span class="p">(</span><span class="s1">&#39;GitHub&#39;</span><span class="p">,</span> <span class="s1">&#39;https://github.com/kamyanskiy&#39;</span><span class="p">),)</span>
-
-<span class="n">DEFAULT_PAGINATION</span> <span class="o">=</span> <span class="mi">5</span>
-
-<span class="c1"># Uncomment following line if you want document-relative URLs when developing</span>
-<span class="n">RELATIVE_URLS</span> <span class="o">=</span> <span class="bp">False</span>
-<span class="n">DELETE_OUTPUT_DIRECTORY</span> <span class="o">=</span> <span class="bp">True</span>
-<span class="n">TYPOGRIFY</span> <span class="o">=</span> <span class="bp">True</span>
+sudo apt-get install -y mc
+sudo apt-get install -y htop
+sudo apt-get install -y postgresql-9.1 postgresql-server-dev-9.1 libpq-dev python-dev python-setuptools
+sudo apt-get clean
 </pre></div>
 
 
-<p><strong>Step 5. Add some&nbsp;content</strong> </p>
-<p>I&#8217;ve added this page in .md format into content/20170613-start-site-with-pelican.md&nbsp;file</p>
-<p><strong>Step 6. Use Fabric to manage&nbsp;site</strong></p>
-<p>It&#8217;s possible to use fabric utility to make some useful things with site content,
-like run dev server and push changes to GitHub pages
-I&#8217;ve used Fabric3 to use with python3.6 on my&nbsp;machine</p>
-<p><strong>Install&nbsp;Fabric3</strong></p>
-<div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">fabric3</span> <span class="n">ghp</span><span class="o">-</span><span class="kn">import</span> 
+<p>All packages that I want already installed, now I can package that instance to my own&nbsp;box:</p>
+<div class="highlight"><pre><span></span>vagrant package --output mynew.box
+vagrant box add mynewbox mynew.box
+vagrant destroy
+vagrant init mynewbox
 </pre></div>
 
 
-<p><strong>Fix fabfile.py (for usage with&nbsp;python3)</strong></p>
-<p>Change </p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">SocketServer</span>
+<p>after that I can run my own&nbsp;box: </p>
+<div class="highlight"><pre><span></span>vagrant up
 </pre></div>
 
 
-<p>to </p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">socketserver</span>
-</pre></div>
-
-
-<p>To use fab command to start dev server ,&nbsp;run</p>
-<div class="highlight"><pre><span></span>$ fab serve
-</pre></div>
-
-
-<p>To publish content to master branch on github repo,&nbsp;run</p>
-<div class="highlight"><pre><span></span>$ fab gh_pages
-</pre></div>
-
-
-<p><span class="caps">P.S.</span> After couple days I&#8217;ve changed this command to <em>fab&nbsp;push</em></p>
-<p><a href="https://kamyanskiy.github.io/2017/06/how-to-add-disqus-comments.html"><strong>Part 2 - How to enable <span class="caps">DISQUS</span>&nbsp;comments</strong></a></p>
+<p>I can also upload that box up to atlas storage <a href="https://atlas.hashicorp.com/kamyanskiy/boxes/ubuntu14_psql93">kamyanskiy/ubuntu14_psql93</a>
+For that there I need to configure provider, version, upload image and then 
+release&nbsp;it.</p>
             </div>
             <!-- /.entry-content -->
 <section class="well" id="related-posts">
     <h4>Related Posts:</h4>
     <ul>
-        <li><a href="https://kamyanskiy.github.io/2017/06/how-to-add-disqus-comments.html">How to add <span class="caps">DISQUS</span> comments to Pelican&nbsp;site</a></li>
+        <li><a href="https://kamyanskiy.github.io/2017/06/use-packer-for-prepare-custom-box.html">Use Packer to prepare custom Vagrant&nbsp;box</a></li>
     </ul>
 </section>
     <hr />
@@ -299,8 +203,8 @@ I&#8217;ve used Fabric3 to use with python3.6 on my&nbsp;machine</p>
             /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
             var disqus_shortname = 'kamyanskiy'; // required: replace example with your forum shortname
 
-                    var disqus_identifier = 'start-site-with-pelican';
-                var disqus_url = 'https://kamyanskiy.github.io/2017/06/start-site-with-pelican.html';
+                    var disqus_identifier = 'prepare-own-vagrant-box-from-existing';
+                var disqus_url = 'https://kamyanskiy.github.io/2017/06/prepare-own-vagrant-box-from-existing.html';
 
             var disqus_config = function () {
                 this.language = "en";

@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>Search - kamyanskiy.github.io
-</title>
+    <title>packer - kamyanskiy.github.io</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -12,7 +11,8 @@
     <link href="https://kamyanskiy.github.io/images/logo.png" rel="icon">
 
 
-        <meta name="author" content="Alexander Kamyanskiy" />
+    <meta name="author" content="Alexander Kamyanskiy" />
+    <meta name="keywords" content="packer" />
 
     <!-- Open Graph tags -->
         <meta property="og:site_name" content="kamyanskiy.github.io" />
@@ -77,7 +77,35 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-9">
-<div id="tipue_search_content"></div>
+    <ol class="breadcrumb">
+        <li><a href="https://kamyanskiy.github.io" title="kamyanskiy.github.io"><i class="fa fa-home fa-lg"></i></a></li>
+        <li><a href="https://kamyanskiy.github.io/label/" title="Tags">Tags</a></li>
+        <li class="active">packer</li>
+    </ol>
+            <article>
+                <h2><a href="https://kamyanskiy.github.io/2017/06/prepare-own-vagrant-box-from-existing.html">Create Vagrant base box manually from existing&nbsp;one</a></h2>
+                <div class="summary"><p>Vagrant Boxes are prepackaged development environments that are provided by 
+Vagrant. In most cases, this is usually just a stripped and naked operating 
+system such as Ubuntu, Debian, or CentOS. Boxes exist with the intention to be 
+provisioned with additional features like Apache server or PostgreSQL database<br>
+with Puppet, shell …</p>
+                    <a class="btn btn-default btn-xs" href="https://kamyanskiy.github.io/2017/06/prepare-own-vagrant-box-from-existing.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="https://kamyanskiy.github.io/2017/06/use-packer-for-prepare-custom-box.html">Use Packer to prepare custom Vagrant&nbsp;box</a></h2>
+                <div class="summary"><p>What is&nbsp;Packer?</p>
+<p>Packer is an open source tool for creating identical machine images for multiple 
+platforms from a single source configuration. Packer is lightweight, runs on
+every major operating system, and is highly performant, creating machine images
+for multiple platforms in parallel. Packer does not replace configuration 
+management like …</p>
+                    <a class="btn btn-default btn-xs" href="https://kamyanskiy.github.io/2017/06/use-packer-for-prepare-custom-box.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+
         </div>
         <div class="col-sm-3" id="sidebar">
             <aside>
@@ -110,9 +138,6 @@
   <ul class="list-group" id="recentposts">
     <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/06/prepare-own-vagrant-box-from-existing.html">Create Vagrant base box manually from existing&nbsp;one</a></li>
     <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/06/use-packer-for-prepare-custom-box.html">Use Packer to prepare custom Vagrant&nbsp;box</a></li>
-    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/06/Functions-annotations.html">Create article from Jupyter .ipynb file with&nbsp;Pelican</a></li>
-    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/06/add-ipynb-plugin-to-pelican.html">Pelican plugin for Jupyter/IPython&nbsp;Notebooks</a></li>
-    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/06/how-to-add-disqus-comments.html">How to add <span class="caps">DISQUS</span> comments to Pelican&nbsp;site</a></li>
   </ul>
 </li>
 <!-- End Sidebar/Recent Posts -->
@@ -245,17 +270,5 @@ $(document).ready(function () {
     <!-- End Disqus Code -->
 
 
-    <script type="text/javascript" src="https://kamyanskiy.github.io/theme/tipuesearch/tipuesearch_set.js"></script>
-    <script type="text/javascript" src="https://kamyanskiy.github.io/theme/tipuesearch/tipuesearch.min.js"></script>
-    <script>
-    $(document).ready(function() {
-      $('#tipue_search_input').tipuesearch({
-        'mode' : 'json',
-        'show': 10,
-        'newWindow': false,
-        'contentLocation': 'tipuesearch_content.json'
-      });
-    });
-    </script>
 </body>
 </html>
