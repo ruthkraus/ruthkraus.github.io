@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>Процедура нормализации данных и нормальные формы данных (4НФ, 5НФ). - kamyanskiy.github.io</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href="https://kamyanskiy.github.io/images/logo.png" rel="icon">
+
+<link rel="canonical" href="https://kamyanskiy.github.io/2017/07/db-theory-high-forms.html">
+
+        <meta name="author" content="Alexander Kamyanskiy" />
+        <meta name="keywords" content="SQL,theory,DB,database,1NF,2NF,3NF,4NF,5NF" />
+        <meta name="description" content="Завершаю серию заметок о нормализации, сведениями о понятиях более высоких нормальных форм 4НФ и 5НФ (чтобы иметь небольшую справку). Большей частью это цитирование труда Криса Дж. Дейта, с его же примерами. Поэтому возможны упоминания глав, и ссылок на литературу, присутствующую в книге. Четвертая нормальная форма 4НФ. Эта форма для многозначных …" />
+
+        <meta property="og:site_name" content="kamyanskiy.github.io" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Процедура нормализации данных и нормальные формы данных (4НФ, 5НФ)."/>
+        <meta property="og:url" content="https://kamyanskiy.github.io/2017/07/db-theory-high-forms.html"/>
+        <meta property="og:description" content="Завершаю серию заметок о нормализации, сведениями о понятиях более высоких нормальных форм 4НФ и 5НФ (чтобы иметь небольшую справку). Большей частью это цитирование труда Криса Дж. Дейта, с его же примерами. Поэтому возможны упоминания глав, и ссылок на литературу, присутствующую в книге. Четвертая нормальная форма 4НФ. Эта форма для многозначных …"/>
+        <meta property="article:published_time" content="2017-07-05" />
+            <meta property="article:section" content="Blog" />
+            <meta property="article:tag" content="SQL" />
+            <meta property="article:tag" content="theory" />
+            <meta property="article:tag" content="DB" />
+            <meta property="article:tag" content="database" />
+            <meta property="article:tag" content="1NF" />
+            <meta property="article:tag" content="2NF" />
+            <meta property="article:tag" content="3NF" />
+            <meta property="article:tag" content="4NF" />
+            <meta property="article:tag" content="5NF" />
+            <meta property="article:author" content="Alexander Kamyanskiy" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://kamyanskiy.github.io/theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="https://kamyanskiy.github.io/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://kamyanskiy.github.io/theme/css/pygments/emacs.css" rel="stylesheet">
+    <link href="https://kamyanskiy.github.io/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
+        <link href="https://kamyanskiy.github.io/theme/css/typogrify.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://kamyanskiy.github.io/theme/css/style.css" type="text/css"/>
+        <link href="https://kamyanskiy.github.io/theme/css/custom.css" rel="stylesheet">
+
+
+
+
+
+</head>
+<body>
+<a href="https://github.com/kamyanskiy"><img class="fork-me-on-github" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="https://kamyanskiy.github.io/" class="navbar-brand">
+<img class="img-responsive pull-left gap-right" src="https://kamyanskiy.github.io/images/logo.png" width=""/> kamyanskiy.github.io            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                         <li><a href="https://kamyanskiy.github.io/about-me.html">
+                             About&nbsp;me
+                          </a></li>
+                        <li class="active">
+                            <a href="https://kamyanskiy.github.io/category/blog/">Blog</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><span>
+                <form class="navbar-search" action="/search.html">
+                  <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input" required>
+                </form></span>
+              </li>
+              <li><a href="https://kamyanskiy.github.io/archives/"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            <ol class="breadcrumb">
+                <li><a href="https://kamyanskiy.github.io" title="kamyanskiy.github.io"><i class="fa fa-home fa-lg"></i></a></li>
+                <li class="active">Процедура нормализации данных и нормальные формы данных (4НФ,&nbsp;5НФ).</li>
+            </ol>
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://kamyanskiy.github.io/2017/07/db-theory-high-forms.html"
+                       rel="bookmark"
+                       title="Permalink to Процедура нормализации данных и нормальные формы данных (4НФ, 5НФ).">
+                        Процедура нормализации данных и нормальные формы данных (4НФ,&nbsp;5НФ).
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2017-07-05T00:00:00+03:00"> Wed 05 July 2017</time>
+    </span>
+
+
+            <span class="label label-default">By</span>
+            <a href="https://kamyanskiy.github.io/author/alexander-kamyanskiy.html"><i class="fa fa-user"></i> Alexander Kamyanskiy</a>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="https://kamyanskiy.github.io/label/sql/">SQL</a>
+        /
+	<a href="https://kamyanskiy.github.io/label/theory/">theory</a>
+        /
+	<a href="https://kamyanskiy.github.io/label/db/">DB</a>
+        /
+	<a href="https://kamyanskiy.github.io/label/database/">database</a>
+        /
+	<a href="https://kamyanskiy.github.io/label/1nf/">1NF</a>
+        /
+	<a href="https://kamyanskiy.github.io/label/2nf/">2NF</a>
+        /
+	<a href="https://kamyanskiy.github.io/label/3nf/">3NF</a>
+        /
+	<a href="https://kamyanskiy.github.io/label/4nf/">4NF</a>
+        /
+	<a href="https://kamyanskiy.github.io/label/5nf/">5NF</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>Завершаю серию заметок о нормализации, сведениями о понятиях более высоких 
+нормальных форм 4НФ и 5НФ (чтобы иметь небольшую&nbsp;справку).</p>
+<p>Большей частью это цитирование труда Криса Дж. Дейта, с его же примерами.
+Поэтому возможны упоминания глав, и ссылок на литературу, присутствующую в&nbsp;книге. </p>
+<h3>Четвертая нормальная форма&nbsp;4НФ.</h3>
+<p>Эта форма для многозначных зависимостей, когда значения -&nbsp;таблицы.</p>
+<blockquote>
+<p>Переменная отношения R находится в четвертой нормальной форме тогда и только 
+тогда, когда в случае существования таких подмножеств A и В атрибутов этой 
+переменной отношения R, для которых выполняется неривиальная многозначная 
+зависимость A -&gt; -&gt; B, все атрибуты отношения R также зависят от атрибута&nbsp;А.</p>
+</blockquote>
+<p>Когда приходится иметь дело с переменной отношения которая содержит как<br>
+атрибуты - отношения, <em>{<span class="caps">COURSE</span>, <span class="caps">TEXTS</span>, <span class="caps">TEACHERS</span>}</em> когда <em><span class="caps">TEXTS</span></em>, <em><span class="caps">TEACHERS</span></em> 
+это в свою очередь отношения <em><span class="caps">TEXT</span></em>, <em><span class="caps">TEACHER</span></em> (в которых несколько значений), 
+допустим 1 курс может ссылаться на значение <span class="caps">TEXT</span> а там несколько учебников, и 
+<em><span class="caps">TEACHER</span></em> - несколько учителей.
+Тогда чтоб привести все в 4 нормальную форму - можно привести к НФБК
+составить отношение <em>{<span class="caps">COURSE</span>, <span class="caps">TEXT</span>, <span class="caps">TEACHER</span>}</em> в которые включатся все 
+комбинации, и явно будет видно избыточность и связанную с ним неудобство, 
+затем разделить на проекции <em>{<span class="caps">COURSE</span>, <span class="caps">TEXT</span>}</em> , <em>{<span class="caps">COURSE</span>, <span class="caps">TEACHER</span>}</em> это и 
+получится&nbsp;4НФ</p>
+<p>либо 2й способ - сразу разбить на проекции <em>{<span class="caps">COURSE</span>, <span class="caps">TEACHERS</span>}</em> , 
+<em>{<span class="caps">COURSE</span>,<span class="caps">TEXTS</span>}</em> и затем привести эти проекции к НФБК, это будет фактически&nbsp;4НФ.</p>
+<h3>Пятая нормальная форма&nbsp;5НФ.</h3>
+<p>Есть отношения которые нельзя выполнить декомпозицию на 2 составляющие без 
+потерь, но можно на 3 и&nbsp;более.</p>
+<blockquote>
+<p>Допустим есть отношение <span class="caps">SPJ</span> {S#, #P, #J} которое можно разбить на 3 проекции 
+{#S, #P}, {#P, #J}, {#J, #S} в результате соединения 3х проекций получится <span class="caps">SPJ</span>.
+Cледует выполнять такую 3-декомпозицию чтоб избавиться в исходной <span class="caps">SPJ</span> от 
+аномалий&nbsp;обновления.</p>
+<p>Переменная отношения R находится в пятой нормальной форме, которую называют 
+иногда проекционно-соединительной нормальной формой ПСНФ тогда и только тогда, 
+когда каждая нетривиальная зависимость соединения в переменной 
+отношения R определяется потенциальным ключом(ключами) R, если соблюдаются&nbsp;условия:</p>
+</blockquote>
+<ol>
+<li>
+<p>Зависимость соединения *{A,B, ..Z} в переменной отношения R является 
+тривиальной тогда и только тогда когда по крайней мере одно из подмножеств A,
+ B, ..Z множества атрибутов является множеством всех атрибутов&nbsp;R.</p>
+</li>
+<li>
+<p>Зависимость соединения *{A,B,..Z} в переменной отношения R определяется 
+потенциальным ключом (ключами) R тогда и только тогда когда каждое из 
+подмножеств А,B..Z множества атрибутов является суперключом для&nbsp;R.</p>
+</li>
+</ol>
+<p>Переменная <span class="caps">SPJ</span> не находится в 5НФ, поскольку может быть 3-декомпонована.
+Если переменная отношений находится в 5НФ - она не содержит&nbsp;аномалий.</p>
+<p>Если переменная отношения находится в 5НФ то единственными в ней являются те 
+зависимости соединения, которые определяются ее потенциальными ключами, и 
+тогда единственными возможными декомпозициями будут декомпозиции, которые 
+основаны на эти потенциальных ключах.
+(Каждая проекция в подобной декомпозиции будет состоять из одного или нескольких
+потенциальных ключей в сочетании с доп атрибутами в кол-ве от нуля и&nbsp;больше)</p>
+<h3>Общая схема процедуры&nbsp;нормализации</h3>
+<p>(примечание от меня - предполагается что отношение(таблица) уже находится в&nbsp;1НФ)</p>
+<ol>
+<li>
+<p>Переменную отношения в 1НФ следует разбить на такие проекции, которые 
+позволят исключить все функциональные зависимости, не являющиеся неприводимыми.
+В результате будет получен набор переменных отношения в&nbsp;2НФ.</p>
+</li>
+<li>
+<p>Полученные переменные отношения в 2НФ следует разбить на такие проекции,
+которые позволят исключить все существующие транзитивные функциональные
+зависимости. В результате будет получен набор переменных отношения в&nbsp;ЗНФ.</p>
+</li>
+<li>
+<p>Полученные переменные отношения в ЗНФ следует разбить на проекции, 
+позволяющие исключить все оставшиеся функциональные зависимости, в которых 
+детерминанты не являются потенциальными ключами. В результате такого приведения 
+будет получен набор переменных отношения в НФБК.
+Примечание. Правила 1—3 могут быть объединены в одно: &#8220;Исходную переменную
+отношения следует разбить на проекции, позволяющие исключить все функциональные 
+зависимости, в которых детерминанты не являются потенциальными&nbsp;ключами&#8221;.</p>
+</li>
+<li>
+<p>Полученные переменные отношения в НФБК следует разбить на проекции, позво
+ляющие исключить все многозначные зависимости, которые не являются также
+функциональными. В результате будет получен набор переменных отношения в 4НФ.
+Примечание. На практике такие многозначные зависимости обычно исключаются
+перед выполнением этапов 1-3 (на этапе &#8220;устранения независимых МЗЗ(многознач&nbsp;зависимостей)&#8221;)</p>
+</li>
+<li>
+<p>Полученные переменные отношения в 4НФ следует разбить на проекции, 
+позволяющие исключить все зависимости соединения, которые не определяются 
+потенциальными ключами (хотя в данном случае в определение следовало бы добавить
+фразу &#8220;если удастся их выявить&#8221;). В результате будет получен набор переменных 
+отношения в&nbsp;5НФ.</p>
+</li>
+</ol>
+<p>По поводу приведенных выше правил можно сделать несколько дополнительных&nbsp;замечаний.</p>
+<ol>
+<li>Процесс разбиения на проекции на каждом этапе должен быть выполнен без потерь 
+    и с сохранением зависимостей (там, где это&nbsp;возможно).</li>
+<li>
+<p>Обратите внимание, что существует довольно привлекательный набор следующих
+   альтернативных определений НФБК, 4НФ и&nbsp;5НФ:</p>
+<ul>
+<li>переменная отношения R находится в НФБК тогда и только тогда, когда каждая
+ функциональная зависимость, удовлетворяемая переменной отношения R,
+ определяется ее потенциальными&nbsp;ключами;</li>
+<li>переменная отношения R находится в 4НФ тогда и только тогда, когда каждая
+  многозначная зависимость, удовлетворяемая переменной отношения R, 
+  определяется ее потенциальными&nbsp;ключами;</li>
+<li>переменная отношения R находится в 5НФ тогда и только тогда, когда каждая
+  зависимость соединения, удовлетворяемая переменной отношения R, опреде
+  ляется ее потенциальными&nbsp;ключами.</li>
+</ul>
+</li>
+</ol>
+<p>Аномалии обновления были вызваны именно теми функциональными зависимостями, 
+многозначными зависимостями или зависимостями соединения, которые не 
+определялись потенциальными&nbsp;ключами.</p>
+<p>(Подразумевается, что все упомянутые здесь
+функциональные, многозначные зависимости и зависимости соединения являются&nbsp;нетривиальными.)</p>
+<h3>ОБЩИЕ СВЕДЕНИЯ О&nbsp;ДЕНОРМАЛИЗАЦИИ</h3>
+<p>До сих пор в этой (и предыдущей) главе в основном предполагалось, что полная 
+нормализация вплоть до 5НФ весьма желательна.
+Но на практике часто можно слышать утверждения, что для достижения высокой 
+производительности системы иногда следует выполнить денормализацию. При этом 
+используются доводы, подобные перечисленным&nbsp;ниже.</p>
+<ol>
+<li>
+<p>Полная нормализация приводит к появлению большого количества логически не
+зависимых переменных отношения (и предполагается, что рассматриваемые переменные
+отношения являются&nbsp;базовыми).</p>
+</li>
+<li>
+<p>Большое количество логически независимых переменных отношения приводит к
+появлению большого количества отдельно хранимых физических&nbsp;файлов.</p>
+</li>
+<li>
+<p>Большое количество отдельно хранимых физических файлов приводит к появлению
+ большого количества операций&nbsp;ввода-вывода.</p>
+</li>
+</ol>
+<p>Строго говоря, эти доводы, конечно же, не верны, поскольку (как многократно 
+отмечалось в данной книге) в определении реляционной модели нигде не 
+утверждается, что базовые переменные отношения должны находиться во взаимно-
+однозначном соответствии с хранимыми файлами. Поэтому денормализацию в случае 
+необходимости следует выполнять на уровне хранимых файлов, но не на уровне 
+базовых переменных&nbsp;отношения.</p>
+<p>Однако в некотором отношении эти доводы все же верны для современных продуктов
+<span class="caps">SQL</span>, поскольку именно в них эти два уровня не разделены в требуемой&nbsp;степени. </p>
+<h4>Общее определение&nbsp;денормализации</h4>
+<p>Напомним, что нормализация переменной отношения R означает ее замену множеством 
+таких проекций Rl, R2, &#8230;, Rn, что результатом обратного соединения проекций
+Rl, R2, &#8230;, Rn обязательно будет значение R. Конечной целью нормализации 
+является сокращение степени избыточности данных за счет приведения проекций 
+Rl, R2, &#8230;, Rn к максимально высокому уровню&nbsp;нормализации.</p>
+<p>Теперь можно перейти к определению понятия денормализации. Пусть Rl, R2, Rn
+является множеством переменных отношения. Тогда денормализацией этих переменных
+отношения называется такая замена переменных отношения их соединением R, что для
+всех возможных значений i (где i = 1, &#8230;, п) выполнение проекции R по атрибутам
+Ri обязательно снова приводит к созданию значений&nbsp;Ri.</p>
+<p>Конечной целью денормализации является увеличение степени избыточности данных за
+счет приведения переменной отношения R к более низкому уровню нормализации по
+сравнению с исходными переменными отношения Rl, R2, &#8230;, Rn. Точнее, 
+преследуется цель сократить количество соединений,
+которые потребуется выполнять в приложении на этапе прогона,
+поскольку (в действительности) некоторые из этих соединений уже выполнены 
+заранее в составе работ по проектированию базы&nbsp;данных.</p>
+<p>В случае денормализации прежний подход (применявшийся при нормализации), 
+созданный на основании строго научной и логичной теории, заменяется чисто 
+прагматическим и субъективным&nbsp;подходом.</p>
+<p>Второе очевидное затруднение связано с проблемами избыточности и аномалиями
+обновления, которые возникают из-за того, что приходится иметь дело с не 
+полностью нормализованными переменными&nbsp;отношения. </p>
+<p>Самая главная, проблема формулируется следующим образом. (Это относится к 
+&#8220;правильной&#8221; денормализации, т.е. к денормализации, которая выполняется
+только на физическом уровне, а также к тому типу денормализации, которую иногда
+приходится осуществлять в современных продуктах <span class="caps">SQL</span>.) Когда речь идет о том, что
+денормализация &#8220;способствует достижению высокой производительности&#8221;, фактически
+подразумевается, что она способствует достижению высокой производительности 
+некоторых конкретных&nbsp;приложений.</p>
+<p>Любая выбранная физическая структура, которая прекрасно подходит для одних 
+приложений с точки зрения их производительности, может оказаться совершенно 
+непригодной для других. Например, предположим, что каждая базовая переменная 
+отношения отображается на один физически хранимый файл, а каждый хранимый файл 
+состоит из физически смежного набора хранимых записей, по одной для каждого 
+кортежа соответствующей переменной&nbsp;отношения.</p>
+<h3>Транзакции</h3>
+<blockquote>
+<p>Транзакция — это логическая единица работы, а также единица&nbsp;восстановления</p>
+<p>Свойства <span class="caps">ACID</span> транзакций
+Заключение, что транзакции обладают (или должны обладать!) четырьмя важными
+свойствами: неразрывностью (atomicity), правильностью6 (correctness), 
+изолированностью (isolation) и устойчивостью (durability). 
+Этот набор свойств принято называть свойствами <span class="caps">ACID</span> (по первым буквам их 
+английских&nbsp;названий).</p>
+</blockquote>
+<ul>
+<li>Неразрывность. Транзакции неразрывны (выполняются по принципу &#8220;все или ни&nbsp;чего&#8221;).</li>
+<li>Правильность. Транзакции преобразуют базу данных из одного правильного со
+стояния в другое; при этом правильность не обязательно должна обеспечиваться
+на всех промежуточных&nbsp;этапах.</li>
+<li>Изолированность. Транзакции изолированы одна от другой. Таким образом, даже
+если будет запущено множество транзакций, работающих параллельно, результаты
+любых операций обновления, выполняемых отдельной транзакцией, будут скрыты
+от всех остальных транзакций до тех пор, пока эта транзакция не будет зафиксиро
+вана. Иначе говоря, для любых отдельных транзакций А и В справедливо следую
+щее утверждение: транзакция А сможет получить результаты выполненных тран
+закцией в обновлений только после фиксации транзакции в, а транзакция в смо
+жет получить результаты выполненных транзакцией А обновлений только после
+фиксации транзакции&nbsp;А.</li>
+<li>Устойчивость. После того как транзакция зафиксирована, выполненные ею 
+обновления сохраняются в
+базе данных на постоянной основе, даже если в дальнейшем произойдет аварийный 
+останов&nbsp;системы</li>
+</ul>
+<h3>Выводы:</h3>
+<p>Общее назначение процесса нормализации заключается в следующем:
+<em> исключение некоторых типов избыточности;
+</em> устранение некоторых аномалий обновления;
+<em> разработка проекта базы данных, который является достаточно &#8220;качествен
+  ным&#8221; представлением реального мира, интуитивно понятен и может служить
+  хорошей основой для последующего расширения;
+</em> упрощение процедуры применения необходимых ограничений&nbsp;целостности.</p>
+<p>Понятия зависимости и дальнейшей нормализации по своему характеру являются 
+семантическими, т.е. они связаны со смыслом данных, тогда как реляционная 
+алгебра и реляционное исчисление, а также построенные на их основе языки 
+наподобие <span class="caps">SQL</span>, наоборот, имеют дело со значениями данных и не требуют (да и 
+не могут требовать) выполнения нормализации выше первого уровня. Рекомендации
+по выполнению дальнейшей нормализации должны рассматриваться прежде всего 
+как методика, позволяющая разработчику базы данных (и, следовательно, ее 
+пользователю) выразить определенную часть семантики реального мира 
+(пусть даже небольшую) в простой и понятной&nbsp;форме.</p>
+<p>Сам я практически наглядно подтвердил себе, что 3НФ вполне достаточно, а 
+возможно даже и 2НФ. Так как при 3НФ уже приходится для получения информации 
+обращаться к нескольким&nbsp;таблицам.</p>
+<p>Пока пожалуй на этом остановлюсь, но чувствую что время от времени придется 
+возможно перечитывать главы из книги К.Дж. Дейта &#8220;Введение в системы баз&nbsp;данных&#8221;.</p>
+<h3>Ресурсы:</h3>
+<p><a href="http://www.ozon.ru/context/detail/id/136880774/">Введение в системы баз данных&nbsp;К.Дж.Дейт</a></p>
+<p><a href="https://www.w3schools.com/sql/"><span class="caps">SQL</span>&nbsp;Tutorial</a></p>
+<p><a href="https://www.ozon.ru/context/detail/id/6577098/"><span class="caps">SQL</span> для простых&nbsp;смертных</a></p>
+<p><a href="https://support.microsoft.com/ru-ru/help/283878/description-of-the-database-normalization-basics">Описание основных приемов нормализации базы&nbsp;данных</a></p>
+<p><a href="http://addphp.ru/materials/mysql/1_3.php">Проектирование базы данных&nbsp;MySQL</a></p>
+<p><a href="http://www.postgresqltutorial.com">www.postgresqltutorial.com</a></p>
+<p><a href="https://www.tutorialspoint.com/postgresql">tutorialspoint.com</a></p>
+<p><a href="https://yuml.me">https://yuml.me</a></p>
+<p><a href="http://dbdesigner.net/designer/schema/99345">dbdesigner.net</a></p>
+<p><a href="https://habrahabr.ru/post/254773/">Нормализация отношений. Шесть нормальных&nbsp;форм</a></p>
+            </div>
+            <!-- /.entry-content -->
+<section class="well" id="related-posts">
+    <h4>Related Posts:</h4>
+    <ul>
+        <li><a href="https://kamyanskiy.github.io/2017/07/db-theory-3nf.html">Процедура нормализации данных и нормальные формы данных (НФБК,&nbsp;3НФ).</a></li>
+        <li><a href="https://kamyanskiy.github.io/2017/07/db-theory-2nf.html">Процедура нормализации данных и нормальные формы данных&nbsp;(2НФ).</a></li>
+        <li><a href="https://kamyanskiy.github.io/2017/07/db-theory-1nf.html">Процедура нормализации данных и нормальные формы данных&nbsp;(1НФ).</a></li>
+    </ul>
+</section>
+    <hr />
+    <!-- AddThis Button BEGIN -->
+    <div class="addthis_toolbox addthis_default_style">
+            <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+            <a class="addthis_button_tweet"></a>
+            <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    </div>
+    <!-- AddThis Button END -->
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'kamyanskiy'; // required: replace example with your forum shortname
+
+                    var disqus_identifier = 'db-theory-high-forms';
+                var disqus_url = 'https://kamyanskiy.github.io/2017/07/db-theory-high-forms.html';
+
+            var disqus_config = function () {
+                this.language = "en";
+            };
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<div id="aboutme">
+        <p>
+            <img width="100%" class="img-thumbnail" src="https://kamyanskiy.github.io/images/profile.jpg"/>
+        </p>
+    <p>
+      <strong>About Alexander Kamyanskiy</strong><br/>
+        <span>I love Python and happy to use it everyday for develop Web applications, writing tests and others cool things.</span>
+    </p>
+</div><!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://vk.com/id216671695"><i class="fa fa-vk fa-lg"></i> vk</a></li>
+    <li class="list-group-item"><a href="https://www.facebook.com/alexander.kamyanskiy"><i class="fa fa-facebook-square fa-lg"></i> Facebook</a></li>
+    <li class="list-group-item"><a href="https://github.com/kamyanskiy"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Recent Posts -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
+  <ul class="list-group" id="recentposts">
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/07/db-theory-high-forms.html">Процедура нормализации данных и нормальные формы данных (4НФ,&nbsp;5НФ).</a></li>
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/07/db-theory-2nf.html">Процедура нормализации данных и нормальные формы данных&nbsp;(2НФ).</a></li>
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/07/db-theory-3nf.html">Процедура нормализации данных и нормальные формы данных (НФБК,&nbsp;3НФ).</a></li>
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/07/db-theory-1nf.html">Процедура нормализации данных и нормальные формы данных&nbsp;(1НФ).</a></li>
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/06/prepare-own-vagrant-box-from-existing.html">Create Vagrant base box manually from existing&nbsp;one</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Recent Posts -->
+
+<!-- Sidebar/Tag Cloud -->
+<li class="list-group-item">
+  <a href="https://kamyanskiy.github.io/label/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+  <ul class="list-group list-inline tagcloud" id="tags">
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/1nf/">1NF</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/2nf/">2NF</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/3nf/">3NF</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/4nf/">4NF</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/5nf/">5NF</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/database/">database</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/db/">DB</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/disqus/">Disqus</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/jupyter/">jupyter</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/notebook/">notebook</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/packer/">packer</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/pelican/">Pelican</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/python/">Python</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/sql/">SQL</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/theory/">theory</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/vagrant/">vagrant</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/vagrant-vbguest/">vagrant-vbguest</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Tag Cloud -->
+
+<!-- Sidebar/Github -->
+<li class="list-group-item">
+  <h4><i class="fa fa-github fa-lg"></i><span class="icon-label">GitHub Repos</span></h4>
+  <div id="gh_repos">
+    <p class="list-group-item">Status updating...</p>
+  </div>
+</li>
+<!-- End Sidebar/Github -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a>
+    </li>
+    <li class="list-group-item">
+      <a href="https://https://docs.djangoproject.com/" target="_blank">Django</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://flask.pocoo.org/" target="_blank">Flask</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2017 Alexander Kamyanskiy
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://kamyanskiy.github.io/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://kamyanskiy.github.io/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://kamyanskiy.github.io/theme/js/respond.min.js"></script>
+
+
+<!-- GitHub JS Code -->
+<script type="text/javascript">
+$(document).ready(function () {
+  if (!window.jXHR) {
+    var jxhr = document.createElement('script');
+    jxhr.type = 'text/javascript';
+    jxhr.src = 'https://kamyanskiy.github.io/theme/js/jXHR.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(jxhr, s);
+  }
+
+  github.showRepos({
+    user: 'kamyanskiy',
+    count: 5,
+    skip_forks: false,
+    target: '#gh_repos'
+  });
+});
+</script>
+<script src="https://kamyanskiy.github.io/theme/js/github.js" type="text/javascript"></script>
+<!-- End GitHub JS Code -->
+    <!-- Disqus -->
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'kamyanskiy'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+    <!-- End Disqus Code -->
+
+
+        <script type="text/javascript">var addthis_config = {"data_track_addressbar": true};</script>
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-59403121442ae6be"></script>
+</body>
+</html>
