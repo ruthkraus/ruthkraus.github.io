@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>Процедура нормализации данных и нормальные формы данных (3НФ, НФБК). - kamyanskiy.github.io</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href="https://kamyanskiy.github.io/images/logo.png" rel="icon">
+
+<link rel="canonical" href="https://kamyanskiy.github.io/2017/07/db-theory-3nf.html">
+
+        <meta name="author" content="Alexander Kamyanskiy" />
+        <meta name="keywords" content="SQL,theory,DB,database,1NF,2NF,3NF" />
+        <meta name="description" content="Продолжим нормализацию и попробуем привести некоторые таблицы к 3НФ, для начала приведу определение 3НФ, НФБК а также те определения и примеры которые считаю важными (далее цитаты из книги Дж. Дейта): Третья нормальная форма 3НФ - переменная отношения находится в 3нф тогда , когда каждый кортеж состоит из значений первичного ключа и множества …" />
+
+        <meta property="og:site_name" content="kamyanskiy.github.io" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Процедура нормализации данных и нормальные формы данных (3НФ, НФБК)."/>
+        <meta property="og:url" content="https://kamyanskiy.github.io/2017/07/db-theory-3nf.html"/>
+        <meta property="og:description" content="Продолжим нормализацию и попробуем привести некоторые таблицы к 3НФ, для начала приведу определение 3НФ, НФБК а также те определения и примеры которые считаю важными (далее цитаты из книги Дж. Дейта): Третья нормальная форма 3НФ - переменная отношения находится в 3нф тогда , когда каждый кортеж состоит из значений первичного ключа и множества …"/>
+        <meta property="article:published_time" content="2017-07-04" />
+            <meta property="article:section" content="Blog" />
+            <meta property="article:tag" content="SQL" />
+            <meta property="article:tag" content="theory" />
+            <meta property="article:tag" content="DB" />
+            <meta property="article:tag" content="database" />
+            <meta property="article:tag" content="1NF" />
+            <meta property="article:tag" content="2NF" />
+            <meta property="article:tag" content="3NF" />
+            <meta property="article:author" content="Alexander Kamyanskiy" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://kamyanskiy.github.io/theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="https://kamyanskiy.github.io/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://kamyanskiy.github.io/theme/css/pygments/emacs.css" rel="stylesheet">
+    <link href="https://kamyanskiy.github.io/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
+        <link href="https://kamyanskiy.github.io/theme/css/typogrify.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://kamyanskiy.github.io/theme/css/style.css" type="text/css"/>
+        <link href="https://kamyanskiy.github.io/theme/css/custom.css" rel="stylesheet">
+
+
+
+
+
+</head>
+<body>
+<a href="https://github.com/kamyanskiy"><img class="fork-me-on-github" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="https://kamyanskiy.github.io/" class="navbar-brand">
+<img class="img-responsive pull-left gap-right" src="https://kamyanskiy.github.io/images/logo.png" width=""/> kamyanskiy.github.io            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                         <li><a href="https://kamyanskiy.github.io/about-me.html">
+                             About&nbsp;me
+                          </a></li>
+                        <li class="active">
+                            <a href="https://kamyanskiy.github.io/category/blog/">Blog</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><span>
+                <form class="navbar-search" action="/search.html">
+                  <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input" required>
+                </form></span>
+              </li>
+              <li><a href="https://kamyanskiy.github.io/archives/"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            <ol class="breadcrumb">
+                <li><a href="https://kamyanskiy.github.io" title="kamyanskiy.github.io"><i class="fa fa-home fa-lg"></i></a></li>
+                <li class="active">Процедура нормализации данных и нормальные формы данных (3НФ,&nbsp;НФБК).</li>
+            </ol>
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://kamyanskiy.github.io/2017/07/db-theory-3nf.html"
+                       rel="bookmark"
+                       title="Permalink to Процедура нормализации данных и нормальные формы данных (3НФ, НФБК).">
+                        Процедура нормализации данных и нормальные формы данных (3НФ,&nbsp;НФБК).
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2017-07-04T00:00:00+03:00"> Tue 04 July 2017</time>
+    </span>
+
+
+            <span class="label label-default">By</span>
+            <a href="https://kamyanskiy.github.io/author/alexander-kamyanskiy.html"><i class="fa fa-user"></i> Alexander Kamyanskiy</a>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="https://kamyanskiy.github.io/label/sql/">SQL</a>
+        /
+	<a href="https://kamyanskiy.github.io/label/theory/">theory</a>
+        /
+	<a href="https://kamyanskiy.github.io/label/db/">DB</a>
+        /
+	<a href="https://kamyanskiy.github.io/label/database/">database</a>
+        /
+	<a href="https://kamyanskiy.github.io/label/1nf/">1NF</a>
+        /
+	<a href="https://kamyanskiy.github.io/label/2nf/">2NF</a>
+        /
+	<a href="https://kamyanskiy.github.io/label/3nf/">3NF</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>Продолжим нормализацию и попробуем привести некоторые таблицы к 3НФ, для
+начала приведу определение 3НФ, НФБК а также те определения и примеры которые считаю 
+важными (далее цитаты из книги  Дж.&nbsp;Дейта):</p>
+<h5>Третья нормальная&nbsp;форма</h5>
+<blockquote>
+<p>3НФ - переменная отношения находится в 3нф тогда , когда каждый кортеж состоит из значений 
+первичного ключа и множества независимых атрибутов (неключевых), в кол-ве от нуля 
+и более некоторым образом описывающих&nbsp;сущность.</p>
+<p>(в определении передполагается наличие только одного потенциального ключа, 
+который является первичным&nbsp;ключом)</p>
+<p>Переменная отношения находится в 3нф тогда , когда она находится во 2й нф и 
+ни один неключевой атрибут не является транзитивно зависимым от ее первичного ключа 
+(под эти подразумевается отсутствие в переменной отношения транзитивных зависимостей).
+Это означает что в ней отсутствуют какие либо взаимные зависимости в указанном выше&nbsp;смысле </p>
+</blockquote>
+<p>Второй этап нормализации состоит в создании проекций для устранения транзитивных
+зависимостей (когда одни данные могут быть получены через другие)
+Пусть есть 
+<em> R {A,B,C} <span class="caps">PRIMARY</span> <span class="caps">KEY</span> {A} (предположим есть зависимость B-&gt;C (<span class="caps">CITY</span>-&gt;<span class="caps">STATUS</span>))
+Процедура нормализации передусматривает замену переменной отношения R следующими 
+двумя проекциями R1 и R2
+</em> R1 {B, C} <span class="caps">PRIMARY</span> <span class="caps">KEY</span> {B}
+* R2 {A, B} <span class="caps">PRIMARY</span> <span class="caps">KEY</span> {A} <span class="caps">FOREIGN</span> <span class="caps">KEY</span> {B} <span class="caps">REFERENCES</span> R1
+Переменная отношения R может быть восстановлена посредством соединения переменных
+отношения R1 и R2 по внешнему ключу и соотв ему первичному ключу этих переменных&nbsp;отношения.</p>
+<p>Нужно стремиться к независимости отдельных проекций, т.е R1 должна не зависеть
+от R2 (мы могли бы разделить R1{A,B}, R2{A,C}, но в таком случае
+это были бы не независмые отношенияб так как мы потеряем зависимость что B -&gt;&nbsp;C)</p>
+<p>Нет смысла обязательно проводить декомпозицию до получения атомарных проекций 
+(проекций которые уже не могут быть подвергнуты&nbsp;декомпозиции)</p>
+<blockquote>
+<p>Декомпозиция должна обеспечивать сохранение зависимостей&nbsp;!!!</p>
+</blockquote>
+<h4>Нормальная форма Бойса-Кодда&nbsp;НФБК</h4>
+<p>(более строгая чем 3НФ, для случаев составных&nbsp;ключей)</p>
+<p>Она определяется для данных для которых верны следующие&nbsp;условия:</p>
+<ol>
+<li>переменная отношения имеет 2 и больше потенциальных ключа, таких&nbsp;что</li>
+<li>Эти ключи являются&nbsp;составными</li>
+<li>Два или больше составных ключей перекрываются, т.е. имеют 1 общий&nbsp;атрибут.</li>
+</ol>
+<blockquote>
+<p>Переменная отношения находится в нормальной форме Бойса-Кодда тогда и только 
+тогда, когда детерминанты всех ее функц зависимостей являются потенциальными ключами.
+НФБК позволяют избавиться от проблем присущим в 3НФ 
+(может присутствовать некоторая избыточность, которая приводит к проблемам 
+insert/delete/update) и плюс то что определение не содержит ссылок на 1 и 2&nbsp;нф</p>
+</blockquote>
+<p>Например, как показано в книге,&nbsp;пример:</p>
+<p><strong><span class="caps">SP</span> {S#, <span class="caps">SNAME</span>, P#, <span class="caps">QTY</span>}</strong>
+ключи <strong>{S#, P#}</strong> и <strong>{<span class="caps">SNAME</span>,&nbsp;P#}</strong></p>
+<p>находится в 3НФ, но присутствует&nbsp;избыточность, </p>
+<div class="highlight"><pre><span></span><span class="gh">S# | SNAME | P# | QTY |</span>
+<span class="gh">-----------------------</span>
+S1 | smith | P1 | 200 |
+S1 | smith | P2 | 300 |
+S1 | smith | P3 | 400 |
+S1 | smith | P4 | 500 |
+</pre></div>
+
+
+<p>если надо обновить имя Smith то придется найти все вхождения, или же база придет
+в противоречивое состояние, когда в одной строке будет S1 = Smith, 
+а в другой S1 !=&nbsp;Smith</p>
+<p>лучше разбить <strong><span class="caps">SP</span></strong> на 2&nbsp;проекции</p>
+<ul>
+<li><span class="caps">SS</span> {S#, <span class="caps">SNAME</span>}</li>
+<li><span class="caps">SP</span> {S#, P#, <span class="caps">QTY</span>}</li>
+</ul>
+<p>или</p>
+<ul>
+<li><span class="caps">SS</span> {S#, <span class="caps">SNAME</span>}</li>
+<li><span class="caps">SP</span> {<span class="caps">SNAME</span>, P#, <span class="caps">QTY</span>}</li>
+</ul>
+<p>Не все нужно декомпозировать. Если получаются в результате отношения в НФБК , 
+но они становятся зависимыми, не стоит этого делать, можно считать настоящую форму&nbsp;атомарной.</p>
+<p>Итак, после всего можно привести определение 3НФ (без ограничения) и НФБК 
+Предположим что есть переменная отношения R , что Х является некоторым подмножество атрибутов 
+этой переменной отношения R и что А является некоторым отдельным атрибутом переменной отношения R.
+Переменная отношения R находится в 3НФ тогда и только тогда, когда для каждой функциональной зависимости 
+X -&gt; A в переменной отношения R верно по крайней мере одно из следующих&nbsp;высказываний: </p>
+<ol>
+<li>Подмножество Х включает атрибут А (т.е функц связ&nbsp;тривиальна)</li>
+<li>Подмножество Х является суперключом переменной отношения&nbsp;R1</li>
+<li>Атрибут А входит в состав некоторого потенциального ключа переменной отношения&nbsp;R.</li>
+</ol>
+<p>Если исключить 3 утверждение получится НФБК, которая является более строгим ограничением по сравнению с 3НФ,
+и является причиной ввода&nbsp;НФБК.</p>
+<p>Вернемся к нашему примеру. К данному моменту мы имеем уже 8 следующиx&nbsp;таблиц:</p>
+<div class="highlight"><pre><span></span>haircolors=# \dt
+             List of relations
+ Schema |     Name      | Type  |  Owner   
+--------+---------------+-------+----------
+ public | address       | table | postgres
+ public | manufacturer  | table | postgres
+ public | order_details | table | postgres
+ public | orders        | table | postgres
+ public | partner       | table | postgres
+ public | person        | table | postgres
+ public | product       | table | postgres
+ public | salon         | table | postgres
+(8 rows)
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>haircolors=# \d address
+            Table &quot;public.address&quot;
+  Column  |          Type          | Modifiers 
+----------+------------------------+-----------
+ id       | integer                | not null
+ city     | character varying(128) | not null
+ building | integer                | not null
+ flat_no  | integer                | not null
+ street   | character varying(128) | not null
+ zip_code | integer                | not null
+Indexes:
+    &quot;address_pkey&quot; PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE &quot;person&quot; CONSTRAINT &quot;fk_address_id&quot; FOREIGN KEY (address_id) REFERENCES address(id)
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>haircolors=# \d manufacturer
+             Table &quot;public.manufacturer&quot;
+     Column      |          Type          | Modifiers 
+-----------------+------------------------+-----------
+ manufacturer_id | integer                | not null
+ name            | character varying(256) | not null
+Indexes:
+    &quot;manufacturer_pkey&quot; PRIMARY KEY, btree (manufacturer_id)
+Referenced by:
+    TABLE &quot;product&quot; CONSTRAINT &quot;product_manufacturer_id_fkey&quot; FOREIGN KEY (manufacturer_id) REFERENCES manufacturer(manufacturer_id)
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>haircolors=# \d order_details
+                                               Table &quot;public.order_details&quot;
+      Column      |            Type             |                                Modifiers                                 
+------------------+-----------------------------+--------------------------------------------------------------------------
+ order_details_id | integer                     | not null default nextval(&#39;order_details_order_details_id_seq&#39;::regclass)
+ dateorder        | timestamp without time zone | 
+ qty              | integer                     | 
+Indexes:
+    &quot;order_details_pkey&quot; PRIMARY KEY, btree (order_details_id)
+Referenced by:
+    TABLE &quot;orders&quot; CONSTRAINT &quot;orders_order_details_id_fkey&quot; FOREIGN KEY (order_details_id) REFERENCES order_details(order_details_id)
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>haircolors=# \d orders
+         Table &quot;public.orders&quot;
+      Column      |  Type   | Modifiers 
+------------------+---------+-----------
+ id               | integer | not null
+ product_id       | integer | 
+ partner_id       | integer | 
+ order_details_id | integer | 
+Indexes:
+    &quot;orders_pkey&quot; PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    &quot;orders_order_details_id_fkey&quot; FOREIGN KEY (order_details_id) REFERENCES order_details(order_details_id)
+    &quot;orders_partner_id_fkey&quot; FOREIGN KEY (partner_id) REFERENCES partner(partner_id)
+    &quot;orders_product_id_fkey&quot; FOREIGN KEY (product_id) REFERENCES product(product_id)
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>haircolors=# \d partner
+                               Table &quot;public.partner&quot;
+   Column   |  Type   |                          Modifiers                           
+------------+---------+--------------------------------------------------------------
+ partner_id | integer | not null default nextval(&#39;partner_partner_id_seq&#39;::regclass)
+ person_id  | integer | 
+ salon_id   | integer | 
+Indexes:
+    &quot;partner_pkey&quot; PRIMARY KEY, btree (partner_id)
+Foreign-key constraints:
+    &quot;partner_person_id_fkey&quot; FOREIGN KEY (person_id) REFERENCES person(person_id)
+    &quot;partner_salon_id_fkey&quot; FOREIGN KEY (salon_id) REFERENCES salon(salon_id)
+Referenced by:
+    TABLE &quot;orders&quot; CONSTRAINT &quot;orders_partner_id_fkey&quot; FOREIGN KEY (partner_id) REFERENCES partner(partner_id)
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>haircolors=# \d person
+              Table &quot;public.person&quot;
+   Column    |          Type          | Modifiers 
+-------------+------------------------+-----------
+ person_id   | integer                | not null
+ firstname   | character varying(128) | not null
+ lastname    | character varying(128) | not null
+ phonenumber | character varying(20)  | not null
+ address_id  | integer                | 
+Indexes:
+    &quot;person_pkey&quot; PRIMARY KEY, btree (person_id)
+    &quot;person_address_key&quot; UNIQUE CONSTRAINT, btree (address_id)
+Foreign-key constraints:
+    &quot;fk_address_id&quot; FOREIGN KEY (address_id) REFERENCES address(id)
+Referenced by:
+    TABLE &quot;partner&quot; CONSTRAINT &quot;partner_person_id_fkey&quot; FOREIGN KEY (person_id) REFERENCES person(person_id)
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>haircolors=# \d product
+                Table &quot;public.product&quot;
+     Column      |          Type          | Modifiers 
+-----------------+------------------------+-----------
+ product_id      | integer                | not null
+ name            | character varying(256) | 
+ manufacturer_id | integer                | 
+ price           | money                  | 
+Indexes:
+    &quot;product_pkey&quot; PRIMARY KEY, btree (product_id)
+Foreign-key constraints:
+    &quot;product_manufacturer_id_fkey&quot; FOREIGN KEY (manufacturer_id) REFERENCES manufacturer(manufacturer_id)
+Referenced by:
+    TABLE &quot;orders&quot; CONSTRAINT &quot;orders_product_id_fkey&quot; FOREIGN KEY (product_id) REFERENCES product(product_id)
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>haircolors=# \d salon
+                                      Table &quot;public.salon&quot;
+   Column   |          Type          |                        Modifiers                         
+------------+------------------------+----------------------------------------------------------
+ salon_id   | integer                | not null default nextval(&#39;salon_salon_id_seq&#39;::regclass)
+ salon_name | character varying(128) | not null
+Indexes:
+    &quot;salon_pkey&quot; PRIMARY KEY, btree (salon_id)
+Referenced by:
+    TABLE &quot;partner&quot; CONSTRAINT &quot;partner_salon_id_fkey&quot; FOREIGN KEY (salon_id) REFERENCES salon(salon_id)
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>haircolors=# select * from address ;
+ id |    city     | building | flat_no |         street          | zip_code 
+----+-------------+----------+---------+-------------------------+----------
+  1 | Севастополь |       77 |      54 | ул. Александра Косарева |   299006
+  2 | Севастополь |        1 |      55 | ул. Кесаева             |   299003
+(2 rows)
+</pre></div>
+
+
+<p>Обратим внимание на таблицу <span class="caps">ADDRESS</span>, явно не находится во 2НФ, у нас присутствуют 
+дубликаты города, если будет большая таблица, и нужно будет изменить значение города,
+то можно ошибиться и какая то запись станет не актуальной.
+Поэтому вынесем город в отдельную&nbsp;таблицу.</p>
+<div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">CITY</span> <span class="p">(</span>
+  <span class="n">CITY_ID</span> <span class="nb">SERIAL</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">,</span>
+  <span class="n">CITY_NAME</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mf">128</span><span class="p">)</span>
+<span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">CITY</span> <span class="p">(</span><span class="n">CITY_NAME</span><span class="p">)</span> <span class="k">VALUES</span> <span class="p">(</span><span class="s1">&#39;Севастополь&#39;</span><span class="p">);</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>haircolors=# select * from city;
+ city_id |  city_name  
+---------+-------------
+       1 | Севастополь
+(1 row)
+</pre></div>
+
+
+<p>Добавим столбец address.city_id как внешний ключ ссылку на city.city_id. Обновим 
+записи таблицы <span class="caps">ADDRESS</span> и удалим затем столбец <span class="caps">CITY</span>.</p>
+<div class="highlight"><pre><span></span><span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">address</span> <span class="k">ADD</span> <span class="k">COLUMN</span> <span class="n">city_id</span> <span class="nb">INT</span> <span class="k">REFERENCES</span> <span class="n">city</span><span class="p">(</span><span class="n">city_id</span><span class="p">);</span>
+
+<span class="k">UPDATE</span> <span class="n">address</span> <span class="k">SET</span> <span class="n">city_id</span><span class="o">=</span><span class="mf">1</span><span class="p">;</span>
+
+<span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">address</span> <span class="k">DROP</span> <span class="k">COLUMN</span> <span class="n">city</span><span class="p">;</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>haircolors=# \d address
+            Table &quot;public.address&quot;
+  Column  |          Type          | Modifiers 
+----------+------------------------+-----------
+ id       | integer                | not null
+ building | integer                | not null
+ flat_no  | integer                | not null
+ street   | character varying(128) | not null
+ zip_code | integer                | not null
+ city_id  | integer                | 
+Indexes:
+    &quot;address_pkey&quot; PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    &quot;address_city_id_fkey&quot; FOREIGN KEY (city_id) REFERENCES city(city_id)
+Referenced by:
+    TABLE &quot;person&quot; CONSTRAINT &quot;fk_address_id&quot; FOREIGN KEY (address_id) REFERENCES address(id)
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>haircolors=# select * from address ;
+ id | building | flat_no |         street          | zip_code | city_id 
+----+----------+---------+-------------------------+----------+---------
+  1 |       77 |      54 | ул. Александра Косарева |   299006 |       1
+  2 |        1 |      55 | ул. Кесаева             |   299003 |       1
+(2 rows)
+</pre></div>
+
+
+<p>Все, дубликатов нет, таблица соответствует 2НФ, можно вспомнить, что в реальном
+мире существует связь - одному почтовому индексу соответствует четкий перечень
+некоторых улиц, следовательно у нас существует транзитивная связь между столбцами
+street и zip_code, а именно - мы можем вычислить zip_code по street, типа того
+как мы бы открыли справочник, нашли свою улицу и соответствующий ей&nbsp;индекс.</p>
+<p>Это я думаю наглядный пример приведения к 3НФ, мы нашли транзитивную связь и 
+пытаемся избавиться от нее (поправьте если я&nbsp;неправ).</p>
+<p>Создадим таблицу почтовых индексов и справочник почтовых&nbsp;индексов:</p>
+<div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">ZIP_CODE</span> <span class="p">(</span>
+ <span class="n">ZIP_CODE</span> <span class="nb">INT</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> 
+<span class="p">);</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">ZIP_CODE</span> <span class="p">(</span><span class="n">ZIP_CODE</span><span class="p">)</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mf">299006</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">ZIP_CODE</span> <span class="p">(</span><span class="n">ZIP_CODE</span><span class="p">)</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mf">299003</span><span class="p">);</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>haircolors=# select * from zip_code;
+ zip_code 
+----------
+   299006
+   299003
+(2 rows)
+</pre></div>
+
+
+<p>Положительный момент, теперь мы имеем список индексов и можем добавить новый индекс
+без проблем, ранее же мы могли указать индекс только в составе существующего адреса.
+Плюс мы контролируем целостность, т.е. мы не сможем добавить 2 одинаковых 
+почтовых индекса в&nbsp;таблицу.</p>
+<div class="highlight"><pre><span></span>haircolors=# \d zip_code
+    Table &quot;public.zip_code&quot;
+  Column  |  Type   | Modifiers 
+----------+---------+-----------
+ zip_code | integer | not null
+Indexes:
+    &quot;zip_code_pkey&quot; PRIMARY KEY, btree (zip_code)
+Referenced by:
+    TABLE &quot;zip_code_catalog&quot; CONSTRAINT &quot;zip_code_catalog_zip_code_fkey&quot; FOREIGN KEY (zip_code) REFERENCES zip_code(zip_code)
+</pre></div>
+
+
+<p>Предположим что не бывает 2 одинаковых улицы в городе, тогда значение название 
+улицы&nbsp;уникально:</p>
+<div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">ZIP_CODE_CATALOG</span> <span class="p">(</span>
+  <span class="n">STREET</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mf">128</span><span class="p">)</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span>
+  <span class="n">ZIP_CODE</span> <span class="nb">INT</span> <span class="k">REFERENCES</span> <span class="n">ZIP_CODE</span><span class="p">(</span><span class="n">ZIP_CODE</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">ZIP_CODE_CATALOG</span> <span class="p">(</span><span class="n">STREET</span><span class="p">,</span> <span class="n">ZIP_CODE</span><span class="p">)</span> <span class="k">VALUES</span> <span class="p">(</span>
+<span class="s1">&#39;ул. Александра Косарева&#39;</span><span class="p">,</span> <span class="mf">299006</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">ZIP_CODE_CATALOG</span> <span class="p">(</span><span class="n">STREET</span><span class="p">,</span> <span class="n">ZIP_CODE</span><span class="p">)</span> <span class="k">VALUES</span> <span class="p">(</span>
+<span class="s1">&#39;ул. Кесаева&#39;</span><span class="p">,</span> <span class="mf">299003</span><span class="p">);</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>haircolors=# select * from zip_code_catalog ;
+         street          | zip_code 
+-------------------------+----------
+ ул. Александра Косарева |   299006
+ ул. Кесаева             |   299003
+(2 rows)
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>haircolors=# \d zip_code_catalog
+        Table &quot;public.zip_code_catalog&quot;
+  Column  |          Type          | Modifiers 
+----------+------------------------+-----------
+ street   | character varying(128) | not null
+ zip_code | integer                | 
+Indexes:
+    &quot;zip_code_catalog_pkey&quot; PRIMARY KEY, btree (street)
+Foreign-key constraints:
+    &quot;zip_code_catalog_zip_code_fkey&quot; FOREIGN KEY (zip_code) REFERENCES zip_code(zip_code)
+</pre></div>
+
+
+<p>Теперь поправим таблицу <span class="caps">ADDRESS</span>:</p>
+<p>Удалим столбец <strong>zip_code</strong>, он нам уже не&nbsp;нужен: </p>
+<div class="highlight"><pre><span></span><span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">address</span> <span class="k">DROP</span> <span class="k">COLUMN</span> <span class="n">zip_code</span> <span class="p">;</span>
+</pre></div>
+
+
+<p>Добавим ограничение на столбец street пусть он будет внешним ключом ссылающимся 
+на первичный ключ&nbsp;zip_code_catalog.street</p>
+<div class="highlight"><pre><span></span><span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">address</span> <span class="k">ADD</span> <span class="k">FOREIGN</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">street</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">zip_code_catalog</span><span class="p">(</span><span class="n">street</span><span class="p">);</span>
+</pre></div>
+
+
+<p>Выглядит теперь таблица <span class="caps">ADDRESS</span>&nbsp;так:</p>
+<div class="highlight"><pre><span></span>haircolors=# \d address
+            Table &quot;public.address&quot;
+  Column  |          Type          | Modifiers 
+----------+------------------------+-----------
+ id       | integer                | not null
+ building | integer                | not null
+ flat_no  | integer                | not null
+ street   | character varying(128) | not null
+ city_id  | integer                | 
+Indexes:
+    &quot;address_pkey&quot; PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    &quot;address_city_id_fkey&quot; FOREIGN KEY (city_id) REFERENCES city(city_id)
+    &quot;address_street_fkey&quot; FOREIGN KEY (street) REFERENCES zip_code_catalog(street)
+Referenced by:
+    TABLE &quot;person&quot; CONSTRAINT &quot;fk_address_id&quot; FOREIGN KEY (address_id) REFERENCES address(id)
+</pre></div>
+
+
+<p>Мы избавились от столбца zip_code и качество управления целостностью данных
+возросло. Мы теперь можем пополнять список почтовых индексов, где автоматически 
+контролируется уникальность, мы также добились независимости почтового индекса от
+других&nbsp;данных.</p>
+<p>Мы создали справочник улиц принадлежащих какому то из почтовых индексов, опять же,
+контролируем название улицы, мы не сможем добавить 2 одинаковые улицы с какими то
+индексами в справочник <strong>zip_code_catalog</strong> 
+(мы условились, что 1 улице можно присвоить 1 уникальный&nbsp;индекс)</p>
+<div class="highlight"><pre><span></span>haircolors=# select * from address ;
+ id | building | flat_no |         street          | city_id 
+----+----------+---------+-------------------------+---------
+  1 |       77 |      54 | ул. Александра Косарева |       1
+  2 |        1 |      55 | ул. Кесаева             |       1
+(2 rows)
+</pre></div>
+
+
+<p>На этом можно считать пример приведения <span class="caps">ADDRESS</span> к 3НФ успешным, мы поступили 
+практически подобно примеру разделив данные.
+Остальные данные находятся в 3НФ, мы видим насколько мы декомпозировали исходную
+таблицу, создав некоторое количество&nbsp;таблиц.</p>
+<div class="highlight"><pre><span></span>haircolors=# select * from manufacturer ;
+ manufacturer_id |  name  
+-----------------+--------
+               1 | Matrix
+               2 | Loreal
+               3 | Blond
+               4 | Союз
+(4 rows)
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>haircolors=# select * from order_details;
+ order_details_id |      dateorder      | qty 
+------------------+---------------------+-----
+                1 | 2017-07-03 12:15:01 |   3
+                2 | 2017-07-03 12:16:01 |   2
+                3 | 2017-07-02 11:01:01 |  12
+                4 | 2017-07-02 11:01:01 | 120
+(4 rows)
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>haircolors=# select * from orders;
+ id | product_id | partner_id | order_details_id 
+----+------------+------------+------------------
+  5 |          1 |          1 |                1
+  6 |          1 |          2 |                1
+  7 |          1 |          3 |                1
+  8 |          2 |          1 |                2
+  9 |          2 |          2 |                2
+ 10 |          2 |          3 |                2
+ 11 |          3 |          4 |                3
+ 12 |          3 |          5 |                3
+ 13 |          3 |          6 |                3
+ 14 |          4 |          4 |                4
+ 15 |          4 |          5 |                4
+ 16 |          4 |          6 |                4
+(12 rows)
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>haircolors=# select * from partner;
+ partner_id | person_id | salon_id 
+------------+-----------+----------
+          1 |         1 |        1
+          2 |         1 |        2
+          3 |         1 |        4
+          4 |         2 |        3
+          5 |         2 |        4
+          6 |         2 |        5
+(6 rows)
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>haircolors=# select * from person ;
+ person_id | firstname | lastname | phonenumber  | address_id 
+-----------+-----------+----------+--------------+------------
+         1 | Денис     | Петров   | +79784567897 |          1
+         2 | Юлия      | Бабкина  | +79784168585 |          2
+(2 rows)
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>haircolors=# select * from product ;
+ product_id |         name          | manufacturer_id |   price    
+------------+-----------------------+-----------------+------------
+          1 | Краска для волос      |               1 | 899.01 руб
+          2 | Краска для волос      |               2 | 599.12 руб
+          3 | Краска для волос      |               3 | 299.12 руб
+          4 | Полотенца одноразовые |               4 | 199.12 руб
+(4 rows)
+</pre></div>
+
+
+<p>Tаблицу <span class="caps">SALON</span> которая находится в НФБК в дальнейшем  можно декомпозировать 
+к 1 столбцу, который и будет являться первичным ключом, 
+маловерятно что может понадобиться иметь 2 одинаковых имен салонов, но я оставляю
+уникальность по цифровому первичному ключу, так как удобнее работать. Хотя это
+и некоторая&nbsp;избыточность.</p>
+<div class="highlight"><pre><span></span>haircolors=# select * from salon;
+ salon_id | salon_name 
+----------+------------
+        1 | Е-Студия
+        2 | Ле-туаль
+        3 | UpDo
+        4 | ViVa
+        5 | Diana
+(5 rows)
+</pre></div>
+
+
+<p>Как видно, 3НФ достаточна чтоб избавиться от избыточности, которая может приводить 
+к проблемам обновления, но изза того что данные разъединены теперь немного 
+сложнее представить полную картину, попробуем нарисовать диаграмму нашей базы&nbsp;данных</p>
+<p>Я попробовал несколько продуктов, например <a href="https://draw.io">draw.io</a>, но остановился
+на <a href="http://dbdesigner.net">DBDesigner</a>, мне понравилось, бесплатный, быстро и&nbsp;красиво.</p>
+<p><img alt="db_schema" src="https://kamyanskiy.github.io/images/db_schema.png"></p>
+<p>Теперь связи стали нагляднее, после визуализации стало намного проще воспринять 
+зависимости (ключик означает первичный ключ <span class="caps">PRIMARY</span> <span class="caps">KEY</span>, стрелка от значения
+на диаграмме означает что данный столбец это внешний ключ <span class="caps">FOREIGN</span> <span class="caps">KEY</span>, ссылающийся
+на один из первичных&nbsp;ключей).</p>
+<p>Немного жаль что никак специально не отображается визуально связь ОДИН К ОДНОМУ, например у нас 
+такая связь обозначена между таблицами <span class="caps">PERSON</span> и <span class="caps">ADDRESS</span> для поля address_id в
+таблице <span class="caps">PERSON</span> мы включили уникальность, и в редакторе тоже это указано, но графически
+это ничем не отличается от изображения <span class="caps">FOREIGN</span> <span class="caps">KEY</span>.</p>
+<p>Напомню как выглядит связь <strong>ОДИН К ОДНОМУ</strong>:</p>
+<div class="highlight"><pre><span></span>haircolors=# \d person
+              Table &quot;public.person&quot;
+   Column    |          Type          | Modifiers 
+-------------+------------------------+-----------
+ person_id   | integer                | not null
+ firstname   | character varying(128) | not null
+ lastname    | character varying(128) | not null
+ phonenumber | character varying(20)  | not null
+ address_id  | integer                | 
+Indexes:
+    &quot;person_pkey&quot; PRIMARY KEY, btree (person_id)
+    &quot;person_address_key&quot; UNIQUE CONSTRAINT, btree (address_id)
+Foreign-key constraints:
+    &quot;fk_address_id&quot; FOREIGN KEY (address_id) REFERENCES address(id)
+Referenced by:
+    TABLE &quot;partner&quot; CONSTRAINT &quot;partner_person_id_fkey&quot; FOREIGN KEY (person_id) REFERENCES person(person_id)
+</pre></div>
+
+
+<p>как видно мы добавили уникальность внешнему ключу address_id, и теперь адрес из
+таблицы <strong>address</strong> может быть назначен только одному уникальному человеку.
+Два разных человека не смогут иметь один и тот же&nbsp;адрес.</p>
+<div class="highlight"><pre><span></span>haircolors=# \d address
+            Table &quot;public.address&quot;
+  Column  |          Type          | Modifiers 
+----------+------------------------+-----------
+ id       | integer                | not null
+ building | integer                | not null
+ flat_no  | integer                | not null
+ street   | character varying(128) | not null
+ city_id  | integer                | 
+Indexes:
+    &quot;address_pkey&quot; PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    &quot;address_city_id_fkey&quot; FOREIGN KEY (city_id) REFERENCES city(city_id)
+    &quot;address_street_fkey&quot; FOREIGN KEY (street) REFERENCES zip_code_catalog(street)
+Referenced by:
+    TABLE &quot;person&quot; CONSTRAINT &quot;fk_address_id&quot; FOREIGN KEY (address_id) REFERENCES address(id)
+</pre></div>
+
+
+<p>Связь <strong>ОДИН КО&nbsp;МНОГИМ</strong></p>
+<p>В нашем случае связи созданные как внешний ключ ссылающийся на первичный ключ и
+являются отражением связи <strong>ОДИН КО МНОГИМ</strong>. 
+Например поле zip_code в zip_code_catalog является внешним ключом ссылающимся на 
+уникальный ключ (первичный ключ) таблицы zip_code. 
+Чем мы собственно хотим указать в таблице zip_code_catalog, что несколько уникальных 
+улиц могут ссылаться на один и тот же индекс. (один и тот же индекс -&gt; много&nbsp;улиц).</p>
+<div class="highlight"><pre><span></span>haircolors=# \d zip_code
+    Table &quot;public.zip_code&quot;
+  Column  |  Type   | Modifiers 
+----------+---------+-----------
+ zip_code | integer | not null
+Indexes:
+    &quot;zip_code_pkey&quot; PRIMARY KEY, btree (zip_code)
+Referenced by:
+    TABLE &quot;zip_code_catalog&quot; CONSTRAINT &quot;zip_code_catalog_zip_code_fkey&quot; FOREIGN KEY (zip_code) REFERENCES zip_code(zip_code)
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>haircolors=# \d zip_code_catalog
+        Table &quot;public.zip_code_catalog&quot;
+  Column  |          Type          | Modifiers 
+----------+------------------------+-----------
+ street   | character varying(128) | not null
+ zip_code | integer                | 
+Indexes:
+    &quot;zip_code_catalog_pkey&quot; PRIMARY KEY, btree (street)
+Foreign-key constraints:
+    &quot;zip_code_catalog_zip_code_fkey&quot; FOREIGN KEY (zip_code) REFERENCES zip_code(zip_code)
+Referenced by:
+    TABLE &quot;address&quot; CONSTRAINT &quot;address_street_fkey&quot; FOREIGN KEY (street) REFERENCES zip_code_catalog(street)
+</pre></div>
+
+
+<p>Связь <strong>МНОГИЕ КО&nbsp;МНОГИМ</strong></p>
+<p>В нашем случае это таблицы <span class="caps">PARTNER</span> и <span class="caps">ORDERS</span>. 
+В таблице <span class="caps">PARTNER</span> мы таким образом выражаем ситуацию что много <span class="caps">PERSON</span> могут быть
+поставщиками <span class="caps">SALON</span>, т.е. другими более человечными словами - любой человек 
+может поставлять товары в любой салон. И в этой таблице мы отображаем что человек 
+с PERSON_ID является поставщиком какого то салона с SALON_ID, т.е фактически&nbsp;партнер.</p>
+<p>Cвязь <strong>МНОГИЕ КО МНОГИМ</strong> образуется через связующую таблицу, которой является
+в данном случае&nbsp;partner.</p>
+<div class="highlight"><pre><span></span>haircolors=# \d partner
+                               Table &quot;public.partner&quot;
+   Column   |  Type   |                          Modifiers                           
+------------+---------+--------------------------------------------------------------
+ partner_id | integer | not null default nextval(&#39;partner_partner_id_seq&#39;::regclass)
+ person_id  | integer | 
+ salon_id   | integer | 
+Indexes:
+    &quot;partner_pkey&quot; PRIMARY KEY, btree (partner_id)
+Foreign-key constraints:
+    &quot;partner_person_id_fkey&quot; FOREIGN KEY (person_id) REFERENCES person(person_id)
+    &quot;partner_salon_id_fkey&quot; FOREIGN KEY (salon_id) REFERENCES salon(salon_id)
+Referenced by:
+    TABLE &quot;orders&quot; CONSTRAINT &quot;orders_partner_id_fkey&quot; FOREIGN KEY (partner_id) REFERENCES partner(partner_id)
+</pre></div>
+
+
+<h4>Выводы</h4>
+<blockquote>
+<p>Цель нормализации - избавиться от избыточности, и избежать аномалий обновления к
+которым приводит&nbsp;избыточность.</p>
+<p>Каждая переменная отношения на некотором уровне нормализации соответствует условиям более низких уровней нормализации.
+(переход ко 2й форме возможен если отношение приведено к 1й&nbsp;форме)</p>
+<p>Всегда можно выполнить приведение к&nbsp;НФБК.</p>
+<p>Процесс нормализации заключается в замене переменной отношения некоторым набором ее проекций, составленных таким образом,
+чтобы обратное соединение этих проекций позволяло вновь получить исходную переменную отношения.
+(т.е. это обратимый процесс, декомпозиция выполняется без потери информации)
+Нужно разбивать на независимы проекции (независимые одна от другой), тогда это будет декомпозиция с сохранением&nbsp;зависимостей.</p>
+</blockquote>
+<p>На этом я хочу закончить данную статью. В следующей заметке я добавлю очень краткое описание
+следующих нормальных форм 4НФ, 5НФ и немного понятий о денормализации, а также
+алгоритм приведения к&nbsp;НФБК.</p>
+<p>Я действительно на примерх увидел, как нормализация уменьшает избыточность 
+базы данных и препятствует внесению случайных&nbsp;ошибок.</p>
+<p>Авторы отмечают, что есть более высокие строгие нормальные формы, 
+но на практике обычно используются только первые три. Возможно они и правы, так как
+допустим 3НФ требует разьеденить почти все составляющие адреса, но если адрес не 
+меняется часто, то чтоб сформировать полную информацию о полях адреса, нам уже 
+как минимум нужно обратиться к нескольким таблицам, что возможно может послужить
+причиной проблем&nbsp;быстродействия.</p>
+            </div>
+            <!-- /.entry-content -->
+<section class="well" id="related-posts">
+    <h4>Related Posts:</h4>
+    <ul>
+        <li><a href="https://kamyanskiy.github.io/2017/07/db-theory-2nf.html">Процедура нормализации данных и нормальные формы данных&nbsp;(2НФ).</a></li>
+        <li><a href="https://kamyanskiy.github.io/2017/07/db-theory-1nf.html">Процедура нормализации данных и нормальные формы данных&nbsp;(1НФ).</a></li>
+    </ul>
+</section>
+    <hr />
+    <!-- AddThis Button BEGIN -->
+    <div class="addthis_toolbox addthis_default_style">
+            <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+            <a class="addthis_button_tweet"></a>
+            <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    </div>
+    <!-- AddThis Button END -->
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'kamyanskiy'; // required: replace example with your forum shortname
+
+                    var disqus_identifier = 'db-theory-3nf';
+                var disqus_url = 'https://kamyanskiy.github.io/2017/07/db-theory-3nf.html';
+
+            var disqus_config = function () {
+                this.language = "en";
+            };
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<div id="aboutme">
+        <p>
+            <img width="100%" class="img-thumbnail" src="https://kamyanskiy.github.io/images/profile.jpg"/>
+        </p>
+    <p>
+      <strong>About Alexander Kamyanskiy</strong><br/>
+        <span>I love Python and happy to use it everyday for develop Web applications, writing tests and others cool things.</span>
+    </p>
+</div><!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://vk.com/id216671695"><i class="fa fa-vk fa-lg"></i> vk</a></li>
+    <li class="list-group-item"><a href="https://www.facebook.com/alexander.kamyanskiy"><i class="fa fa-facebook-square fa-lg"></i> Facebook</a></li>
+    <li class="list-group-item"><a href="https://github.com/kamyanskiy"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Recent Posts -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
+  <ul class="list-group" id="recentposts">
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/07/db-theory-2nf.html">Процедура нормализации данных и нормальные формы данных&nbsp;(2НФ).</a></li>
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/07/db-theory-3nf.html">Процедура нормализации данных и нормальные формы данных (3НФ,&nbsp;НФБК).</a></li>
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/07/db-theory-1nf.html">Процедура нормализации данных и нормальные формы данных&nbsp;(1НФ).</a></li>
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/06/prepare-own-vagrant-box-from-existing.html">Create Vagrant base box manually from existing&nbsp;one</a></li>
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/06/use-packer-for-prepare-custom-box.html">Use Packer to prepare custom Vagrant&nbsp;box</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Recent Posts -->
+
+<!-- Sidebar/Tag Cloud -->
+<li class="list-group-item">
+  <a href="https://kamyanskiy.github.io/label/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+  <ul class="list-group list-inline tagcloud" id="tags">
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/1nf/">1NF</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/2nf/">2NF</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/3nf/">3NF</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/database/">database</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/db/">DB</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/disqus/">Disqus</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/jupyter/">jupyter</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/notebook/">notebook</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/packer/">packer</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/pelican/">Pelican</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/python/">Python</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/sql/">SQL</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/theory/">theory</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/vagrant/">vagrant</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/vagrant-vbguest/">vagrant-vbguest</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Tag Cloud -->
+
+<!-- Sidebar/Github -->
+<li class="list-group-item">
+  <h4><i class="fa fa-github fa-lg"></i><span class="icon-label">GitHub Repos</span></h4>
+  <div id="gh_repos">
+    <p class="list-group-item">Status updating...</p>
+  </div>
+</li>
+<!-- End Sidebar/Github -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a>
+    </li>
+    <li class="list-group-item">
+      <a href="https://https://docs.djangoproject.com/" target="_blank">Django</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://flask.pocoo.org/" target="_blank">Flask</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2017 Alexander Kamyanskiy
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://kamyanskiy.github.io/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://kamyanskiy.github.io/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://kamyanskiy.github.io/theme/js/respond.min.js"></script>
+
+
+<!-- GitHub JS Code -->
+<script type="text/javascript">
+$(document).ready(function () {
+  if (!window.jXHR) {
+    var jxhr = document.createElement('script');
+    jxhr.type = 'text/javascript';
+    jxhr.src = 'https://kamyanskiy.github.io/theme/js/jXHR.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(jxhr, s);
+  }
+
+  github.showRepos({
+    user: 'kamyanskiy',
+    count: 5,
+    skip_forks: false,
+    target: '#gh_repos'
+  });
+});
+</script>
+<script src="https://kamyanskiy.github.io/theme/js/github.js" type="text/javascript"></script>
+<!-- End GitHub JS Code -->
+    <!-- Disqus -->
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'kamyanskiy'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+    <!-- End Disqus Code -->
+
+
+        <script type="text/javascript">var addthis_config = {"data_track_addressbar": true};</script>
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-59403121442ae6be"></script>
+</body>
+</html>
