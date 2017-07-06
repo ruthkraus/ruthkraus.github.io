@@ -64,7 +64,7 @@ DISQUS_SITENAME = "kamyanskiy"
 
 SITELOGO = 'images/logo.png'
 
-STATIC_PATHS = ['images', 'extra/custom.css']
+STATIC_PATHS = ['images', 'extra/custom.css', 'files']
 CUSTOM_CSS = 'theme/css/custom.css'
 
 EXTRA_PATH_METADATA = {
