@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>Postgresql - kamyanskiy.github.io</title>
+    <title>Patterns - kamyanskiy.github.io</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -12,7 +12,7 @@
 
 
     <meta name="author" content="Alexander Kamyanskiy" />
-    <meta name="keywords" content="Postgresql" />
+    <meta name="keywords" content="Patterns" />
 
     <!-- Open Graph tags -->
         <meta property="og:site_name" content="kamyanskiy.github.io" />
@@ -80,38 +80,17 @@
     <ol class="breadcrumb">
         <li><a href="https://kamyanskiy.github.io" title="kamyanskiy.github.io"><i class="fa fa-home fa-lg"></i></a></li>
         <li><a href="https://kamyanskiy.github.io/label/" title="Tags">Tags</a></li>
-        <li class="active">Postgresql</li>
+        <li class="active">Patterns</li>
     </ol>
             <article>
-                <h2><a href="https://kamyanskiy.github.io/2017/07/db-postgresql-dump-restore.html">Postgresql <span class="caps">DB</span> dump /&nbsp;restore</a></h2>
-                <div class="summary"><p>For some purposes, for example to have backup copies of database we need to 
-create dump of&nbsp;database.</p>
-<h3>Dump&nbsp;database</h3>
-<p>To dump database we can use command line utility <strong>pg_dump</strong>.</p>
-<p>To make dump of database <strong>haircolors</strong> from previous examples, the usage might
-looks&nbsp;like:</p>
-<div class="highlight"><pre><span></span>sudo -u postgres pg_dump -v -d …</pre></div>
-                    <a class="btn btn-default btn-xs" href="https://kamyanskiy.github.io/2017/07/db-postgresql-dump-restore.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="https://kamyanskiy.github.io/2017/07/db-postgresql-joins.html">Выборка данных из нескольких таблиц (<span class="caps">JOIN</span>)</a></h2>
-                <div class="summary"><p>Задача: получить полный адрес&nbsp;покупателя.</p>
-<p>Вспомним, что информация о покупателяx после нормализации находится теперь в 
-5 -ти разных&nbsp;таблицах.</p>
-<p><img alt="db_person.png" src="https://kamyanskiy.github.io/images/db_person.png"></p>
-<p>Содержимое таблиц выглядит&nbsp;так:</p>
-<div class="highlight"><pre><span></span>haircolors=# select * from person ;
- person_id | firstname | lastname | phonenumber  | address_id 
------------+-----------+----------+--------------+------------
-         1 | Денис     | Петров   | +79784567897 |          1
-         2 | Юлия      | Бабкина  | +79784168585 |          2
-(2 rows)
-
-haircolors=# select * from address ;
- id | building …</pre></div>
-                    <a class="btn btn-default btn-xs" href="https://kamyanskiy.github.io/2017/07/db-postgresql-joins.html">more ...</a>
+                <h2><a href="https://kamyanskiy.github.io/2017/07/pattern-strategy.html">Паттерн&nbsp;СТРАТЕГИЯ</a></h2>
+                <div class="summary"><p>Многим разработчикам в процессе работы приходится решать похожие (если 
+практически не идентичные) задачи и приходить к похожим решениям. 
+Поэтому и появились &#8220;паттерны&#8221;, как шаблоны наилучших решений каких-то задач,
+позволяющие получить максимально гибкие решения, дающие возможность 
+повторного использования&nbsp;кода. </p>
+<p><span class="dquo">&#8220;</span>Паттерны&#8221;, в моем случае до сих пор оставались чем то немного пугающим …</p>
+                    <a class="btn btn-default btn-xs" href="https://kamyanskiy.github.io/2017/07/pattern-strategy.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -146,8 +125,7 @@ haircolors=# select * from address ;
 <li class="list-group-item">
   <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
   <ul class="list-group" id="recentposts">
-    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/07/db-postgresql-dump-restore.html">Postgresql <span class="caps">DB</span> dump /&nbsp;restore</a></li>
-    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/07/db-postgresql-joins.html">Выборка данных из нескольких таблиц (<span class="caps">JOIN</span>)</a></li>
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/07/pattern-strategy.html">Паттерн&nbsp;СТРАТЕГИЯ</a></li>
   </ul>
 </li>
 <!-- End Sidebar/Recent Posts -->

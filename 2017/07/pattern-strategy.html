@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>Паттерн СТРАТЕГИЯ - kamyanskiy.github.io</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href="https://kamyanskiy.github.io/images/logo.png" rel="icon">
+
+<link rel="canonical" href="https://kamyanskiy.github.io/2017/07/pattern-strategy.html">
+
+        <meta name="author" content="Alexander Kamyanskiy" />
+        <meta name="keywords" content="OOP,Patterns,Strategy" />
+        <meta name="description" content="Многим разработчикам в процессе работы приходится решать похожие (если практически не идентичные) задачи и приходить к похожим решениям. Поэтому и появились “паттерны”, как шаблоны наилучших решений каких-то задач, позволяющие получить максимально гибкие решения, дающие возможность повторного использования кода. “Паттерны”, в моем случае до сих пор оставались чем то немного пугающим …" />
+
+        <meta property="og:site_name" content="kamyanskiy.github.io" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Паттерн СТРАТЕГИЯ"/>
+        <meta property="og:url" content="https://kamyanskiy.github.io/2017/07/pattern-strategy.html"/>
+        <meta property="og:description" content="Многим разработчикам в процессе работы приходится решать похожие (если практически не идентичные) задачи и приходить к похожим решениям. Поэтому и появились “паттерны”, как шаблоны наилучших решений каких-то задач, позволяющие получить максимально гибкие решения, дающие возможность повторного использования кода. “Паттерны”, в моем случае до сих пор оставались чем то немного пугающим …"/>
+        <meta property="article:published_time" content="2017-07-28" />
+            <meta property="article:section" content="Blog" />
+            <meta property="article:tag" content="OOP" />
+            <meta property="article:tag" content="Patterns" />
+            <meta property="article:tag" content="Strategy" />
+            <meta property="article:author" content="Alexander Kamyanskiy" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://kamyanskiy.github.io/theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="https://kamyanskiy.github.io/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://kamyanskiy.github.io/theme/css/pygments/emacs.css" rel="stylesheet">
+    <link href="https://kamyanskiy.github.io/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
+        <link href="https://kamyanskiy.github.io/theme/css/typogrify.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://kamyanskiy.github.io/theme/css/style.css" type="text/css"/>
+        <link href="https://kamyanskiy.github.io/theme/css/custom.css" rel="stylesheet">
+
+
+
+
+
+</head>
+<body>
+<a href="https://github.com/kamyanskiy"><img class="fork-me-on-github" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="https://kamyanskiy.github.io/" class="navbar-brand">
+<img class="img-responsive pull-left gap-right" src="https://kamyanskiy.github.io/images/logo.png" width=""/> kamyanskiy.github.io            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                         <li><a href="https://kamyanskiy.github.io/about-me.html">
+                             About&nbsp;me
+                          </a></li>
+                        <li class="active">
+                            <a href="https://kamyanskiy.github.io/category/blog/">Blog</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><span>
+                <form class="navbar-search" action="/search.html">
+                  <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input" required>
+                </form></span>
+              </li>
+              <li><a href="https://kamyanskiy.github.io/archives/"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            <ol class="breadcrumb">
+                <li><a href="https://kamyanskiy.github.io" title="kamyanskiy.github.io"><i class="fa fa-home fa-lg"></i></a></li>
+                <li class="active">Паттерн&nbsp;СТРАТЕГИЯ</li>
+            </ol>
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://kamyanskiy.github.io/2017/07/pattern-strategy.html"
+                       rel="bookmark"
+                       title="Permalink to Паттерн СТРАТЕГИЯ">
+                        Паттерн&nbsp;СТРАТЕГИЯ
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2017-07-28T00:00:00+03:00"> Fri 28 July 2017</time>
+    </span>
+
+
+            <span class="label label-default">By</span>
+            <a href="https://kamyanskiy.github.io/author/alexander-kamyanskiy.html"><i class="fa fa-user"></i> Alexander Kamyanskiy</a>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="https://kamyanskiy.github.io/label/oop/">OOP</a>
+        /
+	<a href="https://kamyanskiy.github.io/label/patterns/">Patterns</a>
+        /
+	<a href="https://kamyanskiy.github.io/label/strategy/">Strategy</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>Многим разработчикам в процессе работы приходится решать похожие (если 
+практически не идентичные) задачи и приходить к похожим решениям. 
+Поэтому и появились &#8220;паттерны&#8221;, как шаблоны наилучших решений каких-то задач,
+позволяющие получить максимально гибкие решения, дающие возможность 
+повторного использования&nbsp;кода. </p>
+<p><span class="dquo">&#8220;</span>Паттерны&#8221;, в моем случае до сих пор оставались чем то немного пугающим 
+словом, но желание познакомиться с ними взяло верх над страхом не разобраться с
+чем то и я решил, что попытаюсь. По каждой пройденной теме я буду делать 
+маленькие заметки с реализацией того или иного паттерна на моем любимом языке&nbsp;Python.</p>
+<p>Имея некоторый опыт и скорее всего несознательно приходя к решениям которые 
+уже где то описаны как готовые, я начал знакомиться с паттернами проектирования 
+по книге Эрика Фримен и Элизабет Фримен &#8220;Паттерны&nbsp;проектирования&#8221;.</p>
+<p>Саму книгу можно купить <a href="https://www.ozon.ru/context/detail/id/20216992/">тут</a></p>
+<p>Итак, некоторые принципы проектирования упомянутые авторами в первой&nbsp;главе:</p>
+<ol>
+<li>
+<p>Выделить аспекты приложения которые изменяются и отделить их от тех 
+которые не изменяются. &#8220;Отделять изменяемое от&nbsp;постоянного&#8221;</p>
+</li>
+<li>
+<p>Программировать на уровне интерфейсов, а не&nbsp;реализации.</p>
+</li>
+<li>
+<p>Отдавать предпочтение композиции, а не&nbsp;наследованию.</p>
+</li>
+</ol>
+<p>Тут следует заметить, что в понятия инкапуляции, полиморфизма, 
+наследования и композиции мне уже достаточно ясны на этот&nbsp;момент.</p>
+<p><strong>Инкапсуляция</strong> своими словами это отделение от главного содержания чего то 
+второстепенного в отдельное место, &#8220;капсулу&#8221;. 
+Часто относительно программирования инкапсуляция означает выявление и отделение 
+каких то сущностей из цельного блока программы с целью улучшить структуру и 
+иногда скрыть внутреннюю реализацию сущности (часто чтобы скрыть и 
+предотвратить изменение частных &#8220;приватных&#8221; данных напрямую&nbsp;извне).</p>
+<h4>Паттерн&nbsp;СТРАТЕГИЯ</h4>
+<div class="highlight"><pre><span></span>Паттерн **Стратегия** определяет семейство алгоритмов, инкапсулирует каждый 
+из них и обеспечивает их взаимозаменяемость. Он позволяет модифицировать 
+алгоритмы независимо от их использования на стороне клиента.
+</pre></div>
+
+
+<p>К слову сказать под алгоритмом как я понимаю можно рассматривать любое 
+поведение сущности. Т.к. поведение и есть некий&nbsp;алгоритм.</p>
+<p>В качестве примера авторы приводят модель утиного пруда, было показано как 
+простое наследование не позволяет создать легко изменяемую модель. И в 
+конечном итоге получилась вот такое&nbsp;решение:</p>
+<p><img alt="strategy_duck.png" src="https://kamyanskiy.github.io/images/strategy_duck.png"></p>
+<p>Поведение уточек вынесено (инкапсулировано) и представлено двумя различными 
+интерфейсами FlyBehavior и QuackBehavior. Сущности FlyWithWings, FlyNoWay 
+реализуют уже настоящие поведения - &#8220;уточка летит с помощью крыльев&#8221;, &#8220;уточка
+не летает&#8221;.
+Сущности Quack, Squeak, MuteQuack реализуют интерфейс QuackBehavior и 
+соответственно реализуют уже какие то реальные качества, &#8220;крякает&#8221;, &#8220;пищит&#8221;, 
+&#8220;не издает звуков&#8221;.
+Эти сущности и рассматриваются как алгоритмы, ведь действительно они 
+определяют некие разные&nbsp;поведения.</p>
+<p>В абстрактный класс Duck &#8220;вмонтированы&#8221; (композиция) два объекта, 
+представленные переменными типа интерфейса FlyBehavior и QuackBehavior, 
+flyBehavior и quackBehavior соответственно. Получается клиент (Duck) 
+использует инкапсулированные алгоритмы (сущности). Вдобавок Duck содержит 
+набор методов позволяющих оперировать (менять) поведения, вызывать конкретные
+ методы&nbsp;поведений.</p>
+<p>Из абстрактного класса Duck могут быть уже наследованы реальные &#8220;утки&#8221; 
+MallardDuck, RubberDuck в которых может быть переопределен допустим метод 
+отображения (как утка выглядит) и из которых уже можно создавать реальные 
+экземпляры&nbsp;уток.</p>
+<p>Сам смысл примера в том что нужно выделить поведение (алгоритм), вынести в 
+отдельную сущность и потом встроить (композировать) эту инкапсулированную 
+сущность в код откуда она была вынесена. Ну и как видим соблюдено условие 
+программировать на уровне интерфейсов - видим что в Duck были встроены именно
+интерфейсы а не какие то реальные классы. Это вносит гибкость, мы допустим 
+можем легко добавить некий новый алгоритм поведения и использовать его не 
+меняя кода реализации конкретной утки, можно просто установить новое&nbsp;поведение.</p>
+<p>Вот еще пример, допустим у нас есть персонажи, у которых есть возможность
+носить оружие. У оружия есть какие то персональные качества, название, сила 
+удара. Пусть персонажи могут принимать и пользоваться любым&nbsp;оружием.</p>
+<p>Для примера пусть будет два персонажа Рыцарь (Knight) и Вор (Thief). Отделим 
+(инкапсулируем) поведение оружия и применив композицию встроим оружие в обьект 
+который будет представлять&nbsp;персонаж.</p>
+<p>Диаграмма классов будет выглядеть&nbsp;так:</p>
+<p><img alt="strategy_characters.png" src="https://kamyanskiy.github.io/images/strategy_characters.png"></p>
+<p>Чтобы реализовать интерфейс на Python я использую абстрактный класс с 
+абстрактным методом, таким образом клиент не сможет создать экземпляр и будет
+вынужден переопределить абстрактный метод. 
+Второй способ который я нашел - это способ основанный полностью на 
+соглашении, т.е. объявляется обычный класс, методы которого возвращают 
+NotImplemented. Таким образом клиентский код должен наследоваться и 
+переопределять эти методы. К сожалению в Python нет специальной конструкции 
+вроде interface как в Java, но способы реализовать абстракции к счастью&nbsp;имеются.  </p>
+<p>Итак интерфейс и классы Knife, Sword реализующие оружие - выглядят&nbsp;так:</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
+
+
+<span class="k">class</span> <span class="nc">IWeaponBehaviour</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">use_weapon</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+<span class="c1"># 2nd approach</span>
+<span class="c1">#class IWeaponBehaviour:</span>
+<span class="c1">#    def use_weapon(self):</span>
+<span class="c1">#        raise NotImplementedError()</span>
+
+
+<span class="k">class</span> <span class="nc">KnifeBehaviour</span><span class="p">(</span><span class="n">IWeaponBehaviour</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">use_weapon</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Knife hit...&quot;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Damage 2 ...&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">SwordBehaviour</span><span class="p">(</span><span class="n">IWeaponBehaviour</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">use_weapon</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Sword hit...&quot;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Damage 5 ...&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Классы реализуют метод интерфейса <strong>use_weapon()</strong>, уникальный для каждого 
+типа&nbsp;оружия.</p>
+<p>Абстрактный класс персонажа и конкретные классы персонажей выглядят&nbsp;так:</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AbstractCharacter</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
+
+    <span class="nd">@property</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">weapon</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1"># IWeaponBehaviour object</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">set_weapon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wb</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weapon</span> <span class="o">=</span> <span class="n">wb</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">fight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">use_weapon</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weapon</span><span class="o">.</span><span class="n">use_weapon</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">Thief</span><span class="p">(</span><span class="n">AbstractCharacter</span><span class="p">):</span>
+    <span class="n">weapon</span> <span class="o">=</span> <span class="n">KnifeBehaviour</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">fight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Thief do 1 step&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_weapon</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">Knight</span><span class="p">(</span><span class="n">AbstractCharacter</span><span class="p">):</span>
+    <span class="n">weapon</span> <span class="o">=</span> <span class="n">SwordBehaviour</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">fight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Knife do 2 steps&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_weapon</span><span class="p">()</span>
+</pre></div>
+
+
+<p>Класс конкретного персонажа использует конкретное поведение оружия, у 
+абстрактного класса AbstractCharacter есть метод set_weapon() позволяющий 
+менять оружие персонажа &#8220;на лету&#8221; и метод use_weapon() позволяющий 
+использовать оружие. Поведение оружия используется как свойство, тут 
+используется композиция, мы используем инкапсулированый объект Оружие в 
+объекте&nbsp;Персонаж.</p>
+<p>Полный код выглядит вот&nbsp;так:  </p>
+<div class="highlight"><pre><span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Thu Jul 27 09:36:35 2017</span>
+
+<span class="sd">@author: biceps</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
+
+
+<span class="k">class</span> <span class="nc">IWeaponBehaviour</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">use_weapon</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+<span class="c1"># 2nd approach</span>
+<span class="c1">#class IWeaponBehaviour:</span>
+<span class="c1">#    def use_weapon(self):</span>
+<span class="c1">#        raise NotImplementedError()</span>
+
+
+<span class="k">class</span> <span class="nc">KnifeBehaviour</span><span class="p">(</span><span class="n">IWeaponBehaviour</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">use_weapon</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Knife hit...&quot;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Damage 2 ...&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">SwordBehaviour</span><span class="p">(</span><span class="n">IWeaponBehaviour</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">use_weapon</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Sword hit...&quot;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Damage 5 ...&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">AbstractCharacter</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
+
+    <span class="nd">@property</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">weapon</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1"># IWeaponBehaviour object</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">set_weapon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wb</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weapon</span> <span class="o">=</span> <span class="n">wb</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">fight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">use_weapon</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weapon</span><span class="o">.</span><span class="n">use_weapon</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">Thief</span><span class="p">(</span><span class="n">AbstractCharacter</span><span class="p">):</span>
+    <span class="n">weapon</span> <span class="o">=</span> <span class="n">KnifeBehaviour</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">fight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Thief do 1 step&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_weapon</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">Knight</span><span class="p">(</span><span class="n">AbstractCharacter</span><span class="p">):</span>
+    <span class="n">weapon</span> <span class="o">=</span> <span class="n">SwordBehaviour</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">fight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Knife do 2 steps&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_weapon</span><span class="p">()</span>
+
+
+
+<span class="n">thief</span> <span class="o">=</span> <span class="n">Thief</span><span class="p">()</span>    
+<span class="n">thief</span><span class="o">.</span><span class="n">fight</span><span class="p">()</span>
+<span class="n">thief</span><span class="o">.</span><span class="n">set_weapon</span><span class="p">(</span><span class="n">SwordBehaviour</span><span class="p">())</span>
+<span class="n">thief</span><span class="o">.</span><span class="n">fight</span><span class="p">()</span>
+
+<span class="n">knight</span> <span class="o">=</span> <span class="n">Knight</span><span class="p">()</span>
+<span class="n">knight</span><span class="o">.</span><span class="n">fight</span><span class="p">()</span>
+</pre></div>
+
+
+<p>в конце приведен небольшой проверочный&nbsp;код:</p>
+<div class="highlight"><pre><span></span><span class="n">thief</span> <span class="o">=</span> <span class="n">Thief</span><span class="p">()</span> <span class="c1"># cоздадим персонаж Thief   </span>
+<span class="n">thief</span><span class="o">.</span><span class="n">fight</span><span class="p">()</span> <span class="c1"># ударим оружием Thief - Knife по умолчанию </span>
+<span class="n">thief</span><span class="o">.</span><span class="n">set_weapon</span><span class="p">(</span><span class="n">SwordBehaviour</span><span class="p">())</span> <span class="c1"># дадим Thief другое оружие - Sword</span>
+<span class="n">thief</span><span class="o">.</span><span class="n">fight</span><span class="p">()</span> <span class="c1"># попросим Вора ударить Мечом</span>
+
+<span class="n">knight</span> <span class="o">=</span> <span class="n">Knight</span><span class="p">()</span> <span class="c1"># создадим Рыцаря</span>
+<span class="n">knight</span><span class="o">.</span><span class="n">fight</span><span class="p">()</span> <span class="c1"># попросим Рыцаря ударить Мечом </span>
+</pre></div>
+
+
+<p>Результаты выглядят&nbsp;так:</p>
+<div class="highlight"><pre><span></span>Thief do 1 step
+Knife hit...
+Damage 2 ...
+Thief do 1 step
+Sword hit...
+Damage 5 ...
+Knife do 2 steps
+Sword hit...
+Damage 5 ...
+</pre></div>
+
+
+<h3>Выводы</h3>
+<p>Итак общий принцип используемый в паттерне <strong>СТРАТЕГИЯ</strong> это отделение неких 
+сущностей в отдельные классы, которые можно использовать в клиентском коде с 
+помощью композиции. Таким образом появляется возможность модифицировать эти 
+сущности отдельно от кода клиента. В этом заключается гибкость и простота 
+добавления новых сущностей и простота использования на стороне&nbsp;клиента.</p>
+            </div>
+            <!-- /.entry-content -->
+    <hr />
+    <!-- AddThis Button BEGIN -->
+    <div class="addthis_toolbox addthis_default_style">
+            <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+            <a class="addthis_button_tweet"></a>
+            <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    </div>
+    <!-- AddThis Button END -->
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'kamyanskiy'; // required: replace example with your forum shortname
+
+                    var disqus_identifier = 'pattern-strategy';
+                var disqus_url = 'https://kamyanskiy.github.io/2017/07/pattern-strategy.html';
+
+            var disqus_config = function () {
+                this.language = "en";
+            };
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<div id="aboutme">
+        <p>
+            <img width="100%" class="img-thumbnail" src="https://kamyanskiy.github.io/images/profile.jpg"/>
+        </p>
+    <p>
+      <strong>About Alexander Kamyanskiy</strong><br/>
+        <span>I love Python and happy to use it everyday for develop Web applications, writing tests and others cool things.</span>
+    </p>
+</div><!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://vk.com/id216671695"><i class="fa fa-vk fa-lg"></i> vk</a></li>
+    <li class="list-group-item"><a href="https://www.facebook.com/alexander.kamyanskiy"><i class="fa fa-facebook-square fa-lg"></i> Facebook</a></li>
+    <li class="list-group-item"><a href="https://github.com/kamyanskiy"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Recent Posts -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
+  <ul class="list-group" id="recentposts">
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/07/pattern-strategy.html">Паттерн&nbsp;СТРАТЕГИЯ</a></li>
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/07/db-postgresql-dump-restore.html">Postgresql <span class="caps">DB</span> dump /&nbsp;restore</a></li>
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/07/db-postgresql-joins.html">Выборка данных из нескольких таблиц (<span class="caps">JOIN</span>)</a></li>
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/07/db-theory-high-forms.html">Процедура нормализации данных и нормальные формы данных (4НФ,&nbsp;5НФ).</a></li>
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/07/db-theory-2nf.html">Процедура нормализации данных и нормальные формы данных&nbsp;(2НФ).</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Recent Posts -->
+
+<!-- Sidebar/Tag Cloud -->
+<li class="list-group-item">
+  <a href="https://kamyanskiy.github.io/label/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+  <ul class="list-group list-inline tagcloud" id="tags">
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/1nf/">1NF</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/2nf/">2NF</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/3nf/">3NF</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/4nf/">4NF</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/5nf/">5NF</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/database/">database</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/db/">DB</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/inner-join/">INNER JOIN</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/jupyter/">jupyter</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/notebook/">notebook</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/oop/">OOP</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/packer/">packer</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/patterns/">Patterns</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/pelican/">Pelican</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/postgresql/">Postgresql</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/python/">Python</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/sql/">SQL</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/strategy/">Strategy</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/theory/">theory</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/vagrant/">vagrant</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Tag Cloud -->
+
+<!-- Sidebar/Github -->
+<li class="list-group-item">
+  <h4><i class="fa fa-github fa-lg"></i><span class="icon-label">GitHub Repos</span></h4>
+  <div id="gh_repos">
+    <p class="list-group-item">Status updating...</p>
+  </div>
+</li>
+<!-- End Sidebar/Github -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a>
+    </li>
+    <li class="list-group-item">
+      <a href="https://https://docs.djangoproject.com/" target="_blank">Django</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://flask.pocoo.org/" target="_blank">Flask</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2017 Alexander Kamyanskiy
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://kamyanskiy.github.io/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://kamyanskiy.github.io/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://kamyanskiy.github.io/theme/js/respond.min.js"></script>
+
+
+<!-- GitHub JS Code -->
+<script type="text/javascript">
+$(document).ready(function () {
+  if (!window.jXHR) {
+    var jxhr = document.createElement('script');
+    jxhr.type = 'text/javascript';
+    jxhr.src = 'https://kamyanskiy.github.io/theme/js/jXHR.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(jxhr, s);
+  }
+
+  github.showRepos({
+    user: 'kamyanskiy',
+    count: 5,
+    skip_forks: false,
+    target: '#gh_repos'
+  });
+});
+</script>
+<script src="https://kamyanskiy.github.io/theme/js/github.js" type="text/javascript"></script>
+<!-- End GitHub JS Code -->
+    <!-- Disqus -->
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'kamyanskiy'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+    <!-- End Disqus Code -->
+
+
+        <script type="text/javascript">var addthis_config = {"data_track_addressbar": true};</script>
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-59403121442ae6be"></script>
+</body>
+</html>
