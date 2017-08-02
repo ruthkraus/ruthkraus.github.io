@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>Паттерн ДЕКОРАТОР - kamyanskiy.github.io</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href="https://kamyanskiy.github.io/images/logo.png" rel="icon">
+
+<link rel="canonical" href="https://kamyanskiy.github.io/2017/08/pattern-decorator.html">
+
+        <meta name="author" content="Alexander Kamyanskiy" />
+        <meta name="keywords" content="OOP,Patterns,Decorator" />
+        <meta name="description" content="Паттерн Декоратор динамически наделяет объект новыми возможностями и является гибкой альтернативой наследованию (субклассированию) в области расширения функциональности. Сomponent - абстрактный класс который наследуется ConcreteComponent. ConcreteComponent - объект поведение которого собираемся динамически расширять. Decorator реализует тот же интерфейс или абстрактный класс (в нашем случае абстрактный класс), что и декорируемый компонент). ConcreteDecoratorA - содержит переменную …" />
+
+        <meta property="og:site_name" content="kamyanskiy.github.io" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Паттерн ДЕКОРАТОР"/>
+        <meta property="og:url" content="https://kamyanskiy.github.io/2017/08/pattern-decorator.html"/>
+        <meta property="og:description" content="Паттерн Декоратор динамически наделяет объект новыми возможностями и является гибкой альтернативой наследованию (субклассированию) в области расширения функциональности. Сomponent - абстрактный класс который наследуется ConcreteComponent. ConcreteComponent - объект поведение которого собираемся динамически расширять. Decorator реализует тот же интерфейс или абстрактный класс (в нашем случае абстрактный класс), что и декорируемый компонент). ConcreteDecoratorA - содержит переменную …"/>
+        <meta property="article:published_time" content="2017-08-02" />
+            <meta property="article:section" content="Blog" />
+            <meta property="article:tag" content="OOP" />
+            <meta property="article:tag" content="Patterns" />
+            <meta property="article:tag" content="Decorator" />
+            <meta property="article:author" content="Alexander Kamyanskiy" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://kamyanskiy.github.io/theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="https://kamyanskiy.github.io/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://kamyanskiy.github.io/theme/css/pygments/emacs.css" rel="stylesheet">
+    <link href="https://kamyanskiy.github.io/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
+        <link href="https://kamyanskiy.github.io/theme/css/typogrify.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://kamyanskiy.github.io/theme/css/style.css" type="text/css"/>
+        <link href="https://kamyanskiy.github.io/theme/css/custom.css" rel="stylesheet">
+
+
+
+
+
+</head>
+<body>
+<a href="https://github.com/kamyanskiy"><img class="fork-me-on-github" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="https://kamyanskiy.github.io/" class="navbar-brand">
+<img class="img-responsive pull-left gap-right" src="https://kamyanskiy.github.io/images/logo.png" width=""/> kamyanskiy.github.io            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                         <li><a href="https://kamyanskiy.github.io/about-me.html">
+                             About&nbsp;me
+                          </a></li>
+                        <li class="active">
+                            <a href="https://kamyanskiy.github.io/category/blog/">Blog</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><span>
+                <form class="navbar-search" action="/search.html">
+                  <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input" required>
+                </form></span>
+              </li>
+              <li><a href="https://kamyanskiy.github.io/archives/"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            <ol class="breadcrumb">
+                <li><a href="https://kamyanskiy.github.io" title="kamyanskiy.github.io"><i class="fa fa-home fa-lg"></i></a></li>
+                <li class="active">Паттерн&nbsp;ДЕКОРАТОР</li>
+            </ol>
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://kamyanskiy.github.io/2017/08/pattern-decorator.html"
+                       rel="bookmark"
+                       title="Permalink to Паттерн ДЕКОРАТОР">
+                        Паттерн&nbsp;ДЕКОРАТОР
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2017-08-02T00:00:00+03:00"> Wed 02 August 2017</time>
+    </span>
+
+
+            <span class="label label-default">By</span>
+            <a href="https://kamyanskiy.github.io/author/alexander-kamyanskiy.html"><i class="fa fa-user"></i> Alexander Kamyanskiy</a>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="https://kamyanskiy.github.io/label/oop/">OOP</a>
+        /
+	<a href="https://kamyanskiy.github.io/label/patterns/">Patterns</a>
+        /
+	<a href="https://kamyanskiy.github.io/label/decorator/">Decorator</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>Паттерн Декоратор динамически наделяет объект новыми возможностями и является
+гибкой альтернативой наследованию (субклассированию) в области расширения&nbsp;функциональности. </p>
+<p><img alt="decorator.png" src="https://kamyanskiy.github.io/images/decorator.png"></p>
+<ul>
+<li>Сomponent - абстрактный класс который наследуется&nbsp;ConcreteComponent. </li>
+<li>ConcreteComponent - объект поведение которого собираемся динамически&nbsp;расширять.</li>
+<li>Decorator реализует тот же интерфейс или абстрактный класс (в нашем случае 
+абстрактный класс), что и декорируемый&nbsp;компонент).</li>
+<li>ConcreteDecoratorA - содержит переменную экземпляра в которой хранится 
+декорируемый объект&nbsp;(Component) </li>
+<li>СoncreteDecoratorB - показано что декораторы могут расширять состояние 
+компонента, если&nbsp;нужно. </li>
+</ul>
+<p>Декораторы могут добавлять новые методы, однако новое поведение обычно 
+добавляется до или после вызова существующего метода&nbsp;компонента.</p>
+<p>Теперь попробуем использовать данный паттерн практически, допустим (навеяно 
+примером книги) у нас есть некий набор напитков Чай, Кофе имеющих стоимость, 
+и есть набор добавок к напиткам Молоко, Сахар которые тоже имеют стоимость. 
+Готовый продукт подаваемый клиенту содержит напиток с добавками (или без) и в
+конечном итоге стоимость равна сумме стоимости всех&nbsp;ингридиентов.</p>
+<p>Допустим мы реализовали класс Напитка, который умеет возвращать его стоимость.
+Если мы реализуем класс добавку как класс - декоратор, мы сможем &#8220;обертывать&#8221; 
+обьект напитка и добавлять стоимость добавки к стоимости&nbsp;напитка.</p>
+<p><img alt="decorator_1_layer.png" src="https://kamyanskiy.github.io/images/decorator_1_layer.png"></p>
+<p>Схематично это может выглядеть как то так, у нас есть объект Чай который 
+декорирован объектом Добавка Сахар. Т.е. на этапе когда я создаю 
+экземпляр класса добавки - Сахар, экземпляр класса напитка Чай у меня уже 
+есть. Когда я создаю экземпляр декоратора-добавки Сахар я передаю ему уже 
+готовый экземпляр напитка Чай. Цена готового напитка рассчитывается как цена 
+Сахар + Чай, соответственно фактически экземпляр класса Сахар при вызове 
+метода возвращающего цену должен вызвать метод возвращающий цену обернутого 
+объекта (Чай) и потом добавить свою цену и вернуть общую&nbsp;стоимость.</p>
+<p>На самом деле вложенность может быть сколь угодно уровневой, допустим мы 
+можем обернуть предыдущий пример еще в один тип добавки&nbsp;Молоко.</p>
+<p><img alt="decorator_2_layer.png" src="https://kamyanskiy.github.io/images/decorator_2_layer.png"></p>
+<p>Тогда общая цена напитка будет состоять из &#8220;цена Чая&#8221; + &#8220;цена Сахара&#8221; + &#8220;цена
+Молока&#8221;. Т.е. при вызове метода расчета стоимости у экземпляра добавки Молоко ( 
+который обертывает экземпляр Сахар, который в свою очередь содержит 
+обернутый экземпляр Чай), вызовется метод расчета стоимости обернутого обьекта 
+(Сахар), в свою очередь метод расчета стоимости экземпляра Сахар вызовет 
+метод обернутого объекта Чай, добавит свою стоимость (Сахара) и вернет 
+значение экземпляру Молоко. Экземпляр Молока добавит свои стоимость к 
+возвращенному (Чай+Сахар) и вернет общую стоимость напитка.
+Немного запутанно, но на самом деле не очень&nbsp;сложно.</p>
+<p>Такие декорации можно комбинировать, очень гибко без изменения кода. Допустим
+можно сделать Чай с двойным Молоком, нужно лишь два раза обернуть экземпляр 
+класса Чай декоратором&nbsp;Молоко.</p>
+<p>Диаграмма классов нашего примера будет выглядеть&nbsp;так:</p>
+<p><img alt="decorator_uml.png" src="https://kamyanskiy.github.io/images/decorator_uml.png"></p>
+<ul>
+<li>
+<p>AbstractBeverage абстрактный класс напитка в котором мы определим методы cost()
+и getDescription(). cost() это абстрактный метод который должен быть 
+реализован в классах реальных напитков. Метод getDescription() метод который 
+наследуется классами настоящих напитков и можно будет использовать для 
+получения названия&nbsp;напитка.</p>
+</li>
+<li>
+<p>BlackTea, BlackCoffee классы реализующие сущности конкретных напитков Кофе 
+и Чай. Методы cost() в них возвращают конкретную&nbsp;стоимость.</p>
+</li>
+<li>
+<p>AbstractCondiments - абстрактный класс наследованный от AbstractBeverage, в
+ нем мы переопределили getDescription() как абстратный, я хочу чтоб 
+ конкретные классы добавок обязаны были иметь свои собственные реализации 
+ getDescription(). Метод cost() также должен быть определен в конкретном 
+ классе добавки, это поведение определено в родительском классе&nbsp;AbstractBeverage.</p>
+</li>
+<li>
+<p>Sugar, Milk - конкретные классы реализующие AbstractCondiments. В 
+ конструктор классов я передаю экземпляр конкретного напитка и запоминаю его 
+ в переменной <strong>self.decorated</strong>. Таким образом в каждом экземпляре добавки я
+ запоминаю обьект который в конечном итоге является производным от 
+ AbstractBeverage, так как мы все наследуем от него. <strong>self.decorated</strong> может
+ содержать как конкретный экземпляр напитка, так и обернутую конструкцию 
+ добавка(напиток), при чем глубина вложений не важна, мы оперируем на уровне 
+ абстракции у которой в конечном итоге знаем, что можно вызвать cost() и&nbsp;getDescription().</p>
+</li>
+</ul>
+<p>Прелесть в том, что мы программируем не привязываясь к конкретным&nbsp;типам.</p>
+<p>Реализация у меня получилась похожая на нечто вот&nbsp;такое:</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
+
+
+<span class="k">class</span> <span class="nc">AbstractBeverage</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
+
+    <span class="n">_description</span> <span class="o">=</span> <span class="s2">&quot;Abstract beverage description&quot;</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">cost</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ne">NotImplementedError</span>
+
+    <span class="k">def</span> <span class="nf">getDescription</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_description</span>
+
+
+<span class="k">class</span> <span class="nc">BlackCoffee</span><span class="p">(</span><span class="n">AbstractBeverage</span><span class="p">):</span>
+    <span class="n">_description</span> <span class="o">=</span> <span class="s2">&quot;Black coffee&quot;</span>
+
+    <span class="k">def</span> <span class="nf">cost</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mf">0.50</span>
+
+<span class="k">class</span> <span class="nc">GreenTea</span><span class="p">(</span><span class="n">AbstractBeverage</span><span class="p">):</span>
+    <span class="n">_description</span> <span class="o">=</span> <span class="s2">&quot;Green Tea&quot;</span>
+
+    <span class="k">def</span> <span class="nf">cost</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mf">0.15</span>
+
+
+<span class="k">class</span> <span class="nc">AbstractCondiments</span><span class="p">(</span><span class="n">AbstractBeverage</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">getDescription</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ne">NotImplementedError</span>
+
+
+<span class="k">class</span> <span class="nc">Sugar</span><span class="p">(</span><span class="n">AbstractCondiments</span><span class="p">):</span>
+    <span class="n">_description</span> <span class="o">=</span> <span class="s2">&quot;Sugar&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">decorated</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">decorated</span> <span class="o">=</span> <span class="n">decorated</span>
+
+    <span class="k">def</span> <span class="nf">cost</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">decorated</span><span class="o">.</span><span class="n">cost</span><span class="p">()</span> <span class="o">+</span> <span class="mf">0.30</span>
+
+    <span class="k">def</span> <span class="nf">getDescription</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">decorated</span><span class="o">.</span><span class="n">getDescription</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; and &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_description</span>
+
+
+<span class="k">class</span> <span class="nc">Milk</span><span class="p">(</span><span class="n">AbstractCondiments</span><span class="p">):</span>
+    <span class="n">_description</span> <span class="o">=</span> <span class="s2">&quot;Milk&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">decorated</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">decorated</span> <span class="o">=</span> <span class="n">decorated</span>
+
+    <span class="k">def</span> <span class="nf">cost</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">decorated</span><span class="o">.</span><span class="n">cost</span><span class="p">()</span> <span class="o">+</span> <span class="mf">0.25</span>
+
+    <span class="k">def</span> <span class="nf">getDescription</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Bon appetit !!!&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">decorated</span><span class="o">.</span><span class="n">getDescription</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; and &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_description</span>
+</pre></div>
+
+
+<p>Теперь попробуем &#8220;приготовить&#8221; Чай без&nbsp;добавок:</p>
+<div class="highlight"><pre><span></span>tea = GreenTea()
+
+tea.cost()
+Out[24]: 0.15
+
+tea.getDescription()
+Out[25]: &#39;Green Tea&#39;
+</pre></div>
+
+
+<p>А теперь приготовим кофе с молоком и сахаром:
+- создадим экземпляр&nbsp;BlackCoffee</p>
+<div class="highlight"><pre><span></span>coffee = BlackCoffee()
+</pre></div>
+
+
+<ul>
+<li>добавим сахара - создавая экземпляр Sugar - передадим созданный 
+экземпляр BlackCofee и таким образом экземпляр Sugar запомнит 
+экземпляр BlackCofee в переменной <strong>self.decorated</strong>. Мы таким образом 
+декорируем (обертываем) экземпляр BlackCofee&nbsp;:</li>
+</ul>
+<div class="highlight"><pre><span></span>coffee = Sugar(coffee)
+</pre></div>
+
+
+<ul>
+<li>добавим аналогично молоко, теперь coffee это уже не просто чистый кофе а 
+экземпляр Sugar содержащий в себе ссылку на чистый кофе экземпляр BlackCoffee
+, созданный на первом&nbsp;шаге.</li>
+</ul>
+<div class="highlight"><pre><span></span>coffee = Milk(coffee)
+</pre></div>
+
+
+<ul>
+<li>теперь переменная coffee содержит ссылку на конструкцию из чего то, что 
+схематично можно представить как <strong>Milk(Sugar(BlackCoffee))</strong>
+Можно получить стоимость полученного&nbsp;напитка:</li>
+</ul>
+<div class="highlight"><pre><span></span>coffee.cost()
+Out[31]: 1.05
+</pre></div>
+
+
+<ul>
+<li>и правильно в общем получается если сложить цены&nbsp;ингридиентов:</li>
+<li>цена кофе =&nbsp;0,50</li>
+<li>цена сахара =&nbsp;0,30</li>
+<li>цена молока =&nbsp;0,25</li>
+<li>
+<p>0,50 + 0,30 + 0,25 =&nbsp;1,05</p>
+</li>
+<li>
+<p>теперь можно обернуть еще раз Milk и увидим что стоимость&nbsp;увеличится:</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span>coffee = Milk(coffee)
+
+coffee.cost()
+Out[34]: 1.3
+</pre></div>
+
+
+<p>Таким образом можно вкладывать экземпляры и метод cost() будет вызываться по 
+цепочке, в конечном итоге мы получим общую&nbsp;стоимость.</p>
+<div class="highlight"><pre><span></span>    def cost(self):
+        return self.decorated.cost() + 0.25
+</pre></div>
+
+
+<p>Это происходит потому что мы вызываем метод cost() у чего то обернутого 
+<strong>self.decorated</strong> и в свою очередь если у &#8220;чего то обернутого&#8221; в свою 
+очередь содержится обернутый объект у этого объекта также вызовется метод 
+cost(). Так будет происходить пока не дойдет очередь до обьекта у которого нет
+&#8220;чего то обернутого&#8221; и у него вызовется метод cost(), он вернет значение 
+вызвавшему его экземпляру, тот добавит свою стоимость и вернет выше, т.е 
+цепочка пойдет в обратном&nbsp;направлении.</p>
+<div class="highlight"><pre><span></span>(Milk cost()) -&gt; Sugar(cost()) -&gt; BlackCoffee(cost())
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="p">(</span>Milk <span class="p">(</span><span class="kr">return</span> <span class="m">0.80+0.25</span><span class="p">)</span> <span class="o">&lt;-</span> Sugar<span class="p">(</span><span class="kr">return</span> <span class="m">0.50+0.30</span><span class="p">)</span> <span class="o">&lt;-</span> BlackCoffee<span class="p">(</span><span class="kr">return</span> <span class="m">0.50</span><span class="p">))</span>
+</pre></div>
+
+
+<h3>Вывод</h3>
+<p>Наследование одна из форм расширения, но оно не всегда обеспечивает гибкость&nbsp;архитектуры. </p>
+<p>Следует предесмотреть возможность расширения без изменения существующего&nbsp;кода.</p>
+<p>Композиция и делегирование часто используются для динамического добавления 
+нового поведения (в нашем случае мы делегируем вызов cost() обьекту&nbsp;decorated).</p>
+<p>Типы декораторов соответствуют типам декорируемых компонентов (соответстве 
+может быть достигнуто посредством наследования или реализации&nbsp;интерфейса)</p>
+<p>Компонент может декорироваться любым количеством&nbsp;декораторов.</p>
+<p>Декораторы изменяют поведение декорируемых компонентов, добавляя новую 
+функциональность до или после или даже вместо вызовов методов&nbsp;компонентов.</p>
+            </div>
+            <!-- /.entry-content -->
+<section class="well" id="related-posts">
+    <h4>Related Posts:</h4>
+    <ul>
+        <li><a href="https://kamyanskiy.github.io/2017/07/pattern-observer.html">Паттерн&nbsp;НАБЛЮДАТЕЛЬ</a></li>
+        <li><a href="https://kamyanskiy.github.io/2017/07/pattern-strategy.html">Паттерн&nbsp;СТРАТЕГИЯ</a></li>
+    </ul>
+</section>
+    <hr />
+    <!-- AddThis Button BEGIN -->
+    <div class="addthis_toolbox addthis_default_style">
+            <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+            <a class="addthis_button_tweet"></a>
+            <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    </div>
+    <!-- AddThis Button END -->
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'kamyanskiy'; // required: replace example with your forum shortname
+
+                    var disqus_identifier = 'pattern-decorator';
+                var disqus_url = 'https://kamyanskiy.github.io/2017/08/pattern-decorator.html';
+
+            var disqus_config = function () {
+                this.language = "en";
+            };
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<div id="aboutme">
+        <p>
+            <img width="100%" class="img-thumbnail" src="https://kamyanskiy.github.io/images/profile.jpg"/>
+        </p>
+    <p>
+      <strong>About Alexander Kamyanskiy</strong><br/>
+        <span>I love Python and happy to use it everyday for develop Web applications, writing tests and others cool things.</span>
+    </p>
+</div><!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://vk.com/id216671695"><i class="fa fa-vk fa-lg"></i> vk</a></li>
+    <li class="list-group-item"><a href="https://www.facebook.com/alexander.kamyanskiy"><i class="fa fa-facebook-square fa-lg"></i> Facebook</a></li>
+    <li class="list-group-item"><a href="https://github.com/kamyanskiy"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Recent Posts -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
+  <ul class="list-group" id="recentposts">
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/08/pattern-decorator.html">Паттерн&nbsp;ДЕКОРАТОР</a></li>
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/07/pattern-observer.html">Паттерн&nbsp;НАБЛЮДАТЕЛЬ</a></li>
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/07/pattern-strategy.html">Паттерн&nbsp;СТРАТЕГИЯ</a></li>
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/07/db-postgresql-dump-restore.html">Postgresql <span class="caps">DB</span> dump /&nbsp;restore</a></li>
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/07/db-postgresql-joins.html">Выборка данных из нескольких таблиц (<span class="caps">JOIN</span>)</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Recent Posts -->
+
+<!-- Sidebar/Tag Cloud -->
+<li class="list-group-item">
+  <a href="https://kamyanskiy.github.io/label/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+  <ul class="list-group list-inline tagcloud" id="tags">
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/1nf/">1NF</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/2nf/">2NF</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/3nf/">3NF</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/database/">database</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/db/">DB</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/decorator/">Decorator</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/inner-join/">INNER JOIN</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/jupyter/">jupyter</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/notebook/">notebook</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/observer/">Observer</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/oop/">OOP</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/packer/">packer</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/patterns/">Patterns</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/pelican/">Pelican</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/postgresql/">Postgresql</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/python/">Python</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/sql/">SQL</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/strategy/">Strategy</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/theory/">theory</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/vagrant/">vagrant</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Tag Cloud -->
+
+<!-- Sidebar/Github -->
+<li class="list-group-item">
+  <h4><i class="fa fa-github fa-lg"></i><span class="icon-label">GitHub Repos</span></h4>
+  <div id="gh_repos">
+    <p class="list-group-item">Status updating...</p>
+  </div>
+</li>
+<!-- End Sidebar/Github -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a>
+    </li>
+    <li class="list-group-item">
+      <a href="https://https://docs.djangoproject.com/" target="_blank">Django</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://flask.pocoo.org/" target="_blank">Flask</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2017 Alexander Kamyanskiy
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://kamyanskiy.github.io/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://kamyanskiy.github.io/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://kamyanskiy.github.io/theme/js/respond.min.js"></script>
+
+
+<!-- GitHub JS Code -->
+<script type="text/javascript">
+$(document).ready(function () {
+  if (!window.jXHR) {
+    var jxhr = document.createElement('script');
+    jxhr.type = 'text/javascript';
+    jxhr.src = 'https://kamyanskiy.github.io/theme/js/jXHR.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(jxhr, s);
+  }
+
+  github.showRepos({
+    user: 'kamyanskiy',
+    count: 5,
+    skip_forks: false,
+    target: '#gh_repos'
+  });
+});
+</script>
+<script src="https://kamyanskiy.github.io/theme/js/github.js" type="text/javascript"></script>
+<!-- End GitHub JS Code -->
+    <!-- Disqus -->
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'kamyanskiy'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+    <!-- End Disqus Code -->
+
+
+        <script type="text/javascript">var addthis_config = {"data_track_addressbar": true};</script>
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-59403121442ae6be"></script>
+</body>
+</html>
