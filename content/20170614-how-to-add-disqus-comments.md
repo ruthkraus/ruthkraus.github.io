@@ -12,16 +12,16 @@ Pelican already has done that for you.
 1. Register on [DISQUS](https://disqus.com) site
 
 1. Select 'I don't see my platform listed, install manually with Universal Code. 
-![disqus1]({filename}/images/disqus/disqus_1.png)
+![disqus1]({static}/images/disqus/disqus_1.png)
 
 1. Remember 'Shortname'=kamyanskiy, it will be used later in site configuration. Fill fields Website name and Website URL.
-![disqus2]({filename}/images/disqus/disqus_2.png)
+![disqus2]({static}/images/disqus/disqus_2.png)
 
 1. Check 'Allow guests to comments' 
-![disqus3]({filename}/images/disqus/disqus_3.png)
+![disqus3]({static}/images/disqus/disqus_3.png)
 
 1. Finish settings with Add trusted site, my own is kamyanskiy.github.io 
-![disqus4]({filename}/images/disqus/disqus_4.png)
+![disqus4]({static}/images/disqus/disqus_4.png)
 
 1. Into **pelicanconf.py** file enable DISQUS, just add these settings:
 ```pythonstub
@@ -31,4 +31,4 @@ Remember, here should be added 'shortname' from step 3.
 
 That's done, now generate content and check that comments working fine:
 
-![disqus5]({filename}/images/disqus/disqus_5.png)
+![disqus5]({static}/images/disqus/disqus_5.png)

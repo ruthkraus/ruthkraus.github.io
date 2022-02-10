@@ -6,7 +6,7 @@ Tags: OOP, Patterns, Decorator
 гибкой альтернативой наследованию (субклассированию) в области расширения 
 функциональности. 
 
-![decorator.png]({filename}/images/decorator.png)
+![decorator.png]({static}/images/decorator.png)
 
 - Сomponent - абстрактный класс который наследуется ConcreteComponent. 
 - ConcreteComponent - объект поведение которого собираемся динамически 
@@ -31,7 +31,7 @@ Tags: OOP, Patterns, Decorator
 Если мы реализуем класс добавку как класс - декоратор, мы сможем "обертывать" 
 обьект напитка и добавлять стоимость добавки к стоимости напитка.
 
-![decorator_1_layer.png]({filename}/images/decorator_1_layer.png)
+![decorator_1_layer.png]({static}/images/decorator_1_layer.png)
 
 Схематично это может выглядеть как то так, у нас есть объект Чай который 
 декорирован объектом Добавка Сахар. Т.е. на этапе когда я создаю 
@@ -45,7 +45,7 @@ Tags: OOP, Patterns, Decorator
 На самом деле вложенность может быть сколь угодно уровневой, допустим мы 
 можем обернуть предыдущий пример еще в один тип добавки Молоко.
 
-![decorator_2_layer.png]({filename}/images/decorator_2_layer.png)
+![decorator_2_layer.png]({static}/images/decorator_2_layer.png)
 
 Тогда общая цена напитка будет состоять из "цена Чая" + "цена Сахара" + "цена
 Молока". Т.е. при вызове метода расчета стоимости у экземпляра добавки Молоко ( 
@@ -63,7 +63,7 @@ Tags: OOP, Patterns, Decorator
 
 Диаграмма классов нашего примера будет выглядеть так:
 
-![decorator_uml.png]({filename}/images/decorator_uml.png)
+![decorator_uml.png]({static}/images/decorator_uml.png)
 
 - AbstractBeverage абстрактный класс напитка в котором мы определим методы cost()
 и getDescription(). cost() это абстрактный метод который должен быть 

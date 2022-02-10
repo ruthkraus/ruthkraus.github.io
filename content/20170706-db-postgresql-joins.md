@@ -7,7 +7,7 @@ Tags: SQL, Postgresql, DB, database, INNER JOIN
 Вспомним, что информация о покупателяx после нормализации находится теперь в 
 5 -ти разных таблицах.
 
-![db_person.png]({filename}/images/db_person.png)
+![db_person.png]({static}/images/db_person.png)
 
 Содержимое таблиц выглядит так:
 

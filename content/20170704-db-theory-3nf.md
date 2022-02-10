@@ -549,7 +549,7 @@ haircolors=# select * from salon;
 на [DBDesigner](http://dbdesigner.net), мне понравилось, бесплатный, быстро и 
 красиво.
 
-![db_schema]({filename}/images/db_schema.png)
+![db_schema]({static}/images/db_schema.png)
 
 Теперь связи стали нагляднее, после визуализации стало намного проще воспринять 
 зависимости (ключик означает первичный ключ PRIMARY KEY, стрелка от значения

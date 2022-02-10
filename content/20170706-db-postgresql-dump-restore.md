@@ -17,7 +17,7 @@ looks like:
 sudo -u postgres pg_dump -v -d haircolors > haircolors.dump
 ```
 
-Dump can be downloaded from [here]({filename}/files/haircolors.dump)
+Dump can be downloaded from [here]({static}/files/haircolors.dump)
 
 
 After that we will have **haircolors.dump** file, that contains plain SQL text:
