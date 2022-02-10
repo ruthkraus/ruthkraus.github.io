@@ -1,6 +1,6 @@
-[submodule "pelican-themes"]
-	path = pelican-themes
-	url = git@github.com:kamyanskiy/pelican-themes.git
 [submodule "plugins/ipynb"]
 	path = plugins/ipynb
 	url = git@github.com:kamyanskiy/pelican-ipynb.git
+[submodule "pelican-plugins"]
+	path = pelican-plugins
+	url = git@github.com:getpelican/pelican-plugins.git
