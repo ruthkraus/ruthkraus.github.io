@@ -136,7 +136,7 @@ RECENT_POST_COUNT = 5
 
 # Uncomment following line if you want document-relative URLs when developing
 DELETE_OUTPUT_DIRECTORY = True
-RELATIVE_URLS = True
+RELATIVE_URLS = False
 
 
 
