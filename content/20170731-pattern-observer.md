@@ -8,7 +8,7 @@ Tags: OOP, Patterns, Observer
 
 Схема данного определения может выглядеть примерно так.   
  
-![observer_schema.png]({filename}/images/observer_schema.png)
+![observer_schema.png]({static}/images/observer_schema.png)
 
 Есть субъект (Subject) и объекты-наблюдатели (Object) которые определяют 
 отношение "один ко многим". Наблюдатели зависят от субъекта - при 
@@ -26,7 +26,7 @@ Tags: OOP, Patterns, Observer
 
 Диаграмма классов выглядит вот так:
 
-![observer_uml.png]({filename}/images/observer_uml.png)
+![observer_uml.png]({static}/images/observer_uml.png)
 
 Итак, каждый субъект может иметь много наблюдателей. Каждый потенциальный 
 наблюдатель должен реализовать интерфейс Observer который содержит 

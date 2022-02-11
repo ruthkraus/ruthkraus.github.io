@@ -1,6 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*- #
-from __future__ import unicode_literals
+from pelican.plugins import tipue_search
 
 AUTHOR = 'Alexander Kamyanskiy'
 SITENAME = 'kamyanskiy.github.io'
@@ -25,11 +23,14 @@ SHOW_DATE_MODIFIED = True
 GITHUB_USER = 'kamyanskiy'
 
 # Enable custom theme
-THEME = "pelican-themes/pelican-bootstrap3/"
+THEME = "pelican-themes/pelican-bootstrap3"
+# BOOTSTRAP_THEME = "darkly"
+# BOOTSTRAP_THEME = "spacelab"
 BOOTSTRAP_THEME = "flatly"
-#BOOTSTRAP_FLUID = True
+# BOOTSTRAP_FLUID = True
 JINJA_ENVIRONMENT = {'extensions': ['jinja2.ext.i18n']}
-PYGMENTS_STYLE = 'emacs'
+# PYGMENTS_STYLE = 'monokai'
+PYGMENTS_STYLE = 'zenburn'
 DEFAULT_DATE = 'fs'
 
 # Enable plugins
@@ -37,11 +38,10 @@ PLUGIN_PATHS = ['pelican-plugins/', 'plugins/']
 PLUGINS = ['i18n_subsites',
            'related_posts',
            "tag_cloud",
-           "tipue_search",
-           "ipynb.markup"
+           "pelican.plugins.tipue_search",
            ]
 
-#IPYNB_IGNORE_CSS=True
+MARKUP = ('md', )
 
 # Tipue search
 DIRECT_TEMPLATES = ('index', 'categories', 'authors', 'archives', 'search')
@@ -80,7 +80,9 @@ LINKS = (('Pelican', 'http://getpelican.com/'),
          )
 
 # Social widget
-SOCIAL = (('vk', 'https://vk.com/id216671695'),
+SOCIAL = (('Linkedin', 'https://www.linkedin.com/in/alexander-kamyanskiy-20850043/'),
+          ('Telegram', 'https://t.me/id_fe57c427f4c1', 'telegram'),
+          ('Stackoverflow', 'https://stackoverflow.com/users/2235755/alexander-kamyanskiy', 'stack-overflow'),
           ('Facebook', 'https://www.facebook.com/alexander.kamyanskiy'),
           ('GitHub', 'https://github.com/kamyanskiy'),)
 
@@ -117,7 +119,7 @@ AVATAR = "images/profile.jpg"
 FAVICON = SITELOGO
 
 DISPLAY_BREADCRUMBS = True
-DISPLAY_CATEGORY_IN_BREADCRUMBS = False
+DISPLAY_CATEGORY_IN_BREADCRUMBS = True
 
 DISPLAY_RECENT_POSTS_ON_SIDEBAR = True
 RECENT_POST_COUNT = 5
@@ -126,13 +128,12 @@ RECENT_POST_COUNT = 5
 #DISABLE_SIDEBAR_TITLE_ICONS = False
 
 # Add social share buttons https://www.addthis.com/dashboard#dashboard-analytics
-ADDTHIS_PROFILE = 'ra-59403121442ae6be'
-#DDTHIS_DATA_TRACK_ADDRESSBAR = True
+# ADDTHIS_PROFILE = 'ra-59403121442ae6be'
+#ADDTHIS_DATA_TRACK_ADDRESSBAR = True
 #ADDTHIS_FACEBOOK_LIKE = True
 #ADDTHIS_TWEET = True
 #ADDTHIS_GOOGLE_PLUSONE = True
 
-MARKUP = ('md', 'ipynb')
 # Uncomment following line if you want document-relative URLs when developing
 DELETE_OUTPUT_DIRECTORY = True
 RELATIVE_URLS = False

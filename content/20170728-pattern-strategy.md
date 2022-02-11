@@ -55,7 +55,7 @@ Python.
 простое наследование не позволяет создать легко изменяемую модель. И в 
 конечном итоге получилась вот такое решение:
 
-![strategy_duck.png]({filename}/images/strategy_duck.png)
+![strategy_duck.png]({static}/images/strategy_duck.png)
 
 Поведение уточек вынесено (инкапсулировано) и представлено двумя различными 
 интерфейсами FlyBehavior и QuackBehavior. Сущности FlyWithWings, FlyNoWay 
@@ -97,7 +97,7 @@ MallardDuck, RubberDuck в которых может быть переопред
 
 Диаграмма классов будет выглядеть так:
 
-![strategy_characters.png]({filename}/images/strategy_characters.png)
+![strategy_characters.png]({static}/images/strategy_characters.png)
 
 Чтобы реализовать интерфейс на Python я использую абстрактный класс с 
 абстрактным методом, таким образом клиент не сможет создать экземпляр и будет

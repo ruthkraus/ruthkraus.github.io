@@ -102,7 +102,7 @@ Template file called as **packer.json** :
 The one thing, to upload artifact to atlas via 'atlas' post-processor, I have to
 create ATLAS_TOKEN and set it to my environment variables.
 
-![atlas_token]({filename}/images/atlas_token.png)
+![atlas_token]({static}/images/atlas_token.png)
 
 
 To start Packer to build
@@ -113,9 +113,9 @@ packer build packer.json
 
 After that Virtualbox manager will be shown and process logged into console:
 
-![packer1]({filename}/images/packer_progress.png)
+![packer1]({static}/images/packer_progress.png)
 
-![packer2]({filename}/images/packer_vbox.png)
+![packer2]({static}/images/packer_vbox.png)
 
 When build succeed, I can see my uploaded box in my [vagrant boxes](https://atlas.hashicorp.com/vagrant) list.
 
