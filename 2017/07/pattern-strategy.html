@@ -29,11 +29,12 @@
             <meta property="article:author" content="Alexander Kamyanskiy" />
 
 
+
     <!-- Bootstrap -->
         <link rel="stylesheet" href="https://kamyanskiy.github.io/theme/css/bootstrap.flatly.min.css" type="text/css"/>
     <link href="https://kamyanskiy.github.io/theme/css/font-awesome.min.css" rel="stylesheet">
 
-    <link href="https://kamyanskiy.github.io/theme/css/pygments/emacs.css" rel="stylesheet">
+    <link href="https://kamyanskiy.github.io/theme/css/pygments/zenburn.css" rel="stylesheet">
     <link href="https://kamyanskiy.github.io/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
         <link href="https://kamyanskiy.github.io/theme/css/typogrify.css" rel="stylesheet">
     <link rel="stylesheet" href="https://kamyanskiy.github.io/theme/css/style.css" type="text/css"/>
@@ -41,13 +42,11 @@
 
 
 
-
-
 </head>
 <body>
 <a href="https://github.com/kamyanskiy"><img class="fork-me-on-github" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-	<div class="container">
+    <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -79,13 +78,17 @@
         <!-- /.navbar-collapse -->
     </div>
 </div> <!-- /.navbar -->
+
 <!-- Banner -->
 <!-- End Banner -->
+
+<!-- Content Container -->
 <div class="container">
     <div class="row">
         <div class="col-sm-9">
             <ol class="breadcrumb">
                 <li><a href="https://kamyanskiy.github.io" title="kamyanskiy.github.io"><i class="fa fa-home fa-lg"></i></a></li>
+                <li><a href="https://kamyanskiy.github.io/category/blog/" title="Blog">Blog</a></li>
                 <li class="active">Паттерн&nbsp;СТРАТЕГИЯ</li>
             </ol>
     <section id="content">
@@ -107,6 +110,10 @@
     <span class="published">
         <i class="fa fa-calendar"></i><time datetime="2017-07-28T00:00:00+03:00"> Fri 28 July 2017</time>
     </span>
+          <span class="label label-default">Modified</span>
+            <span class="modified">
+                <i class="fa fa-calendar"></i><time datetime="2022-02-11T15:22:09.062483+03:00"> Fri 11 February 2022</time>
+            </span>
 
 
             <span class="label label-default">By</span>
@@ -158,11 +165,10 @@
 иногда скрыть внутреннюю реализацию сущности (часто чтобы скрыть и 
 предотвратить изменение частных &#8220;приватных&#8221; данных напрямую&nbsp;извне).</p>
 <h4>Паттерн&nbsp;СТРАТЕГИЯ</h4>
-<div class="highlight"><pre><span></span>Паттерн **Стратегия** определяет семейство алгоритмов, инкапсулирует каждый 
+<div class="highlight"><pre><span></span><code>Паттерн **Стратегия** определяет семейство алгоритмов, инкапсулирует каждый 
 из них и обеспечивает их взаимозаменяемость. Он позволяет модифицировать 
 алгоритмы независимо от их использования на стороне клиента.
-</pre></div>
-
+</code></pre></div>
 
 <p>К слову сказать под алгоритмом как я понимаю можно рассматривать любое 
 поведение сущности. Т.к. поведение и есть некий&nbsp;алгоритм.</p>
@@ -213,7 +219,7 @@ NotImplemented. Таким образом клиентский код долже
 переопределять эти методы. К сожалению в Python нет специальной конструкции 
 вроде interface как в Java, но способы реализовать абстракции к счастью&nbsp;имеются.  </p>
 <p>Итак интерфейс и классы Knife, Sword реализующие оружие - выглядят&nbsp;так:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
 
 
 <span class="k">class</span> <span class="nc">IWeaponBehaviour</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
@@ -229,21 +235,20 @@ NotImplemented. Таким образом клиентский код долже
 
 <span class="k">class</span> <span class="nc">KnifeBehaviour</span><span class="p">(</span><span class="n">IWeaponBehaviour</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">use_weapon</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Knife hit...&quot;</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Damage 2 ...&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Knife hit...&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Damage 2 ...&quot;</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">SwordBehaviour</span><span class="p">(</span><span class="n">IWeaponBehaviour</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">use_weapon</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Sword hit...&quot;</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Damage 5 ...&quot;</span><span class="p">)</span>
-</pre></div>
-
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sword hit...&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Damage 5 ...&quot;</span><span class="p">)</span>
+</code></pre></div>
 
 <p>Классы реализуют метод интерфейса <strong>use_weapon()</strong>, уникальный для каждого 
 типа&nbsp;оружия.</p>
 <p>Абстрактный класс персонажа и конкретные классы персонажей выглядят&nbsp;так:</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AbstractCharacter</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">AbstractCharacter</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
 
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
@@ -264,7 +269,7 @@ NotImplemented. Таким образом клиентский код долже
     <span class="n">weapon</span> <span class="o">=</span> <span class="n">KnifeBehaviour</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">fight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Thief do 1 step&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Thief do 1 step&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">use_weapon</span><span class="p">()</span>
 
 
@@ -272,10 +277,9 @@ NotImplemented. Таким образом клиентский код долже
     <span class="n">weapon</span> <span class="o">=</span> <span class="n">SwordBehaviour</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">fight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Knife do 2 steps&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Knife do 2 steps&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">use_weapon</span><span class="p">()</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Класс конкретного персонажа использует конкретное поведение оружия, у 
 абстрактного класса AbstractCharacter есть метод set_weapon() позволяющий 
@@ -284,7 +288,7 @@ NotImplemented. Таким образом клиентский код долже
 используется композиция, мы используем инкапсулированый объект Оружие в 
 объекте&nbsp;Персонаж.</p>
 <p>Полный код выглядит вот&nbsp;так:  </p>
-<div class="highlight"><pre><span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Created on Thu Jul 27 09:36:35 2017</span>
 
@@ -306,14 +310,14 @@ NotImplemented. Таким образом клиентский код долже
 
 <span class="k">class</span> <span class="nc">KnifeBehaviour</span><span class="p">(</span><span class="n">IWeaponBehaviour</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">use_weapon</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Knife hit...&quot;</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Damage 2 ...&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Knife hit...&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Damage 2 ...&quot;</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">SwordBehaviour</span><span class="p">(</span><span class="n">IWeaponBehaviour</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">use_weapon</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Sword hit...&quot;</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Damage 5 ...&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sword hit...&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Damage 5 ...&quot;</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">AbstractCharacter</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
@@ -337,7 +341,7 @@ NotImplemented. Таким образом клиентский код долже
     <span class="n">weapon</span> <span class="o">=</span> <span class="n">KnifeBehaviour</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">fight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Thief do 1 step&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Thief do 1 step&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">use_weapon</span><span class="p">()</span>
 
 
@@ -345,7 +349,7 @@ NotImplemented. Таким образом клиентский код долже
     <span class="n">weapon</span> <span class="o">=</span> <span class="n">SwordBehaviour</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">fight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Knife do 2 steps&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Knife do 2 steps&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">use_weapon</span><span class="p">()</span>
 
 
@@ -357,32 +361,29 @@ NotImplemented. Таким образом клиентский код долже
 
 <span class="n">knight</span> <span class="o">=</span> <span class="n">Knight</span><span class="p">()</span>
 <span class="n">knight</span><span class="o">.</span><span class="n">fight</span><span class="p">()</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>в конце приведен небольшой проверочный&nbsp;код:</p>
-<div class="highlight"><pre><span></span><span class="n">thief</span> <span class="o">=</span> <span class="n">Thief</span><span class="p">()</span> <span class="c1"># cоздадим персонаж Thief   </span>
+<div class="highlight"><pre><span></span><code><span class="n">thief</span> <span class="o">=</span> <span class="n">Thief</span><span class="p">()</span> <span class="c1"># cоздадим персонаж Thief   </span>
 <span class="n">thief</span><span class="o">.</span><span class="n">fight</span><span class="p">()</span> <span class="c1"># ударим оружием Thief - Knife по умолчанию </span>
 <span class="n">thief</span><span class="o">.</span><span class="n">set_weapon</span><span class="p">(</span><span class="n">SwordBehaviour</span><span class="p">())</span> <span class="c1"># дадим Thief другое оружие - Sword</span>
 <span class="n">thief</span><span class="o">.</span><span class="n">fight</span><span class="p">()</span> <span class="c1"># попросим Вора ударить Мечом</span>
 
 <span class="n">knight</span> <span class="o">=</span> <span class="n">Knight</span><span class="p">()</span> <span class="c1"># создадим Рыцаря</span>
 <span class="n">knight</span><span class="o">.</span><span class="n">fight</span><span class="p">()</span> <span class="c1"># попросим Рыцаря ударить Мечом </span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Результаты выглядят&nbsp;так:</p>
-<div class="highlight"><pre><span></span>Thief do 1 step
-Knife hit...
-Damage 2 ...
-Thief do 1 step
-Sword hit...
-Damage 5 ...
-Knife do 2 steps
-Sword hit...
-Damage 5 ...
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="nv">Thief</span> <span class="k">do</span> <span class="mi">1</span> <span class="nv">step</span>
+<span class="nv">Knife</span> <span class="nv">hit</span>...
+<span class="nv">Damage</span> <span class="mi">2</span> ...
+<span class="nv">Thief</span> <span class="k">do</span> <span class="mi">1</span> <span class="nv">step</span>
+<span class="nv">Sword</span> <span class="nv">hit</span>...
+<span class="nv">Damage</span> <span class="mi">5</span> ...
+<span class="nv">Knife</span> <span class="k">do</span> <span class="mi">2</span> <span class="nv">steps</span>
+<span class="nv">Sword</span> <span class="nv">hit</span>...
+<span class="nv">Damage</span> <span class="mi">5</span> ...
+</code></pre></div>
 
 <h3>Выводы</h3>
 <p>Итак общий принцип используемый в паттерне <strong>СТРАТЕГИЯ</strong> это отделение неких 
@@ -399,14 +400,6 @@ Damage 5 ...
         <li><a href="https://kamyanskiy.github.io/2017/07/pattern-observer.html">Паттерн&nbsp;НАБЛЮДАТЕЛЬ</a></li>
     </ul>
 </section>
-    <hr />
-    <!-- AddThis Button BEGIN -->
-    <div class="addthis_toolbox addthis_default_style">
-            <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
-            <a class="addthis_button_tweet"></a>
-            <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-    </div>
-    <!-- AddThis Button END -->
     <hr/>
     <section class="comments" id="comments">
         <h2>Comments</h2>
@@ -416,11 +409,11 @@ Damage 5 ...
             /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
             var disqus_shortname = 'kamyanskiy'; // required: replace example with your forum shortname
 
-                    var disqus_identifier = 'pattern-strategy';
-                var disqus_url = 'https://kamyanskiy.github.io/2017/07/pattern-strategy.html';
-
             var disqus_config = function () {
                 this.language = "en";
+
+                        this.page.identifier = '2017-07-28-pattern-strategy';
+                        this.page.url = 'https://kamyanskiy.github.io/2017/07/pattern-strategy.html';
             };
 
             /* * * DON'T EDIT BELOW THIS LINE * * */
@@ -459,7 +452,9 @@ Damage 5 ...
 <li class="list-group-item">
   <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
   <ul class="list-group" id="social">
-    <li class="list-group-item"><a href="https://vk.com/id216671695"><i class="fa fa-vk fa-lg"></i> vk</a></li>
+    <li class="list-group-item"><a href="https://www.linkedin.com/in/alexander-kamyanskiy-20850043/"><i class="fa fa-linkedin-square fa-lg"></i> Linkedin</a></li>
+    <li class="list-group-item"><a href="https://t.me/id_fe57c427f4c1"><i class="fa fa-telegram fa-lg"></i> Telegram</a></li>
+    <li class="list-group-item"><a href="https://stackoverflow.com/users/2235755/alexander-kamyanskiy"><i class="fa fa-stack-overflow fa-lg"></i> Stackoverflow</a></li>
     <li class="list-group-item"><a href="https://www.facebook.com/alexander.kamyanskiy"><i class="fa fa-facebook-square fa-lg"></i> Facebook</a></li>
     <li class="list-group-item"><a href="https://github.com/kamyanskiy"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
   </ul>
@@ -470,11 +465,11 @@ Damage 5 ...
 <li class="list-group-item">
   <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
   <ul class="list-group" id="recentposts">
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2022/02/sync-and-async-sqlalchemy.html">Soft touch to SQLAlchemy async I/O (asyncio)&nbsp;feature.</a></li>
     <li class="list-group-item"><a href="https://kamyanskiy.github.io/2018/06/handle-tasks-with-asyncio.html">Get results from Asyncio tasks those were interrupted by&nbsp;timeout</a></li>
     <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/08/pattern-decorator.html">Паттерн&nbsp;ДЕКОРАТОР</a></li>
     <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/07/pattern-observer.html">Паттерн&nbsp;НАБЛЮДАТЕЛЬ</a></li>
     <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/07/pattern-strategy.html">Паттерн&nbsp;СТРАТЕГИЯ</a></li>
-    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/07/db-postgresql-dump-restore.html">Postgresql <span class="caps">DB</span> dump /&nbsp;restore</a></li>
   </ul>
 </li>
 <!-- End Sidebar/Recent Posts -->
@@ -492,23 +487,20 @@ Damage 5 ...
     <li class="list-group-item tag-1">
       <a href="https://kamyanskiy.github.io/label/3nf/">3NF</a>
     </li>
-    <li class="list-group-item tag-2">
+    <li class="list-group-item tag-1">
       <a href="https://kamyanskiy.github.io/label/asyncio/">Asyncio</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/asyncpg/">asyncpg</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/coroutine/">Coroutine</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="https://kamyanskiy.github.io/label/database/">database</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="https://kamyanskiy.github.io/label/db/">DB</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="https://kamyanskiy.github.io/label/decorator/">Decorator</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="https://kamyanskiy.github.io/label/future/">Future</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="https://kamyanskiy.github.io/label/observer/">Observer</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="https://kamyanskiy.github.io/label/oop/">OOP</a>
@@ -528,13 +520,16 @@ Damage 5 ...
     <li class="list-group-item tag-1">
       <a href="https://kamyanskiy.github.io/label/python/">Python</a>
     </li>
-    <li class="list-group-item tag-2">
+    <li class="list-group-item tag-1">
       <a href="https://kamyanskiy.github.io/label/python3/">python3</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="https://kamyanskiy.github.io/label/sql/">SQL</a>
     </li>
     <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/sqlalchemy/">SQLAlchemy</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="https://kamyanskiy.github.io/label/task/">Task</a>
     </li>
     <li class="list-group-item tag-1">
@@ -584,11 +579,13 @@ Damage 5 ...
         </div>
     </div>
 </div>
+<!-- End Content Container -->
+
 <footer>
    <div class="container">
       <hr>
       <div class="row">
-         <div class="col-xs-10">&copy; 2018 Alexander Kamyanskiy
+         <div class="col-xs-10">&copy; 2022 Alexander Kamyanskiy
             &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
             <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
             <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
@@ -603,6 +600,7 @@ Damage 5 ...
 
 <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
 <script src="https://kamyanskiy.github.io/theme/js/respond.min.js"></script>
+
 
 
 <!-- GitHub JS Code -->
@@ -643,7 +641,5 @@ $(document).ready(function () {
     <!-- End Disqus Code -->
 
 
-        <script type="text/javascript">var addthis_config = {"data_track_addressbar": true};</script>
-    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-59403121442ae6be"></script>
 </body>
 </html>

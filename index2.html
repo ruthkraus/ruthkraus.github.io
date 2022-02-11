@@ -21,11 +21,12 @@
         <meta property="og:description" content="kamyanskiy.github.io"/>
 
 
+
     <!-- Bootstrap -->
         <link rel="stylesheet" href="https://kamyanskiy.github.io/theme/css/bootstrap.flatly.min.css" type="text/css"/>
     <link href="https://kamyanskiy.github.io/theme/css/font-awesome.min.css" rel="stylesheet">
 
-    <link href="https://kamyanskiy.github.io/theme/css/pygments/emacs.css" rel="stylesheet">
+    <link href="https://kamyanskiy.github.io/theme/css/pygments/zenburn.css" rel="stylesheet">
     <link href="https://kamyanskiy.github.io/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
         <link href="https://kamyanskiy.github.io/theme/css/typogrify.css" rel="stylesheet">
     <link rel="stylesheet" href="https://kamyanskiy.github.io/theme/css/style.css" type="text/css"/>
@@ -33,13 +34,11 @@
 
 
 
-
-
 </head>
 <body>
 <a href="https://github.com/kamyanskiy"><img class="fork-me-on-github" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-	<div class="container">
+    <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -71,11 +70,27 @@
         <!-- /.navbar-collapse -->
     </div>
 </div> <!-- /.navbar -->
+
 <!-- Banner -->
 <!-- End Banner -->
+
+<!-- Content Container -->
 <div class="container">
     <div class="row">
         <div class="col-sm-9">
+            <article>
+                <h2><a href="https://kamyanskiy.github.io/2017/07/db-postgresql-dump-restore.html">Postgresql <span class="caps">DB</span> dump /&nbsp;restore</a></h2>
+                <div class="summary"><p>For some purposes, for example to have backup copies of database we need to 
+create dump of&nbsp;database.</p>
+<h3>Dump&nbsp;database</h3>
+<p>To dump database we can use command line utility <strong>pg_dump</strong>.</p>
+<p>To make dump of database <strong>haircolors</strong> from previous examples, the usage might
+looks&nbsp;like:</p>
+<div class="highlight"><pre><span></span><code>sudo -u postgres pg_dump …</code></pre></div>
+                    <a class="btn btn-default btn-xs" href="https://kamyanskiy.github.io/2017/07/db-postgresql-dump-restore.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
             <article>
                 <h2><a href="https://kamyanskiy.github.io/2017/07/db-postgresql-joins.html">Выборка данных из нескольких таблиц (<span class="caps">JOIN</span>)</a></h2>
                 <div class="summary"><p>Задача: получить полный адрес&nbsp;покупателя.</p>
@@ -83,15 +98,14 @@
 5 -ти разных&nbsp;таблицах.</p>
 <p><img alt="db_person.png" src="https://kamyanskiy.github.io/images/db_person.png"></p>
 <p>Содержимое таблиц выглядит&nbsp;так:</p>
-<div class="highlight"><pre><span></span>haircolors=# select * from person ;
- person_id | firstname | lastname | phonenumber  | address_id 
------------+-----------+----------+--------------+------------
-         1 | Денис     | Петров   | +79784567897 |          1
-         2 | Юлия      | Бабкина  | +79784168585 |          2
-(2 rows)
+<div class="highlight"><pre><span></span><code><span class="n">haircolors</span><span class="o">=</span><span class="c1"># select * from person ;</span><span class="w"></span>
+<span class="w"> </span><span class="n">person_id</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">firstname</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">lastname</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">phonenumber</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">address_id</span><span class="w"> </span>
+<span class="o">-----------+-----------+----------+--------------+------------</span><span class="w"></span>
+<span class="w">         </span><span class="mi">1</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="err">Денис</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="err">Петров</span><span class="w">   </span><span class="o">|</span><span class="w"> </span><span class="o">+</span><span class="mi">79784567897</span><span class="w"> </span><span class="o">|</span><span class="w">          </span><span class="mi">1</span><span class="w"></span>
+<span class="w">         </span><span class="mi">2</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="err">Юлия</span><span class="w">      </span><span class="o">|</span><span class="w"> </span><span class="err">Бабкина</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="o">+</span><span class="mi">79784168585</span><span class="w"> </span><span class="o">|</span><span class="w">          </span><span class="mi">2</span><span class="w"></span>
+<span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="n">rows</span><span class="p">)</span><span class="w"></span>
 
-haircolors=# select * from address ;
- id | building …</pre></div>
+<span class="n">haircolors</span><span class="o">=</span><span class="c1"># select * from address …</span></code></pre></div>
                     <a class="btn btn-default btn-xs" href="https://kamyanskiy.github.io/2017/07/db-postgresql-joins.html">more ...</a>
                 </div>
             </article>
@@ -133,18 +147,6 @@ haircolors=# select * from address ;
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="https://kamyanskiy.github.io/2017/07/db-theory-1nf.html">Процедура нормализации данных и нормальные формы данных&nbsp;(1НФ).</a></h2>
-                <div class="summary"><p>Данная заметка, делается в первую очередь для себя после прочтения 
-монументального труда &#8220;Введение в системы баз данных&#8221; автора К. Дж.&nbsp;Дейт.  </p>
-<p>Труд этот очень обширный и затрагивает множество теоретических и практических 
-аспектов связанных с базами данных, теорией их устройства (большей
-частью затронуты реляционные базы&nbsp;данных).  </p>
-<p>Чтобы как-то оставить информацию в …</p>
-                    <a class="btn btn-default btn-xs" href="https://kamyanskiy.github.io/2017/07/db-theory-1nf.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="https://kamyanskiy.github.io/index.html">&laquo;</a>
@@ -155,6 +157,8 @@ haircolors=# select * from address ;
                             href="https://kamyanskiy.github.io/index2.html">2</a></li>
                     <li class=""><a
                             href="https://kamyanskiy.github.io/index3.html">3</a></li>
+                    <li class=""><a
+                            href="https://kamyanskiy.github.io/index4.html">4</a></li>
                 <li class="next"><a
                         href="https://kamyanskiy.github.io/index3.html">&raquo;</a></li>
         </ul>
@@ -177,7 +181,9 @@ haircolors=# select * from address ;
 <li class="list-group-item">
   <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
   <ul class="list-group" id="social">
-    <li class="list-group-item"><a href="https://vk.com/id216671695"><i class="fa fa-vk fa-lg"></i> vk</a></li>
+    <li class="list-group-item"><a href="https://www.linkedin.com/in/alexander-kamyanskiy-20850043/"><i class="fa fa-linkedin-square fa-lg"></i> Linkedin</a></li>
+    <li class="list-group-item"><a href="https://t.me/id_fe57c427f4c1"><i class="fa fa-telegram fa-lg"></i> Telegram</a></li>
+    <li class="list-group-item"><a href="https://stackoverflow.com/users/2235755/alexander-kamyanskiy"><i class="fa fa-stack-overflow fa-lg"></i> Stackoverflow</a></li>
     <li class="list-group-item"><a href="https://www.facebook.com/alexander.kamyanskiy"><i class="fa fa-facebook-square fa-lg"></i> Facebook</a></li>
     <li class="list-group-item"><a href="https://github.com/kamyanskiy"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
   </ul>
@@ -188,11 +194,11 @@ haircolors=# select * from address ;
 <li class="list-group-item">
   <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
   <ul class="list-group" id="recentposts">
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2022/02/sync-and-async-sqlalchemy.html">Soft touch to SQLAlchemy async I/O (asyncio)&nbsp;feature.</a></li>
     <li class="list-group-item"><a href="https://kamyanskiy.github.io/2018/06/handle-tasks-with-asyncio.html">Get results from Asyncio tasks those were interrupted by&nbsp;timeout</a></li>
     <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/08/pattern-decorator.html">Паттерн&nbsp;ДЕКОРАТОР</a></li>
     <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/07/pattern-observer.html">Паттерн&nbsp;НАБЛЮДАТЕЛЬ</a></li>
     <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/07/pattern-strategy.html">Паттерн&nbsp;СТРАТЕГИЯ</a></li>
-    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/07/db-postgresql-dump-restore.html">Postgresql <span class="caps">DB</span> dump /&nbsp;restore</a></li>
   </ul>
 </li>
 <!-- End Sidebar/Recent Posts -->
@@ -210,23 +216,20 @@ haircolors=# select * from address ;
     <li class="list-group-item tag-1">
       <a href="https://kamyanskiy.github.io/label/3nf/">3NF</a>
     </li>
-    <li class="list-group-item tag-2">
+    <li class="list-group-item tag-1">
       <a href="https://kamyanskiy.github.io/label/asyncio/">Asyncio</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/asyncpg/">asyncpg</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/coroutine/">Coroutine</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="https://kamyanskiy.github.io/label/database/">database</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="https://kamyanskiy.github.io/label/db/">DB</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="https://kamyanskiy.github.io/label/decorator/">Decorator</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="https://kamyanskiy.github.io/label/future/">Future</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="https://kamyanskiy.github.io/label/observer/">Observer</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="https://kamyanskiy.github.io/label/oop/">OOP</a>
@@ -246,13 +249,16 @@ haircolors=# select * from address ;
     <li class="list-group-item tag-1">
       <a href="https://kamyanskiy.github.io/label/python/">Python</a>
     </li>
-    <li class="list-group-item tag-2">
+    <li class="list-group-item tag-1">
       <a href="https://kamyanskiy.github.io/label/python3/">python3</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="https://kamyanskiy.github.io/label/sql/">SQL</a>
     </li>
     <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/sqlalchemy/">SQLAlchemy</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="https://kamyanskiy.github.io/label/task/">Task</a>
     </li>
     <li class="list-group-item tag-1">
@@ -302,11 +308,13 @@ haircolors=# select * from address ;
         </div>
     </div>
 </div>
+<!-- End Content Container -->
+
 <footer>
    <div class="container">
       <hr>
       <div class="row">
-         <div class="col-xs-10">&copy; 2018 Alexander Kamyanskiy
+         <div class="col-xs-10">&copy; 2022 Alexander Kamyanskiy
             &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
             <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
             <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
@@ -321,6 +329,7 @@ haircolors=# select * from address ;
 
 <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
 <script src="https://kamyanskiy.github.io/theme/js/respond.min.js"></script>
+
 
 
 <!-- GitHub JS Code -->

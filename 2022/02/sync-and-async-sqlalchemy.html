@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>Soft touch to SQLAlchemy async I/O (asyncio) feature. - kamyanskiy.github.io</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href="https://kamyanskiy.github.io/images/logo.png" rel="icon">
+
+<link rel="canonical" href="https://kamyanskiy.github.io/2022/02/sync-and-async-sqlalchemy.html">
+
+        <meta name="author" content="Alexander Kamyanskiy" />
+        <meta name="keywords" content="Asyncio,SQLAlchemy,python3,Task,Coroutine,asyncpg" />
+        <meta name="description" content="From SQLAlchemy documentation since SQLAlchemy release 1.4 there present some support of async I/O: SQLAlchemy docs The new asyncio feature should be considered alpha level for the initial releases of SQLAlchemy 1.4. This is super new stuff that uses some previously unfamiliar programming techniques. The initial database …" />
+
+        <meta property="og:site_name" content="kamyanskiy.github.io" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Soft touch to SQLAlchemy async I/O (asyncio) feature."/>
+        <meta property="og:url" content="https://kamyanskiy.github.io/2022/02/sync-and-async-sqlalchemy.html"/>
+        <meta property="og:description" content="From SQLAlchemy documentation since SQLAlchemy release 1.4 there present some support of async I/O: SQLAlchemy docs The new asyncio feature should be considered alpha level for the initial releases of SQLAlchemy 1.4. This is super new stuff that uses some previously unfamiliar programming techniques. The initial database …"/>
+        <meta property="article:published_time" content="2022-02-11" />
+            <meta property="article:section" content="Blog" />
+            <meta property="article:tag" content="Asyncio" />
+            <meta property="article:tag" content="SQLAlchemy" />
+            <meta property="article:tag" content="python3" />
+            <meta property="article:tag" content="Task" />
+            <meta property="article:tag" content="Coroutine" />
+            <meta property="article:tag" content="asyncpg" />
+            <meta property="article:author" content="Alexander Kamyanskiy" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://kamyanskiy.github.io/theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="https://kamyanskiy.github.io/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://kamyanskiy.github.io/theme/css/pygments/zenburn.css" rel="stylesheet">
+    <link href="https://kamyanskiy.github.io/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
+        <link href="https://kamyanskiy.github.io/theme/css/typogrify.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://kamyanskiy.github.io/theme/css/style.css" type="text/css"/>
+        <link href="https://kamyanskiy.github.io/theme/css/custom.css" rel="stylesheet">
+
+
+
+</head>
+<body>
+<a href="https://github.com/kamyanskiy"><img class="fork-me-on-github" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="https://kamyanskiy.github.io/" class="navbar-brand">
+<img class="img-responsive pull-left gap-right" src="https://kamyanskiy.github.io/images/logo.png" width=""/> kamyanskiy.github.io            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                         <li><a href="https://kamyanskiy.github.io/about-me.html">
+                             About&nbsp;me
+                          </a></li>
+                        <li class="active">
+                            <a href="https://kamyanskiy.github.io/category/blog/">Blog</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><span>
+                <form class="navbar-search" action="/search.html">
+                  <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input" required>
+                </form></span>
+              </li>
+              <li><a href="https://kamyanskiy.github.io/archives/"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            <ol class="breadcrumb">
+                <li><a href="https://kamyanskiy.github.io" title="kamyanskiy.github.io"><i class="fa fa-home fa-lg"></i></a></li>
+                <li><a href="https://kamyanskiy.github.io/category/blog/" title="Blog">Blog</a></li>
+                <li class="active">Soft touch to SQLAlchemy async I/O (asyncio)&nbsp;feature.</li>
+            </ol>
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://kamyanskiy.github.io/2022/02/sync-and-async-sqlalchemy.html"
+                       rel="bookmark"
+                       title="Permalink to Soft touch to SQLAlchemy async I/O (asyncio) feature.">
+                        Soft touch to SQLAlchemy async I/O (asyncio)&nbsp;feature.
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2022-02-11T10:23:00+03:00"> Fri 11 February 2022</time>
+    </span>
+          <span class="label label-default">Modified</span>
+            <span class="modified">
+                <i class="fa fa-calendar"></i><time datetime="2022-02-11T15:22:09.062483+03:00"> Fri 11 February 2022</time>
+            </span>
+
+
+            <span class="label label-default">By</span>
+            <a href="https://kamyanskiy.github.io/author/alexander-kamyanskiy.html"><i class="fa fa-user"></i> Alexander Kamyanskiy</a>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="https://kamyanskiy.github.io/label/asyncio/">Asyncio</a>
+        /
+	<a href="https://kamyanskiy.github.io/label/sqlalchemy/">SQLAlchemy</a>
+        /
+	<a href="https://kamyanskiy.github.io/label/python3/">python3</a>
+        /
+	<a href="https://kamyanskiy.github.io/label/task/">Task</a>
+        /
+	<a href="https://kamyanskiy.github.io/label/coroutine/">Coroutine</a>
+        /
+	<a href="https://kamyanskiy.github.io/label/asyncpg/">asyncpg</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>From SQLAlchemy documentation since SQLAlchemy release 1.4 there present some support of async I/O: <a href="https://docs.sqlalchemy.org/en/14/changelog/migration_14.html#change-3414">SQLAlchemy&nbsp;docs</a></p>
+<blockquote>
+<p>The new asyncio feature should be considered alpha level for the initial releases of SQLAlchemy 1.4. This is super new stuff that uses some previously unfamiliar programming techniques.
+The initial database <span class="caps">API</span> supported is the asyncpg asyncio driver for&nbsp;PostgreSQL.</p>
+</blockquote>
+<p>By the latest docs I can see now <a href="https://docs.sqlalchemy.org/en/14/orm/extensions/asyncio.html">Asynchronous I/O&nbsp;(asyncio)</a></p>
+<blockquote>
+<p>The asyncio extension as of SQLAlchemy 1.4.3 can now be considered to be beta level software. <span class="caps">API</span> details are subject to change however at this point it is unlikely for there to be significant backwards-incompatible&nbsp;changes.</p>
+</blockquote>
+<p>For today the current release is 1.4.31 and I have an idea to run some tests to look closer on&nbsp;it.</p>
+<p>So first install virtual environment, install there SQLAlchemy, <a href="https://github.com/MagicStack/asyncpg">asyncpg</a> driver and <a href="https://github.com/psycopg/psycopg2">psycopg2-binary</a> driver, I have an idea to do some tests with usual sync&nbsp;flow:</p>
+<div class="highlight"><pre><span></span><code>$ python3.10 -m venv .venv 
+$ <span class="nb">source</span> .venv/bin/activate
+
+$ <span class="o">(</span>.venv<span class="o">)</span> pip install sqlalchemy asyncpg psycopg2-binary 
+
+$ pip freeze
+<span class="nv">asyncpg</span><span class="o">==</span><span class="m">0</span>.25.0
+<span class="nv">greenlet</span><span class="o">==</span><span class="m">1</span>.1.2
+psycopg2-binary<span class="o">==</span><span class="m">2</span>.9.3
+<span class="nv">SQLAlchemy</span><span class="o">==</span><span class="m">1</span>.4.31
+</code></pre></div>
+
+<p>Now we need postgresql database, run it with docker <a href="https://www.docker.com/">Docker</a>, and set 2000&nbsp;max_connections:</p>
+<div class="highlight"><pre><span></span><code>docker run --rm <span class="se">\ </span>             
+--name postgres <span class="se">\ </span>    
+ -p <span class="m">5432</span>:5432 <span class="se">\</span>
+ -e <span class="nv">POSTGRES_USER</span><span class="o">=</span>postgres <span class="se">\</span>
+ -e <span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>postgres <span class="se">\</span>
+ -e <span class="nv">POSTGRES_DB</span><span class="o">=</span>postgres <span class="se">\</span>
+ postgres -N <span class="m">2000</span>
+
+...
+<span class="m">2022</span>-02-11 <span class="m">08</span>:00:34.288 UTC <span class="o">[</span><span class="m">1</span><span class="o">]</span> LOG:  starting PostgreSQL <span class="m">14</span>.1 <span class="o">(</span>Debian <span class="m">14</span>.1-1.pgdg110+1<span class="o">)</span> on x86_64-pc-linux-gnu, compiled by gcc <span class="o">(</span>Debian <span class="m">10</span>.2.1-6<span class="o">)</span> <span class="m">10</span>.2.1 <span class="m">20210110</span>, <span class="m">64</span>-bit
+</code></pre></div>
+
+<p>We can check if -N 2000 was&nbsp;applied:</p>
+<div class="highlight"><pre><span></span><code>docker run -it --rm --link postgres:postgres postgres psql -h postgres -U postgres<span class="p">;</span> 
+Password <span class="k">for</span> user postgres: 
+psql <span class="o">(</span><span class="m">14</span>.1 <span class="o">(</span>Debian <span class="m">14</span>.1-1.pgdg110+1<span class="o">))</span>
+Type <span class="s2">&quot;help&quot;</span> <span class="k">for</span> help.
+
+<span class="nv">postgres</span><span class="o">=</span><span class="c1"># show max_connections ;</span>
+ max_connections 
+-----------------
+ <span class="m">2000</span>
+<span class="o">(</span><span class="m">1</span> row<span class="o">)</span>
+</code></pre></div>
+
+<p>So all is fine, our patient is prepared and waits for our&nbsp;commands.</p>
+<h3>The&nbsp;case</h3>
+<p>I think about to run ~35000 read/write operations against database, it should be ~ 50/50 %. ~50% read, 50% write operations.
+And its interesting to look at total time of execution and how many connections were&nbsp;utilized.</p>
+<h3>Sync&nbsp;story</h3>
+<p>I prepared some code that in my opinion does what I want in style I used to do usually:
+file  <em>sync_main.py</em></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">Column</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">DateTime</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">ForeignKey</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">func</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">Integer</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">String</span>
+
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">Session</span>
+
+<span class="kn">from</span> <span class="nn">sqlalchemy.future</span> <span class="kn">import</span> <span class="n">select</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">declarative_base</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">relationship</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">selectinload</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">sessionmaker</span>
+
+
+<span class="n">Base</span> <span class="o">=</span> <span class="n">declarative_base</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;a&quot;</span>
+
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">)</span>
+    <span class="n">create_date</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">DateTime</span><span class="p">,</span> <span class="n">server_default</span><span class="o">=</span><span class="n">func</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+    <span class="n">bs</span> <span class="o">=</span> <span class="n">relationship</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">B</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;b&quot;</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">a_id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s2">&quot;a.id&quot;</span><span class="p">))</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">init_session</span><span class="p">():</span>
+    <span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span>
+        <span class="s2">&quot;postgresql+psycopg2://postgres:postgres@localhost/postgres&quot;</span><span class="p">,</span>
+        <span class="n">echo</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">pool_size</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">max_overflow</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">pool_timeout</span><span class="o">=</span><span class="mi">60</span>
+    <span class="p">)</span>
+    <span class="n">Base</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">drop_all</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+    <span class="n">Base</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">create_all</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+    <span class="n">session</span> <span class="o">=</span> <span class="n">sessionmaker</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="n">future</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">session</span>
+
+
+<span class="k">def</span> <span class="nf">create_entities</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">session</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">session</span><span class="o">.</span><span class="n">begin</span><span class="p">():</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">add_all</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">A</span><span class="p">(</span><span class="n">bs</span><span class="o">=</span><span class="p">[</span><span class="n">B</span><span class="p">(),</span> <span class="n">B</span><span class="p">()],</span> <span class="n">data</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">data</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)),</span>
+                    <span class="n">A</span><span class="p">(</span><span class="n">bs</span><span class="o">=</span><span class="p">[</span><span class="n">B</span><span class="p">()],</span> <span class="n">data</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">data</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)),</span>
+                    <span class="n">A</span><span class="p">(</span><span class="n">bs</span><span class="o">=</span><span class="p">[</span><span class="n">B</span><span class="p">(),</span> <span class="n">B</span><span class="p">()],</span> <span class="n">data</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">data</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)),</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">read_all_entities</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">session</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+        <span class="c1"># for relationship loading, eager loading should be applied.</span>
+        <span class="n">stmt</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">selectinload</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">bs</span><span class="p">))</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="n">limit</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">a1</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">scalars</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">b1</span> <span class="ow">in</span> <span class="n">a1</span><span class="o">.</span><span class="n">bs</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">b1</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">sync_main</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Main program function.&quot;&quot;&quot;</span>
+    <span class="n">session</span> <span class="o">=</span> <span class="n">init_session</span><span class="p">()</span>
+    <span class="n">create_entities_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="n">read_entities_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">35000</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]):</span>
+            <span class="n">read_entities_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">read_all_entities</span><span class="p">,</span> <span class="n">session</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">create_entities_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">create_entities</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100_000</span><span class="p">)))</span>
+    <span class="n">tasks</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">create_entities_list</span><span class="p">,</span> <span class="o">*</span><span class="n">read_entities_list</span><span class="p">]</span>
+    <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">tasks</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Tasks prepared for execution.&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tasks</span><span class="p">):</span>
+        <span class="n">t</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;created: &#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">create_entities_list</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;read: &#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">read_entities_list</span><span class="p">))</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">sync_main</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total time: &#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">start</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Here we have 2 models with relationship, I prepared two lists of operations, then concat them in one big list and shuffle tasks, to have random order.&nbsp;Result:</p>
+<div class="highlight"><pre><span></span><code> created:  <span class="m">17565</span>
+ read:  <span class="m">17435</span>
+ Total time:  <span class="m">203</span>.5927267074585
+</code></pre></div>
+
+<p>in that case total time is ~203 seconds and look at screenshot of <a href="https://dbeaver.io/">DBeaver</a> database&nbsp;dashboard:</p>
+<p><img alt="photo1.png" src="https://kamyanskiy.github.io/images/sync-async-sqlalchemy/photo1.png"></p>
+<p>The DBeaver itself uses database connections, so in total we can see 3 connections on graph, I suppose two of them its DBeaver&#8217;s connections.
+So I may be wrong, but here we utilize single connection from database for execute our flow&nbsp;syncronously.</p>
+<h3>Async story&nbsp;one</h3>
+<p>Check docs about questions how to use in whole SQLAlchemy asyncio extension, in addition there many articles were written about it, so its boring to repeat&nbsp;docs.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">Column</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">DateTime</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">ForeignKey</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">func</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">Integer</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">String</span>
+
+<span class="kn">from</span> <span class="nn">sqlalchemy.ext.asyncio</span> <span class="kn">import</span> <span class="n">AsyncSession</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.ext.asyncio</span> <span class="kn">import</span> <span class="n">create_async_engine</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.future</span> <span class="kn">import</span> <span class="n">select</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">declarative_base</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">relationship</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">selectinload</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">sessionmaker</span>
+
+
+<span class="n">Base</span> <span class="o">=</span> <span class="n">declarative_base</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;a&quot;</span>
+
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">)</span>
+    <span class="n">create_date</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">DateTime</span><span class="p">,</span> <span class="n">server_default</span><span class="o">=</span><span class="n">func</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+    <span class="n">bs</span> <span class="o">=</span> <span class="n">relationship</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">)</span>
+
+    <span class="c1"># required in order to access columns with server defaults</span>
+    <span class="c1"># or SQL expression defaults, subsequent to a flush, without</span>
+    <span class="c1"># triggering an expired load</span>
+    <span class="n">__mapper_args__</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;eager_defaults&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+
+
+<span class="k">class</span> <span class="nc">B</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;b&quot;</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">a_id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s2">&quot;a.id&quot;</span><span class="p">))</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">)</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">init_session</span><span class="p">():</span>
+    <span class="n">engine</span> <span class="o">=</span> <span class="n">create_async_engine</span><span class="p">(</span>
+        <span class="s2">&quot;postgresql+asyncpg://postgres:postgres@localhost/postgres&quot;</span><span class="p">,</span>
+        <span class="n">future</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">pool_size</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span> <span class="n">max_overflow</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">pool_timeout</span><span class="o">=</span><span class="mi">60</span>
+    <span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">with</span> <span class="n">engine</span><span class="o">.</span><span class="n">begin</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
+        <span class="k">await</span> <span class="n">conn</span><span class="o">.</span><span class="n">run_sync</span><span class="p">(</span><span class="n">Base</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">drop_all</span><span class="p">)</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">engine</span><span class="o">.</span><span class="n">begin</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
+        <span class="k">await</span> <span class="n">conn</span><span class="o">.</span><span class="n">run_sync</span><span class="p">(</span><span class="n">Base</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">create_all</span><span class="p">)</span>
+    <span class="c1"># expire_on_commit=False will prevent attributes from being expired</span>
+    <span class="c1"># after commit.</span>
+    <span class="n">async_session</span> <span class="o">=</span> <span class="n">sessionmaker</span><span class="p">(</span>
+        <span class="n">engine</span><span class="p">,</span> <span class="n">expire_on_commit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="n">AsyncSession</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">async_session</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">coro_create_entities</span><span class="p">(</span><span class="n">async_session</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">async_session</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+        <span class="k">async</span> <span class="k">with</span> <span class="n">session</span><span class="o">.</span><span class="n">begin</span><span class="p">():</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">add_all</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">A</span><span class="p">(</span><span class="n">bs</span><span class="o">=</span><span class="p">[</span><span class="n">B</span><span class="p">(),</span> <span class="n">B</span><span class="p">()],</span> <span class="n">data</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">data</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)),</span>
+                    <span class="n">A</span><span class="p">(</span><span class="n">bs</span><span class="o">=</span><span class="p">[</span><span class="n">B</span><span class="p">()],</span> <span class="n">data</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">data</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)),</span>
+                    <span class="n">A</span><span class="p">(</span><span class="n">bs</span><span class="o">=</span><span class="p">[</span><span class="n">B</span><span class="p">(),</span> <span class="n">B</span><span class="p">()],</span> <span class="n">data</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">data</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)),</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">coro_read_all_entities</span><span class="p">(</span><span class="n">async_session</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">async_session</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+        <span class="c1"># for relationship loading, eager loading should be applied.</span>
+        <span class="n">stmt</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">selectinload</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">bs</span><span class="p">))</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="n">limit</span><span class="p">)</span>
+        <span class="c1"># for streaming ORM results, AsyncSession.stream() may be used.</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">session</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
+        <span class="c1"># result is a streaming AsyncResult object.</span>
+        <span class="k">async</span> <span class="k">for</span> <span class="n">a1</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">scalars</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">b1</span> <span class="ow">in</span> <span class="n">a1</span><span class="o">.</span><span class="n">bs</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">b1</span><span class="p">)</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">async_main</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Main program function.&quot;&quot;&quot;</span>
+    <span class="n">async_session</span> <span class="o">=</span> <span class="k">await</span> <span class="n">init_session</span><span class="p">()</span>
+    <span class="n">create_entities</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">read_entities</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">35000</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]):</span>
+            <span class="n">read_entities</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span>
+                <span class="n">coro_read_all_entities</span><span class="p">(</span><span class="n">async_session</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">create_entities</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span>
+                <span class="n">coro_create_entities</span><span class="p">(</span>
+                    <span class="n">async_session</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100_000</span><span class="p">))))</span>
+            <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># trick to let switch context from creating tasks</span>
+
+    <span class="n">done</span><span class="p">,</span> <span class="n">pending</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span>
+        <span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="n">create_entities</span><span class="p">,</span> <span class="n">read_entities</span><span class="p">))</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Done: &quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">done</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pending: &quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">pending</span><span class="p">))</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;created: &#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">create_entities</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;read: &#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">read_entities</span><span class="p">))</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">async_main</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total time: &#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">start</span><span class="p">)</span>
+</code></pre></div>
+
+<p>And result here is amazing !!! The total time is two times faster than in case with sync&nbsp;style:</p>
+<div class="highlight"><pre><span></span><code>Done:  <span class="m">35000</span>
+Pending:  <span class="m">0</span>
+created:  <span class="m">17663</span>
+read:  <span class="m">17337</span>
+Total time:  <span class="m">116</span>.1717700958252
+</code></pre></div>
+
+<p><img alt="photo2.png" src="https://kamyanskiy.github.io/images/sync-async-sqlalchemy/photo2.png"></p>
+<p>It utilizes ~100 database connections. The one thing you can see my trick that lets my script to switch attention to task execution from 
+&#8216;for&#8217; loop that pushes tasks to event loop queue. Otherwise, if I don&#8217;t do that, our 2000 pool will be exhausted by 2000 tasks in 3&nbsp;seconds.</p>
+<h3>Async story two&nbsp;(chunks)</h3>
+<p>Here I decided to push tasks by chunks, to control optimal numbers of concurrent requests per unit of&nbsp;time.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">Column</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">DateTime</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">ForeignKey</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">func</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">Integer</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">String</span>
+
+<span class="kn">from</span> <span class="nn">sqlalchemy.ext.asyncio</span> <span class="kn">import</span> <span class="n">AsyncSession</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.ext.asyncio</span> <span class="kn">import</span> <span class="n">create_async_engine</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.future</span> <span class="kn">import</span> <span class="n">select</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">declarative_base</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">relationship</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">selectinload</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">sessionmaker</span>
+
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">zip_longest</span>
+
+<span class="k">def</span> <span class="nf">chunker</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">chunksize</span><span class="p">,</span> <span class="n">filler</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">zip_longest</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="nb">iter</span><span class="p">(</span><span class="n">iterable</span><span class="p">)]</span><span class="o">*</span><span class="n">chunksize</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="n">filler</span><span class="p">)</span>
+
+<span class="n">Base</span> <span class="o">=</span> <span class="n">declarative_base</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;a&quot;</span>
+
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">)</span>
+    <span class="n">create_date</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">DateTime</span><span class="p">,</span> <span class="n">server_default</span><span class="o">=</span><span class="n">func</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+    <span class="n">bs</span> <span class="o">=</span> <span class="n">relationship</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">)</span>
+
+    <span class="c1"># required in order to access columns with server defaults</span>
+    <span class="c1"># or SQL expression defaults, subsequent to a flush, without</span>
+    <span class="c1"># triggering an expired load</span>
+    <span class="n">__mapper_args__</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;eager_defaults&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+
+
+<span class="k">class</span> <span class="nc">B</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;b&quot;</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">a_id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s2">&quot;a.id&quot;</span><span class="p">))</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">)</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">init_session</span><span class="p">():</span>
+    <span class="n">engine</span> <span class="o">=</span> <span class="n">create_async_engine</span><span class="p">(</span>
+        <span class="s2">&quot;postgresql+asyncpg://postgres:postgres@localhost/postgres&quot;</span><span class="p">,</span>
+        <span class="n">future</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">pool_size</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span> <span class="n">max_overflow</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">pool_timeout</span><span class="o">=</span><span class="mi">60</span>
+    <span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">with</span> <span class="n">engine</span><span class="o">.</span><span class="n">begin</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
+        <span class="k">await</span> <span class="n">conn</span><span class="o">.</span><span class="n">run_sync</span><span class="p">(</span><span class="n">Base</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">drop_all</span><span class="p">)</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">engine</span><span class="o">.</span><span class="n">begin</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
+        <span class="k">await</span> <span class="n">conn</span><span class="o">.</span><span class="n">run_sync</span><span class="p">(</span><span class="n">Base</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">create_all</span><span class="p">)</span>
+
+    <span class="c1"># expire_on_commit=False will prevent attributes from being expired</span>
+    <span class="c1"># after commit.</span>
+    <span class="n">async_session</span> <span class="o">=</span> <span class="n">sessionmaker</span><span class="p">(</span>
+        <span class="n">engine</span><span class="p">,</span> <span class="n">expire_on_commit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="n">AsyncSession</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">async_session</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">coro_create_entities</span><span class="p">(</span><span class="n">async_session</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">async_session</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+        <span class="k">async</span> <span class="k">with</span> <span class="n">session</span><span class="o">.</span><span class="n">begin</span><span class="p">():</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">add_all</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">A</span><span class="p">(</span><span class="n">bs</span><span class="o">=</span><span class="p">[</span><span class="n">B</span><span class="p">(),</span> <span class="n">B</span><span class="p">()],</span> <span class="n">data</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">data</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)),</span>
+                    <span class="n">A</span><span class="p">(</span><span class="n">bs</span><span class="o">=</span><span class="p">[</span><span class="n">B</span><span class="p">()],</span> <span class="n">data</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">data</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)),</span>
+                    <span class="n">A</span><span class="p">(</span><span class="n">bs</span><span class="o">=</span><span class="p">[</span><span class="n">B</span><span class="p">(),</span> <span class="n">B</span><span class="p">()],</span> <span class="n">data</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">data</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)),</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">coro_read_all_entities</span><span class="p">(</span><span class="n">async_session</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">async_session</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+        <span class="c1"># for relationship loading, eager loading should be applied.</span>
+        <span class="n">stmt</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">selectinload</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">bs</span><span class="p">))</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="n">limit</span><span class="p">)</span>
+        <span class="c1"># AsyncSession.execute() is used for 2.0 style ORM execution</span>
+        <span class="c1"># (same as the synchronous API).</span>
+        <span class="c1"># for streaming ORM results, AsyncSession.stream() may be used.</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">session</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
+        <span class="c1"># result is a streaming AsyncResult object.</span>
+        <span class="k">async</span> <span class="k">for</span> <span class="n">a1</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">scalars</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">b1</span> <span class="ow">in</span> <span class="n">a1</span><span class="o">.</span><span class="n">bs</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">b1</span><span class="p">)</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">async_main</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Main program function.&quot;&quot;&quot;</span>
+    <span class="n">async_session</span> <span class="o">=</span> <span class="k">await</span> <span class="n">init_session</span><span class="p">()</span>
+    <span class="n">create_entities_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="n">read_entities_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">35000</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]):</span>
+            <span class="n">read_entities_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">coro_read_all_entities</span><span class="p">(</span><span class="n">async_session</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">create_entities_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coro_create_entities</span><span class="p">(</span>
+                    <span class="n">async_session</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100_000</span><span class="p">)))</span>
+
+    <span class="n">tasks</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">create_entities_list</span><span class="p">,</span> <span class="o">*</span><span class="n">read_entities_list</span><span class="p">]</span>
+    <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">tasks</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">chunker</span><span class="p">(</span><span class="n">tasks</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="kc">None</span><span class="p">)):</span>
+        <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">chunk</span> <span class="k">if</span> <span class="n">t</span><span class="p">))</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;created: &#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">create_entities_list</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;read: &#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">read_entities_list</span><span class="p">))</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">async_main</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total time: &#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">start</span><span class="p">)</span>
+</code></pre></div>
+
+<p>So as you can see from code I push by forthy requests (Tasks) per one chunk and we can see&nbsp;results:</p>
+<div class="highlight"><pre><span></span><code>created:  <span class="m">17600</span>
+read:  <span class="m">17400</span>
+Total time:  <span class="m">102</span>.18556618690491
+</code></pre></div>
+
+<p>so here less total time of execution, I win 14 seconds !!! Its because I think its less load on database when I control chunks of tasks to run concurrently at one loop cycle.
+And of course DBeaver&nbsp;picture:</p>
+<p><img alt="photo3.png" src="https://kamyanskiy.github.io/images/sync-async-sqlalchemy/photo3.png"></p>
+<h3>The&nbsp;end</h3>
+<p>So final&nbsp;words </p>
+<table>
+<thead>
+<tr>
+<th>scenario</th>
+<th>time, sec</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sync</td>
+<td>202.0</td>
+</tr>
+<tr>
+<td>async</td>
+<td>116.0</td>
+</tr>
+<tr>
+<td>async chunked</td>
+<td>102.2</td>
+</tr>
+</tbody>
+</table>
+<p>And here you can look at all three runs on one&nbsp;graph.</p>
+<p><img alt="photo4.png" src="https://kamyanskiy.github.io/images/sync-async-sqlalchemy/photo4.png"></p>
+<p>I hope it was interesting, feel free to comment below&nbsp;;)</p>
+            </div>
+            <!-- /.entry-content -->
+<section class="well" id="related-posts">
+    <h4>Related Posts:</h4>
+    <ul>
+        <li><a href="https://kamyanskiy.github.io/2018/06/handle-tasks-with-asyncio.html">Get results from Asyncio tasks those were interrupted by&nbsp;timeout</a></li>
+    </ul>
+</section>
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'kamyanskiy'; // required: replace example with your forum shortname
+
+            var disqus_config = function () {
+                this.language = "en";
+
+                        this.page.identifier = '2022-02-11-sync-and-async-sqlalchemy';
+                        this.page.url = 'https://kamyanskiy.github.io/2022/02/sync-and-async-sqlalchemy.html';
+            };
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<div id="aboutme">
+        <p>
+            <img width="100%" class="img-thumbnail" src="https://kamyanskiy.github.io/images/profile.jpg"/>
+        </p>
+    <p>
+      <strong>About Alexander Kamyanskiy</strong><br/>
+        <span>I love Python and happy to use it everyday for develop Web applications, writing tests and others cool things.</span>
+    </p>
+</div><!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://www.linkedin.com/in/alexander-kamyanskiy-20850043/"><i class="fa fa-linkedin-square fa-lg"></i> Linkedin</a></li>
+    <li class="list-group-item"><a href="https://t.me/id_fe57c427f4c1"><i class="fa fa-telegram fa-lg"></i> Telegram</a></li>
+    <li class="list-group-item"><a href="https://stackoverflow.com/users/2235755/alexander-kamyanskiy"><i class="fa fa-stack-overflow fa-lg"></i> Stackoverflow</a></li>
+    <li class="list-group-item"><a href="https://www.facebook.com/alexander.kamyanskiy"><i class="fa fa-facebook-square fa-lg"></i> Facebook</a></li>
+    <li class="list-group-item"><a href="https://github.com/kamyanskiy"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Recent Posts -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
+  <ul class="list-group" id="recentposts">
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2022/02/sync-and-async-sqlalchemy.html">Soft touch to SQLAlchemy async I/O (asyncio)&nbsp;feature.</a></li>
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2018/06/handle-tasks-with-asyncio.html">Get results from Asyncio tasks those were interrupted by&nbsp;timeout</a></li>
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/08/pattern-decorator.html">Паттерн&nbsp;ДЕКОРАТОР</a></li>
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/07/pattern-observer.html">Паттерн&nbsp;НАБЛЮДАТЕЛЬ</a></li>
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/07/pattern-strategy.html">Паттерн&nbsp;СТРАТЕГИЯ</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Recent Posts -->
+
+<!-- Sidebar/Tag Cloud -->
+<li class="list-group-item">
+  <a href="https://kamyanskiy.github.io/label/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+  <ul class="list-group list-inline tagcloud" id="tags">
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/1nf/">1NF</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/2nf/">2NF</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/3nf/">3NF</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/asyncio/">Asyncio</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/asyncpg/">asyncpg</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/coroutine/">Coroutine</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/database/">database</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/db/">DB</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/oop/">OOP</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/packer/">packer</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/patterns/">Patterns</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/pelican/">Pelican</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/postgresql/">Postgresql</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/python/">Python</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/python3/">python3</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/sql/">SQL</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/sqlalchemy/">SQLAlchemy</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/task/">Task</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/theory/">theory</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="https://kamyanskiy.github.io/label/vagrant/">vagrant</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Tag Cloud -->
+
+<!-- Sidebar/Github -->
+<li class="list-group-item">
+  <h4><i class="fa fa-github fa-lg"></i><span class="icon-label">GitHub Repos</span></h4>
+  <div id="gh_repos">
+    <p class="list-group-item">Status updating...</p>
+  </div>
+</li>
+<!-- End Sidebar/Github -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a>
+    </li>
+    <li class="list-group-item">
+      <a href="https://https://docs.djangoproject.com/" target="_blank">Django</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://flask.pocoo.org/" target="_blank">Flask</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2022 Alexander Kamyanskiy
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://kamyanskiy.github.io/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://kamyanskiy.github.io/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://kamyanskiy.github.io/theme/js/respond.min.js"></script>
+
+
+
+<!-- GitHub JS Code -->
+<script type="text/javascript">
+$(document).ready(function () {
+  if (!window.jXHR) {
+    var jxhr = document.createElement('script');
+    jxhr.type = 'text/javascript';
+    jxhr.src = 'https://kamyanskiy.github.io/theme/js/jXHR.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(jxhr, s);
+  }
+
+  github.showRepos({
+    user: 'kamyanskiy',
+    count: 5,
+    skip_forks: false,
+    target: '#gh_repos'
+  });
+});
+</script>
+<script src="https://kamyanskiy.github.io/theme/js/github.js" type="text/javascript"></script>
+<!-- End GitHub JS Code -->
+    <!-- Disqus -->
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'kamyanskiy'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+    <!-- End Disqus Code -->
+
+
+</body>
+</html>

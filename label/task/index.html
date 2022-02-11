@@ -22,11 +22,12 @@
         <meta property="og:description" content="kamyanskiy.github.io"/>
 
 
+
     <!-- Bootstrap -->
         <link rel="stylesheet" href="https://kamyanskiy.github.io/theme/css/bootstrap.flatly.min.css" type="text/css"/>
     <link href="https://kamyanskiy.github.io/theme/css/font-awesome.min.css" rel="stylesheet">
 
-    <link href="https://kamyanskiy.github.io/theme/css/pygments/emacs.css" rel="stylesheet">
+    <link href="https://kamyanskiy.github.io/theme/css/pygments/zenburn.css" rel="stylesheet">
     <link href="https://kamyanskiy.github.io/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
         <link href="https://kamyanskiy.github.io/theme/css/typogrify.css" rel="stylesheet">
     <link rel="stylesheet" href="https://kamyanskiy.github.io/theme/css/style.css" type="text/css"/>
@@ -34,13 +35,11 @@
 
 
 
-
-
 </head>
 <body>
 <a href="https://github.com/kamyanskiy"><img class="fork-me-on-github" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-	<div class="container">
+    <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -72,8 +71,11 @@
         <!-- /.navbar-collapse -->
     </div>
 </div> <!-- /.navbar -->
+
 <!-- Banner -->
 <!-- End Banner -->
+
+<!-- Content Container -->
 <div class="container">
     <div class="row">
         <div class="col-sm-9">
@@ -82,6 +84,16 @@
         <li><a href="https://kamyanskiy.github.io/label/" title="Tags">Tags</a></li>
         <li class="active">Task</li>
     </ol>
+            <article>
+                <h2><a href="https://kamyanskiy.github.io/2022/02/sync-and-async-sqlalchemy.html">Soft touch to SQLAlchemy async I/O (asyncio)&nbsp;feature.</a></h2>
+                <div class="summary"><p>From SQLAlchemy documentation since SQLAlchemy release 1.4 there present some support of async I/O: <a href="https://docs.sqlalchemy.org/en/14/changelog/migration_14.html#change-3414">SQLAlchemy&nbsp;docs</a></p>
+<blockquote>
+<p>The new asyncio feature should be considered alpha level for the initial releases of SQLAlchemy 1.4. This is super new stuff that uses some previously unfamiliar programming techniques.
+The initial database …</p></blockquote>
+                    <a class="btn btn-default btn-xs" href="https://kamyanskiy.github.io/2022/02/sync-and-async-sqlalchemy.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
             <article>
                 <h2><a href="https://kamyanskiy.github.io/2018/06/handle-tasks-with-asyncio.html">Get results from Asyncio tasks those were interrupted by&nbsp;timeout</a></h2>
                 <div class="summary"><p>So I ask myself how to do for example next thing with AsyncIO&nbsp;?  </p>
@@ -111,7 +123,9 @@ of <span class="caps">API</span>&#8217;s that can respond &lt; 1 sec, if <span c
 <li class="list-group-item">
   <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
   <ul class="list-group" id="social">
-    <li class="list-group-item"><a href="https://vk.com/id216671695"><i class="fa fa-vk fa-lg"></i> vk</a></li>
+    <li class="list-group-item"><a href="https://www.linkedin.com/in/alexander-kamyanskiy-20850043/"><i class="fa fa-linkedin-square fa-lg"></i> Linkedin</a></li>
+    <li class="list-group-item"><a href="https://t.me/id_fe57c427f4c1"><i class="fa fa-telegram fa-lg"></i> Telegram</a></li>
+    <li class="list-group-item"><a href="https://stackoverflow.com/users/2235755/alexander-kamyanskiy"><i class="fa fa-stack-overflow fa-lg"></i> Stackoverflow</a></li>
     <li class="list-group-item"><a href="https://www.facebook.com/alexander.kamyanskiy"><i class="fa fa-facebook-square fa-lg"></i> Facebook</a></li>
     <li class="list-group-item"><a href="https://github.com/kamyanskiy"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
   </ul>
@@ -122,6 +136,7 @@ of <span class="caps">API</span>&#8217;s that can respond &lt; 1 sec, if <span c
 <li class="list-group-item">
   <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
   <ul class="list-group" id="recentposts">
+    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2022/02/sync-and-async-sqlalchemy.html">Soft touch to SQLAlchemy async I/O (asyncio)&nbsp;feature.</a></li>
     <li class="list-group-item"><a href="https://kamyanskiy.github.io/2018/06/handle-tasks-with-asyncio.html">Get results from Asyncio tasks those were interrupted by&nbsp;timeout</a></li>
   </ul>
 </li>
@@ -140,23 +155,20 @@ of <span class="caps">API</span>&#8217;s that can respond &lt; 1 sec, if <span c
     <li class="list-group-item tag-1">
       <a href="https://kamyanskiy.github.io/label/3nf/">3NF</a>
     </li>
-    <li class="list-group-item tag-2">
+    <li class="list-group-item tag-1">
       <a href="https://kamyanskiy.github.io/label/asyncio/">Asyncio</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/asyncpg/">asyncpg</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/coroutine/">Coroutine</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="https://kamyanskiy.github.io/label/database/">database</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="https://kamyanskiy.github.io/label/db/">DB</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="https://kamyanskiy.github.io/label/decorator/">Decorator</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="https://kamyanskiy.github.io/label/future/">Future</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="https://kamyanskiy.github.io/label/observer/">Observer</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="https://kamyanskiy.github.io/label/oop/">OOP</a>
@@ -176,13 +188,16 @@ of <span class="caps">API</span>&#8217;s that can respond &lt; 1 sec, if <span c
     <li class="list-group-item tag-1">
       <a href="https://kamyanskiy.github.io/label/python/">Python</a>
     </li>
-    <li class="list-group-item tag-2">
+    <li class="list-group-item tag-1">
       <a href="https://kamyanskiy.github.io/label/python3/">python3</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="https://kamyanskiy.github.io/label/sql/">SQL</a>
     </li>
     <li class="list-group-item tag-2">
+      <a href="https://kamyanskiy.github.io/label/sqlalchemy/">SQLAlchemy</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="https://kamyanskiy.github.io/label/task/">Task</a>
     </li>
     <li class="list-group-item tag-1">
@@ -232,11 +247,13 @@ of <span class="caps">API</span>&#8217;s that can respond &lt; 1 sec, if <span c
         </div>
     </div>
 </div>
+<!-- End Content Container -->
+
 <footer>
    <div class="container">
       <hr>
       <div class="row">
-         <div class="col-xs-10">&copy; 2018 Alexander Kamyanskiy
+         <div class="col-xs-10">&copy; 2022 Alexander Kamyanskiy
             &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
             <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
             <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
@@ -251,6 +268,7 @@ of <span class="caps">API</span>&#8217;s that can respond &lt; 1 sec, if <span c
 
 <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
 <script src="https://kamyanskiy.github.io/theme/js/respond.min.js"></script>
+
 
 
 <!-- GitHub JS Code -->
