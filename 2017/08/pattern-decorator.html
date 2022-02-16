@@ -1,50 +1,50 @@
 <!DOCTYPE html>
 <html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>Паттерн ДЕКОРАТОР - kamyanskiy.github.io</title>
+    <title>Паттерн ДЕКОРАТОР - ruthkraus.github.io</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <link href="https://kamyanskiy.github.io/images/logo.png" rel="icon">
+    <link href="https://ruthkraus.github.io/images/logo.png" rel="icon">
 
-<link rel="canonical" href="https://kamyanskiy.github.io/2017/08/pattern-decorator.html">
+<link rel="canonical" href="https://ruthkraus.github.io/2017/08/pattern-decorator.html">
 
-        <meta name="author" content="Alexander Kamyanskiy" />
+        <meta name="author" content="Ruth Kraus" />
         <meta name="keywords" content="OOP,Patterns,Decorator" />
         <meta name="description" content="Паттерн Декоратор динамически наделяет объект новыми возможностями и является гибкой альтернативой наследованию (субклассированию) в области расширения функциональности. Сomponent - абстрактный класс который наследуется ConcreteComponent. ConcreteComponent - объект поведение которого собираемся динамически расширять. Decorator реализует тот же интерфейс или абстрактный класс (в нашем случае абстрактный класс), что и декорируемый компонент). ConcreteDecoratorA - содержит переменную …" />
 
-        <meta property="og:site_name" content="kamyanskiy.github.io" />
+        <meta property="og:site_name" content="ruthkraus.github.io" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="Паттерн ДЕКОРАТОР"/>
-        <meta property="og:url" content="https://kamyanskiy.github.io/2017/08/pattern-decorator.html"/>
+        <meta property="og:url" content="https://ruthkraus.github.io/2017/08/pattern-decorator.html"/>
         <meta property="og:description" content="Паттерн Декоратор динамически наделяет объект новыми возможностями и является гибкой альтернативой наследованию (субклассированию) в области расширения функциональности. Сomponent - абстрактный класс который наследуется ConcreteComponent. ConcreteComponent - объект поведение которого собираемся динамически расширять. Decorator реализует тот же интерфейс или абстрактный класс (в нашем случае абстрактный класс), что и декорируемый компонент). ConcreteDecoratorA - содержит переменную …"/>
         <meta property="article:published_time" content="2017-08-02" />
             <meta property="article:section" content="Blog" />
             <meta property="article:tag" content="OOP" />
             <meta property="article:tag" content="Patterns" />
             <meta property="article:tag" content="Decorator" />
-            <meta property="article:author" content="Alexander Kamyanskiy" />
+            <meta property="article:author" content="Ruth Kraus" />
 
 
 
     <!-- Bootstrap -->
-        <link rel="stylesheet" href="https://kamyanskiy.github.io/theme/css/bootstrap.flatly.min.css" type="text/css"/>
-    <link href="https://kamyanskiy.github.io/theme/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://ruthkraus.github.io/theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="https://ruthkraus.github.io/theme/css/font-awesome.min.css" rel="stylesheet">
 
-    <link href="https://kamyanskiy.github.io/theme/css/pygments/zenburn.css" rel="stylesheet">
-    <link href="https://kamyanskiy.github.io/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
-        <link href="https://kamyanskiy.github.io/theme/css/typogrify.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://kamyanskiy.github.io/theme/css/style.css" type="text/css"/>
-        <link href="https://kamyanskiy.github.io/theme/css/custom.css" rel="stylesheet">
+    <link href="https://ruthkraus.github.io/theme/css/pygments/zenburn.css" rel="stylesheet">
+    <link href="https://ruthkraus.github.io/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
+        <link href="https://ruthkraus.github.io/theme/css/typogrify.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://ruthkraus.github.io/theme/css/style.css" type="text/css"/>
+        <link href="https://ruthkraus.github.io/theme/css/custom.css" rel="stylesheet">
 
 
 
 </head>
 <body>
-<a href="https://github.com/kamyanskiy"><img class="fork-me-on-github" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
+<a href="https://github.com/ruthkraus"><img class="fork-me-on-github" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
@@ -54,16 +54,16 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="https://kamyanskiy.github.io/" class="navbar-brand">
-<img class="img-responsive pull-left gap-right" src="https://kamyanskiy.github.io/images/logo.png" width=""/> kamyanskiy.github.io            </a>
+            <a href="https://ruthkraus.github.io/" class="navbar-brand">
+<img class="img-responsive pull-left gap-right" src="https://ruthkraus.github.io/images/logo.png" width=""/> ruthkraus.github.io            </a>
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
-                         <li><a href="https://kamyanskiy.github.io/about-me.html">
+                         <li><a href="https://ruthkraus.github.io/about-me.html">
                              About&nbsp;me
                           </a></li>
                         <li class="active">
-                            <a href="https://kamyanskiy.github.io/category/blog/">Blog</a>
+                            <a href="https://ruthkraus.github.io/category/blog/">Blog</a>
                         </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -72,7 +72,7 @@
                   <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input" required>
                 </form></span>
               </li>
-              <li><a href="https://kamyanskiy.github.io/archives/"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+              <li><a href="https://ruthkraus.github.io/archives/"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -87,15 +87,15 @@
     <div class="row">
         <div class="col-sm-9">
             <ol class="breadcrumb">
-                <li><a href="https://kamyanskiy.github.io" title="kamyanskiy.github.io"><i class="fa fa-home fa-lg"></i></a></li>
-                <li><a href="https://kamyanskiy.github.io/category/blog/" title="Blog">Blog</a></li>
+                <li><a href="https://ruthkraus.github.io" title="ruthkraus.github.io"><i class="fa fa-home fa-lg"></i></a></li>
+                <li><a href="https://ruthkraus.github.io/category/blog/" title="Blog">Blog</a></li>
                 <li class="active">Паттерн&nbsp;ДЕКОРАТОР</li>
             </ol>
     <section id="content">
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="https://kamyanskiy.github.io/2017/08/pattern-decorator.html"
+                    <a href="https://ruthkraus.github.io/2017/08/pattern-decorator.html"
                        rel="bookmark"
                        title="Permalink to Паттерн ДЕКОРАТОР">
                         Паттерн&nbsp;ДЕКОРАТОР
@@ -117,22 +117,22 @@
 
 
             <span class="label label-default">By</span>
-            <a href="https://kamyanskiy.github.io/author/alexander-kamyanskiy.html"><i class="fa fa-user"></i> Alexander Kamyanskiy</a>
+            <a href="https://ruthkraus.github.io/author/alexander-ruthkraus.html"><i class="fa fa-user"></i> Ruth Kraus</a>
 
 
 
 <span class="label label-default">Tags</span>
-	<a href="https://kamyanskiy.github.io/label/oop/">OOP</a>
+	<a href="https://ruthkraus.github.io/label/oop/">OOP</a>
         /
-	<a href="https://kamyanskiy.github.io/label/patterns/">Patterns</a>
+	<a href="https://ruthkraus.github.io/label/patterns/">Patterns</a>
         /
-	<a href="https://kamyanskiy.github.io/label/decorator/">Decorator</a>
+	<a href="https://ruthkraus.github.io/label/decorator/">Decorator</a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
                 <p>Паттерн Декоратор динамически наделяет объект новыми возможностями и является
 гибкой альтернативой наследованию (субклассированию) в области расширения&nbsp;функциональности. </p>
-<p><img alt="decorator.png" src="https://kamyanskiy.github.io/images/decorator.png"></p>
+<p><img alt="decorator.png" src="https://ruthkraus.github.io/images/decorator.png"></p>
 <ul>
 <li>Сomponent - абстрактный класс который наследуется&nbsp;ConcreteComponent. </li>
 <li>ConcreteComponent - объект поведение которого собираемся динамически&nbsp;расширять.</li>
@@ -153,7 +153,7 @@
 <p>Допустим мы реализовали класс Напитка, который умеет возвращать его стоимость.
 Если мы реализуем класс добавку как класс - декоратор, мы сможем &#8220;обертывать&#8221; 
 обьект напитка и добавлять стоимость добавки к стоимости&nbsp;напитка.</p>
-<p><img alt="decorator_1_layer.png" src="https://kamyanskiy.github.io/images/decorator_1_layer.png"></p>
+<p><img alt="decorator_1_layer.png" src="https://ruthkraus.github.io/images/decorator_1_layer.png"></p>
 <p>Схематично это может выглядеть как то так, у нас есть объект Чай который 
 декорирован объектом Добавка Сахар. Т.е. на этапе когда я создаю 
 экземпляр класса добавки - Сахар, экземпляр класса напитка Чай у меня уже 
@@ -164,7 +164,7 @@
 объекта (Чай) и потом добавить свою цену и вернуть общую&nbsp;стоимость.</p>
 <p>На самом деле вложенность может быть сколь угодно уровневой, допустим мы 
 можем обернуть предыдущий пример еще в один тип добавки&nbsp;Молоко.</p>
-<p><img alt="decorator_2_layer.png" src="https://kamyanskiy.github.io/images/decorator_2_layer.png"></p>
+<p><img alt="decorator_2_layer.png" src="https://ruthkraus.github.io/images/decorator_2_layer.png"></p>
 <p>Тогда общая цена напитка будет состоять из &#8220;цена Чая&#8221; + &#8220;цена Сахара&#8221; + &#8220;цена
 Молока&#8221;. Т.е. при вызове метода расчета стоимости у экземпляра добавки Молоко ( 
 который обертывает экземпляр Сахар, который в свою очередь содержит 
@@ -178,7 +178,7 @@
 можно сделать Чай с двойным Молоком, нужно лишь два раза обернуть экземпляр 
 класса Чай декоратором&nbsp;Молоко.</p>
 <p>Диаграмма классов нашего примера будет выглядеть&nbsp;так:</p>
-<p><img alt="decorator_uml.png" src="https://kamyanskiy.github.io/images/decorator_uml.png"></p>
+<p><img alt="decorator_uml.png" src="https://ruthkraus.github.io/images/decorator_uml.png"></p>
 <ul>
 <li>
 <p>AbstractBeverage абстрактный класс напитка в котором мы определим методы cost()
@@ -365,8 +365,8 @@ cost(). Так будет происходить пока не дойдет оч
 <section class="well" id="related-posts">
     <h4>Related Posts:</h4>
     <ul>
-        <li><a href="https://kamyanskiy.github.io/2017/07/pattern-observer.html">Паттерн&nbsp;НАБЛЮДАТЕЛЬ</a></li>
-        <li><a href="https://kamyanskiy.github.io/2017/07/pattern-strategy.html">Паттерн&nbsp;СТРАТЕГИЯ</a></li>
+        <li><a href="https://ruthkraus.github.io/2017/07/pattern-observer.html">Паттерн&nbsp;НАБЛЮДАТЕЛЬ</a></li>
+        <li><a href="https://ruthkraus.github.io/2017/07/pattern-strategy.html">Паттерн&nbsp;СТРАТЕГИЯ</a></li>
     </ul>
 </section>
     <hr/>
@@ -376,13 +376,13 @@ cost(). Так будет происходить пока не дойдет оч
         <div id="disqus_thread"></div>
         <script type="text/javascript">
             /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-            var disqus_shortname = 'kamyanskiy'; // required: replace example with your forum shortname
+            var disqus_shortname = 'ruthkraus'; // required: replace example with your forum shortname
 
             var disqus_config = function () {
                 this.language = "en";
 
                         this.page.identifier = '2017-08-02-pattern-decorator';
-                        this.page.url = 'https://kamyanskiy.github.io/2017/08/pattern-decorator.html';
+                        this.page.url = 'https://ruthkraus.github.io/2017/08/pattern-decorator.html';
             };
 
             /* * * DON'T EDIT BELOW THIS LINE * * */
@@ -407,10 +407,10 @@ cost(). Так будет происходить пока не дойдет оч
             <aside>
 <div id="aboutme">
         <p>
-            <img width="100%" class="img-thumbnail" src="https://kamyanskiy.github.io/images/profile.jpg"/>
+            <img width="100%" class="img-thumbnail" src="https://ruthkraus.github.io/images/profile.jpg"/>
         </p>
     <p>
-      <strong>About Alexander Kamyanskiy</strong><br/>
+      <strong>About Ruth Kraus</strong><br/>
         <span>I love Python and happy to use it everyday for develop Web applications, writing tests and others cool things.</span>
     </p>
 </div><!-- Sidebar -->
@@ -421,11 +421,11 @@ cost(). Так будет происходить пока не дойдет оч
 <li class="list-group-item">
   <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
   <ul class="list-group" id="social">
-    <li class="list-group-item"><a href="https://www.linkedin.com/in/alexander-kamyanskiy-20850043/"><i class="fa fa-linkedin-square fa-lg"></i> Linkedin</a></li>
+    <li class="list-group-item"><a href="https://www.linkedin.com/in/alexander-ruthkraus-20850043/"><i class="fa fa-linkedin-square fa-lg"></i> Linkedin</a></li>
     <li class="list-group-item"><a href="https://t.me/id_fe57c427f4c1"><i class="fa fa-telegram fa-lg"></i> Telegram</a></li>
-    <li class="list-group-item"><a href="https://stackoverflow.com/users/2235755/alexander-kamyanskiy"><i class="fa fa-stack-overflow fa-lg"></i> Stackoverflow</a></li>
-    <li class="list-group-item"><a href="https://www.facebook.com/alexander.kamyanskiy"><i class="fa fa-facebook-square fa-lg"></i> Facebook</a></li>
-    <li class="list-group-item"><a href="https://github.com/kamyanskiy"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+    <li class="list-group-item"><a href="https://stackoverflow.com/users/2235755/alexander-ruthkraus"><i class="fa fa-stack-overflow fa-lg"></i> Stackoverflow</a></li>
+    <li class="list-group-item"><a href="https://www.facebook.com/alexander.ruthkraus"><i class="fa fa-facebook-square fa-lg"></i> Facebook</a></li>
+    <li class="list-group-item"><a href="https://github.com/ruthkraus"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
   </ul>
 </li>
 <!-- End Sidebar/Social -->
@@ -434,78 +434,78 @@ cost(). Так будет происходить пока не дойдет оч
 <li class="list-group-item">
   <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
   <ul class="list-group" id="recentposts">
-    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2022/02/sync-and-async-sqlalchemy.html">Soft touch to SQLAlchemy async I/O (asyncio)&nbsp;feature.</a></li>
-    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2018/06/handle-tasks-with-asyncio.html">Get results from Asyncio tasks those were interrupted by&nbsp;timeout</a></li>
-    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/08/pattern-decorator.html">Паттерн&nbsp;ДЕКОРАТОР</a></li>
-    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/07/pattern-observer.html">Паттерн&nbsp;НАБЛЮДАТЕЛЬ</a></li>
-    <li class="list-group-item"><a href="https://kamyanskiy.github.io/2017/07/pattern-strategy.html">Паттерн&nbsp;СТРАТЕГИЯ</a></li>
+    <li class="list-group-item"><a href="https://ruthkraus.github.io/2022/02/sync-and-async-sqlalchemy.html">Soft touch to SQLAlchemy async I/O (asyncio)&nbsp;feature.</a></li>
+    <li class="list-group-item"><a href="https://ruthkraus.github.io/2018/06/handle-tasks-with-asyncio.html">Get results from Asyncio tasks those were interrupted by&nbsp;timeout</a></li>
+    <li class="list-group-item"><a href="https://ruthkraus.github.io/2017/08/pattern-decorator.html">Паттерн&nbsp;ДЕКОРАТОР</a></li>
+    <li class="list-group-item"><a href="https://ruthkraus.github.io/2017/07/pattern-observer.html">Паттерн&nbsp;НАБЛЮДАТЕЛЬ</a></li>
+    <li class="list-group-item"><a href="https://ruthkraus.github.io/2017/07/pattern-strategy.html">Паттерн&nbsp;СТРАТЕГИЯ</a></li>
   </ul>
 </li>
 <!-- End Sidebar/Recent Posts -->
 
 <!-- Sidebar/Tag Cloud -->
 <li class="list-group-item">
-  <a href="https://kamyanskiy.github.io/label/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+  <a href="https://ruthkraus.github.io/label/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group list-inline tagcloud" id="tags">
     <li class="list-group-item tag-1">
-      <a href="https://kamyanskiy.github.io/label/1nf/">1NF</a>
+      <a href="https://ruthkraus.github.io/label/1nf/">1NF</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="https://kamyanskiy.github.io/label/2nf/">2NF</a>
+      <a href="https://ruthkraus.github.io/label/2nf/">2NF</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="https://kamyanskiy.github.io/label/3nf/">3NF</a>
+      <a href="https://ruthkraus.github.io/label/3nf/">3NF</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="https://kamyanskiy.github.io/label/asyncio/">Asyncio</a>
+      <a href="https://ruthkraus.github.io/label/asyncio/">Asyncio</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="https://kamyanskiy.github.io/label/asyncpg/">asyncpg</a>
+      <a href="https://ruthkraus.github.io/label/asyncpg/">asyncpg</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="https://kamyanskiy.github.io/label/coroutine/">Coroutine</a>
+      <a href="https://ruthkraus.github.io/label/coroutine/">Coroutine</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="https://kamyanskiy.github.io/label/database/">database</a>
+      <a href="https://ruthkraus.github.io/label/database/">database</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="https://kamyanskiy.github.io/label/db/">DB</a>
+      <a href="https://ruthkraus.github.io/label/db/">DB</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="https://kamyanskiy.github.io/label/oop/">OOP</a>
+      <a href="https://ruthkraus.github.io/label/oop/">OOP</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="https://kamyanskiy.github.io/label/packer/">packer</a>
+      <a href="https://ruthkraus.github.io/label/packer/">packer</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="https://kamyanskiy.github.io/label/patterns/">Patterns</a>
+      <a href="https://ruthkraus.github.io/label/patterns/">Patterns</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="https://kamyanskiy.github.io/label/pelican/">Pelican</a>
+      <a href="https://ruthkraus.github.io/label/pelican/">Pelican</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="https://kamyanskiy.github.io/label/postgresql/">Postgresql</a>
+      <a href="https://ruthkraus.github.io/label/postgresql/">Postgresql</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="https://kamyanskiy.github.io/label/python/">Python</a>
+      <a href="https://ruthkraus.github.io/label/python/">Python</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="https://kamyanskiy.github.io/label/python3/">python3</a>
+      <a href="https://ruthkraus.github.io/label/python3/">python3</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="https://kamyanskiy.github.io/label/sql/">SQL</a>
+      <a href="https://ruthkraus.github.io/label/sql/">SQL</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="https://kamyanskiy.github.io/label/sqlalchemy/">SQLAlchemy</a>
+      <a href="https://ruthkraus.github.io/label/sqlalchemy/">SQLAlchemy</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="https://kamyanskiy.github.io/label/task/">Task</a>
+      <a href="https://ruthkraus.github.io/label/task/">Task</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="https://kamyanskiy.github.io/label/theory/">theory</a>
+      <a href="https://ruthkraus.github.io/label/theory/">theory</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="https://kamyanskiy.github.io/label/vagrant/">vagrant</a>
+      <a href="https://ruthkraus.github.io/label/vagrant/">vagrant</a>
     </li>
   </ul>
 </li>
@@ -554,7 +554,7 @@ cost(). Так будет происходить пока не дойдет оч
    <div class="container">
       <hr>
       <div class="row">
-         <div class="col-xs-10">&copy; 2022 Alexander Kamyanskiy
+         <div class="col-xs-10">&copy; 2022 Ruth Kraus
             &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
             <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
             <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
@@ -562,13 +562,13 @@ cost(). Так будет происходить пока не дойдет оч
       </div>
    </div>
 </footer>
-<script src="https://kamyanskiy.github.io/theme/js/jquery.min.js"></script>
+<script src="https://ruthkraus.github.io/theme/js/jquery.min.js"></script>
 
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="https://kamyanskiy.github.io/theme/js/bootstrap.min.js"></script>
+<script src="https://ruthkraus.github.io/theme/js/bootstrap.min.js"></script>
 
 <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
-<script src="https://kamyanskiy.github.io/theme/js/respond.min.js"></script>
+<script src="https://ruthkraus.github.io/theme/js/respond.min.js"></script>
 
 
 
@@ -578,25 +578,25 @@ $(document).ready(function () {
   if (!window.jXHR) {
     var jxhr = document.createElement('script');
     jxhr.type = 'text/javascript';
-    jxhr.src = 'https://kamyanskiy.github.io/theme/js/jXHR.js';
+    jxhr.src = 'https://ruthkraus.github.io/theme/js/jXHR.js';
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(jxhr, s);
   }
 
   github.showRepos({
-    user: 'kamyanskiy',
+    user: 'ruthkraus',
     count: 5,
     skip_forks: false,
     target: '#gh_repos'
   });
 });
 </script>
-<script src="https://kamyanskiy.github.io/theme/js/github.js" type="text/javascript"></script>
+<script src="https://ruthkraus.github.io/theme/js/github.js" type="text/javascript"></script>
 <!-- End GitHub JS Code -->
     <!-- Disqus -->
     <script type="text/javascript">
         /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = 'kamyanskiy'; // required: replace example with your forum shortname
+        var disqus_shortname = 'ruthkraus'; // required: replace example with your forum shortname
 
         /* * * DON'T EDIT BELOW THIS LINE * * */
         (function () {
